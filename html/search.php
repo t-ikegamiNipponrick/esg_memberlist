@@ -15,7 +15,7 @@ if(!isset($_POST['word'])) {
 $word = trim(htmlspecialchars($_POST['word'],ENT_QUOTES));
 $word = str_replace("　","",$word);
 /*  if($word === "") {
-        $word = "キーワード指定なし";
+        $word = "キーワード指定がありません";
     } */
 // print($word);
 define('WORD', $word);
