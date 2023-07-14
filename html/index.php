@@ -1,4 +1,7 @@
 <?php
+header('Location: signIn.php');
+?>
+/*
 function connect_db(){
     //ホスト名、データベース名、文字コードの３つを定義する
     $host = 'mysql5.7';
