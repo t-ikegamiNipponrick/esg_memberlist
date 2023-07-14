@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  php:
+    build: ./php
+    volumes:
+      - ./php/php.ini:/usr/local/etc/php/php.ini
+      - ./html:/var/www/html
+    ports:
+      - 8080:80
+    container_name: php7.2
+
+  mysql:
+    image: mysql:5.7
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=test
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD=test
+      - "TZ=Asia/Tokyo"
+    container_name: mysql5.7
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+      - PMA_USER=test
+      - PMA_PASSWORD=test
+    links:
+      - mysql
+    ports:
+      - 4040:80
+    volumes:
+      - ./phpmyadmin/sessions:/sessions
+    container_name: phpmyadmin
