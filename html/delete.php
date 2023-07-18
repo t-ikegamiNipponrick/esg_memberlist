@@ -8,16 +8,17 @@
     $protocol = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
     $thisurl = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
     $beforeurl = $_SERVER['HTTP_REFERER'];
-    $thisid = substr($beforeurl, 40);
-    print($thisid);
+    $parse_url_arr = parse_url ($beforeurl);
+    parse_str ( $parse_url_arr['query'], $query_arr );
+    $thisid = $query_arr['id'];
 
     require_once 'dbindex.php';
 
     try {
         $pdo->beginTransaction(); 
-        $sql = 'DELETE FROM ESG_member_index WHERE employee_id =' .$thisid;
-        print($sql);
+        $sql = 'DELETE FROM ESG_member_index WHERE employee_id = :id';
         $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $thisid, PDO::PARAM_INT);
 
         $stmt->execute();
 
@@ -35,29 +36,9 @@
 
     try {
         $pdo->beginTransaction(); 
-        $sql ='DELETE FROM ESG_memberid_info WHERE employee_id =' .$thisid;
-        print($sql);
+        $sql ='DELETE FROM ESG_memberid_info WHERE employee_id = :id';
         $stmt = $pdo->prepare($sql);
-    
-        $stmt->execute();
-
-        if($stmt) {    
-            $pdo->commit();
-        }
-    
-        $result = $stmt->fetchall();
-        // print($result);
-        
-    }catch(PDOException $e) {
-        $pdo->rollback();
-        throw $e;
-    }
-
-    try {
-        $pdo->beginTransaction(); 
-        $sql ='DELETE FROM ESG_member_dispatched WHERE key_id =' .$thisid;
-        print($sql);
-        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $thisid, PDO::PARAM_INT);
     
         $stmt->execute();
 
@@ -75,9 +56,9 @@
 
     try {
         $pdo->beginTransaction(); 
-        $sql ='DELETE FROM ESG_member_picsid WHERE key_id =' .$thisid;
-        print($sql);
+        $sql ='DELETE FROM ESG_member_dispatched WHERE key_id = :id';
         $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $thisid, PDO::PARAM_INT);
     
         $stmt->execute();
 
@@ -95,9 +76,9 @@
 
     try {
         $pdo->beginTransaction(); 
-        $sql ='DELETE FROM ESG_memberPicsB WHERE key_id =' .$thisid;
-        print($sql);
+        $sql ='DELETE FROM ESG_member_picsid WHERE key_id = :id';
         $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $thisid, PDO::PARAM_INT);
     
         $stmt->execute();
 
@@ -115,9 +96,29 @@
 
     try {
         $pdo->beginTransaction(); 
-        $sql ='DELETE FROM ESG_member_skills WHERE key_id =' .$thisid;
-        print($sql);
+        $sql ='DELETE FROM ESG_member_picscontents WHERE key_id = :id';
         $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $thisid, PDO::PARAM_INT);
+    
+        $stmt->execute();
+
+        if($stmt) {    
+            $pdo->commit();
+        }
+    
+        $result = $stmt->fetchall();
+        // print($result);
+        
+    }catch(PDOException $e) {
+        $pdo->rollback();
+        throw $e;
+    }
+
+    try {
+        $pdo->beginTransaction(); 
+        $sql ='DELETE FROM ESG_member_skills WHERE key_id = :id';
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $thisid, PDO::PARAM_INT);
     
         $stmt->execute();
 
