@@ -6,7 +6,7 @@
 
  session_start();
  if (!isset($_SESSION['user_id'])) {
-     header('Location: login.php'); // ログインページにリダイレクト
+     header('Location: sign_in.php'); // ログインページにリダイレクト
      exit();
  }
 
@@ -152,7 +152,7 @@ $resultB = $stmtB->fetchall();
                         print '</li>';
                     } ?>                    
                     <li class="nav-item active">
-                        <a class="nav-link" href="signOut.php">サインアウト<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="sign_out.php">サインアウト<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="memberinfo.php?id=<? print($_SESSION['user_id']); ?>">プロフィール<span class="sr-only">(current)</span></a>

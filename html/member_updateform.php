@@ -7,7 +7,7 @@ $thisid = substr($beforeurl, 40);
 
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php'); // ログインページにリダイレクト
+    header('Location: sign_in.php'); // ログインページにリダイレクト
     exit();
 }
 
@@ -185,7 +185,7 @@ $columnCountC = count($resultC);
                         <a class="nav-link" href="memberinfo.php?id=<? print($_SESSION['user_id']); ?>">プロフィール<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="signOut.php">サインアウト<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="sign_out.php">サインアウト<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
                         <figure>
@@ -279,7 +279,7 @@ $columnCountC = count($resultC);
                 </section>
                 <div>&nbsp;</div>
                 <input type="submit" class="btn btn-primary" value="更新する">&emsp;
-                <input type="button" class="btn btn-primary" value="新規情報を追加する" onclick="location.href='<?php print('alreadyuserInputForm.php?id='. $rA['employee_id'] .'') ?>'">
+                <input type="button" class="btn btn-primary" value="新規情報を追加する" onclick="location.href='<?php print('alreadyuser_inputform.php?id='. $rA['employee_id'] .'') ?>'">
             </form>
             <hr>
             <div class="heading-lv3 heading-margin text-center">画像アップロード</div><br>

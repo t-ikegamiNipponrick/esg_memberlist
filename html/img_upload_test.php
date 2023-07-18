@@ -3,7 +3,7 @@
 $protocol = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
 $thisurl = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
 $beforeurl = $_SERVER['HTTP_REFERER'];
-$thisid = substr($beforeurl, 46);
+$thisid = substr($beforeurl, 47);
 // print($thisid);
 
 define('UPLOADPASS', './img/');
@@ -132,11 +132,7 @@ if($validateQ > 0) {
 		<title>upload処理</title>
 	</head>
 	<body>
-		<form enctype="multipart/form-data" action="upload_test.php" method="POST">
-			<input type="file" name="photo" multiple="multiple">
-			<input type="submit" value="画像をアップロード">
-		</form>
-		<p>
+		<p>アップロード完了！</p>
 		<img src="<?php print UPLOADPASS.$name ?>">
 		<a href="top.php">戻る</a>
 	

@@ -2,12 +2,12 @@
  $protocol = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
  $thisurl = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
  $beforeurl = $_SERVER['HTTP_REFERER'];
- $thisid = substr($beforeurl, 46);
+ $thisid = substr($beforeurl, 47);
  // print($thisid);
 
  session_start();
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php'); // ログインページにリダイレクト
+    header('Location: sign_in.php'); // ログインページにリダイレクト
     exit();
 }
 $sessionId = $_SESSION['user_id'];
@@ -186,7 +186,7 @@ $sessionId = $_SESSION['user_id'];
                         <a class="nav-link" href="memberinfo.php?id=<? print($_SESSION['user_id']); ?>">プロフィール<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="signOut.php">サインアウト<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="sign_out.php">サインアウト<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
                         <figure>
@@ -199,7 +199,7 @@ $sessionId = $_SESSION['user_id'];
     </header>
     <body class="wrap">
         <div class="content">
-            <form method="post" action="alreadyuserInsert.php">
+            <form method="post" action="alreadyuser_insert.php">
                 <!-- <h1 class="heading-lv1 text-center">Profile</h1> -->
                 <h3 class="heading-lv3 heading-margin text-center"><b>社員情報入力</b></h3>
                 <section class="row">

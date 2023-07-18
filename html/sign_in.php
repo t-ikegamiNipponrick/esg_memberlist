@@ -47,6 +47,7 @@ function validateLogin($user_id, $password) {
       padding: 0;
       display: table;
     }
+    
     body {
       min-height: 100%;
       margin: 0 auto;
@@ -111,7 +112,7 @@ function validateLogin($user_id, $password) {
       </div>
       <button class="btn btn-primary w-100 py-2" type="submit">サインイン</button>
       <div>&nbsp;</div>
-      <a href="signUp.php" class="btn btn-primary btn-lg">新規登録はこちら</a>
+      <a href="sign_up.php" class="btn btn-primary btn-lg">新規登録はこちら</a>
       <p class="mt-5 mb-3 text-body-secondary">日本リック株式会社第二事業本部ESG</p>
       <p class="mt-5 mb-3 text-body-secondary">&copy; 2023- developped by T. Ikegami</p>
    </form>

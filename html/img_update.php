@@ -3,7 +3,7 @@
 $protocol = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
 $thisurl = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
 $beforeurl = $_SERVER['HTTP_REFERER'];
-$thisid = substr($beforeurl, 46);
+$thisid = substr($beforeurl, 47);
 // print($thisid);
 
 define('UPLOADPASS', './img/');

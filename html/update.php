@@ -2,8 +2,8 @@
     $protocol = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
     $thisurl = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
     $beforeurl = $_SERVER['HTTP_REFERER'];
-    $thisid = substr($beforeurl, 46);
-    print($thisid);
+    $thisid = substr($beforeurl, 47);
+    // print($thisid);
 
     $id = $_POST['employee_id'];
     $name = $_POST['member_name'];
@@ -26,7 +26,7 @@
     try {
         $pdo->beginTransaction(); 
         $sqlA = 'UPDATE ESG_memberList SET employee_id = :id, member_name = :name, member_from = :from, DateEntry = :entry, dispatched = :dispatched, tasks = :tasks WHERE employee_id =' .$thisid;
-        print($sqlA);
+        // print($sqlA);
         $stmtA = $pdo->prepare($sqlA);
         
         $stmtA->bindValue(':id', $id,   PDO::PARAM_INT);
@@ -53,7 +53,7 @@
     try {
         $pdo->beginTransaction(); 
         $sqlB ='UPDATE ESG_memberInfo SET employee_id = :id, key_id = :key_id WHERE employee_id =' .$thisid;
-        print($sqlB);
+        // print($sqlB);
         $stmtB = $pdo->prepare($sqlB);
         $stmtB->bindValue(':id', $id,   PDO::PARAM_INT);
         $stmtB->bindValue(':key_id', $id,   PDO::PARAM_INT);
@@ -75,7 +75,7 @@
         try {
             $pdo->beginTransaction(); 
             $sqlC ='UPDATE ESG_memberInfoB SET key_id = :id, dispatched_sofar = :dispsof, tasks_sofar = :tasksof, tasks_detail = :detail, tasks_sofarStart = :sofsta, tasks_sofarFin = :soffin WHERE employee_id =' .$thisid;
-            print($sqlC);
+            // print($sqlC);
             $stmtC = $pdo->prepare($sqlC);
             $stmtC->bindValue(':id', $id,   PDO::PARAM_INT);
             $stmtC->bindValue(':dispsof', $S_dispatched[$i],   PDO::PARAM_STR);
@@ -102,7 +102,7 @@
         try {
             $pdo->beginTransaction(); 
             $sqlD ='UPDATE ESG_memberSKills SET key_id = :id, skill_name = :sname, skill_date = :sdate WHERE employee_id =' .$thisid;
-            print($sqlD);
+            // print($sqlD);
             $stmtD = $pdo->prepare($sqlD);
             $stmtD->bindValue(':id', $id,   PDO::PARAM_INT);
             $stmtD->bindValue(':sname', $skill_name[$i],    PDO::PARAM_STR);

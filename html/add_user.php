@@ -27,6 +27,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
     <body>
-     <a href="signIn.php">サインイン</a>
+     <a href="sign_in.php">サインイン</a>
     </body>
 </html>

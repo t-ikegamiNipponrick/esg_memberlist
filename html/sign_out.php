@@ -5,6 +5,6 @@ session_start(); // セッションを開始
 session_unset(); // セッションの変数を全て解除
 session_destroy(); // セッションを破棄
 
-header('Location: signIn.php'); // ログインページにリダイレクト
+header('Location: sign_in.php'); // ログインページにリダイレクト
 exit();
 ?>

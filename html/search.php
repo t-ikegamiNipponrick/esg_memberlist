@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    header('Location: signIn.php'); // ログインページにリダイレクト
+    header('Location: sign_in.php'); // ログインページにリダイレクト
     exit();
 }
 
@@ -135,14 +135,14 @@ try{
                 <ul class="navbar-nav">
                     <?php if($sessionId == 11400) {
                         print '<li class="nav-item active">';
-                        print '<a class="nav-link" href="memberinputForm.php">社員情報の追加<span class="sr-only">(current)</span></a>';
+                        print '<a class="nav-link" href="member_inputform.php">社員情報の追加<span class="sr-only">(current)</span></a>';
                         print '</li>';
                     } ?>
                     <li class="nav-item active">
                         <a class="nav-link" href="memberinfo.php?id=<? print($_SESSION['user_id']); ?>">プロフィール<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="signOut.php">サインアウト<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="sign_out.php">サインアウト<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
                         <figure class="profile-image">

@@ -4,7 +4,7 @@ define('UPLOADPASS', './img/');
 
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php'); // ログインページにリダイレクト
+    header('Location: sign_in.php'); // ログインページにリダイレクト
     exit();
 }
 
@@ -199,7 +199,7 @@ $resultC = $stmtC->fetchall();
                         print '</li>';
                     } ?>                    
                     <li class="nav-item active">
-                        <a class="nav-link" href="signOut.php">サインアウト<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="sign_out.php">サインアウト<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="memberinfo.php?id=<? print($_SESSION['user_id']); ?>">プロフィール<span class="sr-only">(current)</span></a>
@@ -269,7 +269,7 @@ $resultC = $stmtC->fetchall();
                     <?php } ?>
                 </table>            
             </section>
-            <?php print'<div style=text-align:center;><a href="memberInfodetail.php?id='. $rB['key_id'] .'">派遣先の詳細はこちら</a></div>'; ?>
+            <?php print'<div style=text-align:center;><a href="memberinfo_detail.php?id='. $rB['key_id'] .'">派遣先の詳細はこちら</a></div>'; ?>
             <h3 class="heading-1v3 heading-margin text-center">スキル</h3>
             <section class="row">
                 <table class="table">
@@ -299,7 +299,7 @@ $resultC = $stmtC->fetchall();
             }
 
             function updateLink() {
-                location.href = 'memberupdateForm.php?id=<?= $id?>';
+                location.href = 'member_updateform.php?id=<?= $id?>';
             }
 
             function openModal() {

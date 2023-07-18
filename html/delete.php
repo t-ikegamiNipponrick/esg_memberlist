@@ -1,15 +1,15 @@
 <?php
+    session_start();
+    if (!isset($_SESSION['user_id'])) {
+        header('Location: sign_in.php'); // ログインページにリダイレクト
+        exit();
+    }
+
     $protocol = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
     $thisurl = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
     $beforeurl = $_SERVER['HTTP_REFERER'];
     $thisid = substr($beforeurl, 40);
     print($thisid);
-
-    session_start();
-    if (!isset($_SESSION['user_id'])) {
-        header('Location: login.php'); // ログインページにリダイレクト
-        exit();
-    }
 
     require_once 'dbindex.php';
 

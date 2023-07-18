@@ -2,12 +2,12 @@
  $protocol = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
  $thisurl = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
  $beforeurl = $_SERVER['HTTP_REFERER'];
- $thisid = substr($beforeurl, 50);
+ $thisid = substr($beforeurl, 51);
  // print($thisid);
 
  session_start();
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php'); // ログインページにリダイレクト
+    header('Location: sign_in.php'); // ログインページにリダイレクト
     exit();
 }
 
