@@ -15,7 +15,7 @@
 
     try {
         $pdo->beginTransaction(); 
-        $sql = 'DELETE FROM ESG_memberList WHERE employee_id =' .$thisid;
+        $sql = 'DELETE FROM ESG_member_index WHERE employee_id =' .$thisid;
         print($sql);
         $stmt = $pdo->prepare($sql);
 
@@ -35,27 +35,7 @@
 
     try {
         $pdo->beginTransaction(); 
-        $sql ='DELETE FROM ESG_memberInfo WHERE employee_id =' .$thisid;
-        print($sql);
-        $stmt = $pdo->prepare($sql);
-    
-        $stmt->execute();
-
-        if($stmt) {    
-            $pdo->commit();
-        }
-    
-        $result = $stmt->fetchall();
-        // print($result);
-        
-    }catch(PDOException $e) {
-        $pdo->rollback();
-        throw $e;
-    }
-
-    try {
-        $pdo->beginTransaction(); 
-        $sql ='DELETE FROM ESG_memberInfoB WHERE key_id =' .$thisid;
+        $sql ='DELETE FROM ESG_memberid_info WHERE employee_id =' .$thisid;
         print($sql);
         $stmt = $pdo->prepare($sql);
     
@@ -75,7 +55,27 @@
 
     try {
         $pdo->beginTransaction(); 
-        $sql ='DELETE FROM ESG_memberPics WHERE key_id =' .$thisid;
+        $sql ='DELETE FROM ESG_member_dispatched WHERE key_id =' .$thisid;
+        print($sql);
+        $stmt = $pdo->prepare($sql);
+    
+        $stmt->execute();
+
+        if($stmt) {    
+            $pdo->commit();
+        }
+    
+        $result = $stmt->fetchall();
+        // print($result);
+        
+    }catch(PDOException $e) {
+        $pdo->rollback();
+        throw $e;
+    }
+
+    try {
+        $pdo->beginTransaction(); 
+        $sql ='DELETE FROM ESG_member_picsid WHERE key_id =' .$thisid;
         print($sql);
         $stmt = $pdo->prepare($sql);
     
@@ -115,7 +115,7 @@
 
     try {
         $pdo->beginTransaction(); 
-        $sql ='DELETE FROM ESG_memberSkills WHERE key_id =' .$thisid;
+        $sql ='DELETE FROM ESG_member_skills WHERE key_id =' .$thisid;
         print($sql);
         $stmt = $pdo->prepare($sql);
     

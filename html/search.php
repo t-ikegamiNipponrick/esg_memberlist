@@ -38,7 +38,7 @@ $perPage = isset($_GET['per_page']) ? $_GET['per_page'] : $defaultPerPage;
 $offset = ($page - 1) * $perPage;
 // print($offset);
 
-$countsql = 'SELECT COUNT(*) AS count FROM ESG_memberList WHERE CONCAT(employee_id, member_name, member_from, DateEntry, dispatched, tasks) LIKE :word';
+$countsql = 'SELECT COUNT(*) AS count FROM ESG_member_index WHERE CONCAT(employee_id, member_name, member_from, DateEntry, dispatched, tasks) LIKE :word';
 $countstmt = $pdo->prepare($countsql);
 $countstmt->bindValue(':word','%' . WORD . '%', PDO::PARAM_STR);
 $countstmt->execute();
@@ -48,7 +48,7 @@ $totalPages = ceil($totalCount / $perPage);
 
 try{
     //実行したいSQLを準備する
-    $sql = 'SELECT * FROM ESG_memberList WHERE CONCAT(employee_id, member_name, member_from, DateEntry, dispatched, tasks) LIKE :word';
+    $sql = 'SELECT * FROM ESG_member_index WHERE CONCAT(employee_id, member_name, member_from, DateEntry, dispatched, tasks) LIKE :word';
         if(!empty($sortBy) && !empty($sortOrder)) {
             $sql .= ' ORDER BY ' . $sortBy . ' ' . $sortOrder;
         }

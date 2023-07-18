@@ -222,7 +222,8 @@ $sessionId = $_SESSION['user_id'];
                                 <div>スキル名</div>
                                 <input type="text" name="skill_name[0]">
                                 <div>年数</div>
-                                <input type="text" name="skill_date[0]">
+                                <input type="text" id="skilldate" name="skill_date[0]">
+                                <label for="skilldate">年</label>
                                 <p>
                                     <div>&nbsp;</div>
                                 <input type="button" value="スキルを追加" onclick="addSkillRow()">
@@ -281,7 +282,8 @@ $sessionId = $_SESSION['user_id'];
                                 <div>スキル名</div>
                                 <input type="text" name="skill_name[${skillCount}]" required>
                                 <div>年数</div>
-                                <input type="text" name="skill_date[${skillCount}]" required>
+                                <input type="text" id="skilldate" name="skill_date[${skillCount}]" required>
+                                <label for="skilldate">年</label>
                                 <div>&nbsp;</div>
                                 <button onclick="removeSkillRow()">フォーム削除</button>
                             </td>

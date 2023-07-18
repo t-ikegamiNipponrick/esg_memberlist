@@ -1,9 +1,10 @@
 <?php
-
-$protocol = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
-$thisurl = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
-$beforeurl = $_SERVER['HTTP_REFERER'];
-$thisid = substr($beforeurl, 40);
+ $protocol = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
+ $thisurl = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+ $beforeurl = $_SERVER['HTTP_REFERER'];
+ $parse_url_arr = parse_url ($beforeurl);
+ parse_str ( $parse_url_arr['query'], $query_arr );
+ $thisid = $query_arr['id'];
 
 session_start();
 if (!isset($_SESSION['user_id'])) {
@@ -19,35 +20,38 @@ $pdo = connect_db();
 
 //実行したいSQLを準備する
 $id = $_GET['id'];
-$sqlA = "SELECT * FROM ESG_memberList WHERE employee_id =" .$thisid;
-$stmtA = $pdo->prepare($sqlA);
+$indexsql = "SELECT * FROM ESG_member_index WHERE employee_id = :id";
+$indexstmt = $pdo->prepare($indexsql);
+$indexstmt->bindValue(':id', $thisid,    PDO::PARAM_INT);
 
 //SQLを実行
-$stmtA->execute();
+$indexstmt->execute();
 
 //データベースの値を取得
-$resultA = $stmtA->fetchall();
+$indexresult = $indexstmt->fetchall();
 
 //実行したいSQLを準備する
-$sqlB = "SELECT * FROM ESG_memberInfoB WHERE key_id =" .$thisid;
-$stmtB = $pdo->prepare($sqlB);
+$dispatchedsql = "SELECT * FROM ESG_member_dispatched WHERE key_id = :id";
+$dispatchedstmt = $pdo->prepare($dispatchedsql);
+$dispatchedstmt->bindValue(':id', $thisid,    PDO::PARAM_INT);
 
 //SQLを実行
-$stmtB->execute();
+$dispatchedstmt->execute();
 
 //データベースの値を取得
-$resultB = $stmtB->fetchall();
+$dispatchedresult = $dispatchedstmt->fetchall();
 
-$sqlC = "SELECT * FROM ESG_memberSkills WHERE key_id =" .$thisid;
-$stmtC = $pdo->prepare($sqlC);
+$skillssql = "SELECT * FROM ESG_member_skills WHERE key_id = :id";
+$skillsstmt = $pdo->prepare($skillssql);
+$skillsstmt->bindValue(':id', $thisid,  PDO::PARAM_INT);
 
 //SQLを実行
-$stmtC->execute();
+$skillsstmt->execute();
 
 //データベースの値を取得
-$resultC = $stmtC->fetchall();
-$columnCountB = count($resultB);
-$columnCountC = count($resultC);
+$skillsresult = $skillsstmt->fetchall();
+$columnCountB = count($dispatchedresult);
+$columnCountC = count($skillsresult);
 // print($columnCount);
 
 ?>
@@ -204,7 +208,7 @@ $columnCountC = count($resultC);
                 <h3 class="heading-lv3 heading-margin text-center">社員情報入力</h3>
                 <section class="row">
                     <table class="table">
-                    <?php foreach($resultA as $rA) {?>
+                    <?php foreach($indexresult as $rA) {?>
                         <tr>
                             <th scope="col">社員番号</th>
                             <td>
@@ -244,7 +248,7 @@ $columnCountC = count($resultC);
                         <?php } ?>
                         
                         <?php $i=0;
-                            foreach($resultB as $rB) { ?>
+                            foreach($dispatchedresult as $rB) { ?>
                         <tr>
                             <th scope="col">これまでの派遣先<?=$i+1?></th> 
                             <td>
@@ -262,14 +266,15 @@ $columnCountC = count($resultC);
                         </tr>
                             <?php $i++; }
                             $j = 0;
-                            foreach($resultC as $rC) {?>
+                            foreach($skillsresult as $rC) {?>
                         <tr>
                             <th scope="col">スキル<?=$j+1?></th>
                             <td>
                                 <div>スキル名</div>
                                 <input type="text" name=<?="skill_name[$j]"?> value=<?= $rC['skill_name']; ?> required>
                                 <div>年数</div>
-                                <input type="text" name=<?="skill_date[$j]"?> value=<?= $rC['skill_date']; ?> required>
+                                <input type="text" id="skilldate" name=<?="skill_date[$j]"?> value=<?= $rC['skill_date']; ?> required>
+                                <label for="skilldate">年</label>
                             </td>
                         </tr>
                             <?php $j++; 

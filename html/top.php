@@ -22,7 +22,7 @@ $perPage = isset($_GET['per_page']) ? $_GET['per_page'] : $defaultPerPage;
 $offset = ($page - 1) * $perPage;
 
 //実行したいSQLを準備する
-$sql = 'SELECT * FROM ESG_memberList';
+$sql = 'SELECT * FROM ESG_member_index';
 
 if(!empty($sortBy) && !empty($sortOrder)) {
     $sql .= ' ORDER BY ' . $sortBy . ' ' . $sortOrder;
@@ -34,7 +34,7 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $result = $stmt->fetchall(PDO::FETCH_ASSOC);
 
-$countsql = 'SELECT COUNT(*) AS count FROM ESG_memberList';
+$countsql = 'SELECT COUNT(*) AS count FROM ESG_member_index';
 $countstmt = $pdo->prepare($countsql);
 $countstmt->execute();
 $totalCount = $countstmt->fetch(PDO::FETCH_ASSOC)['count'];

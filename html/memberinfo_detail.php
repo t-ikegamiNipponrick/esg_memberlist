@@ -2,7 +2,9 @@
  $protocol = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
  $thisurl = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
  $beforeurl = $_SERVER['HTTP_REFERER'];
- $thisid = substr($beforeurl, 40);
+ $parse_url_arr = parse_url ($beforeurl);
+ parse_str ( $parse_url_arr['query'], $query_arr );
+ $thisid = $query_arr['id'];
 
  session_start();
  if (!isset($_SESSION['user_id'])) {
@@ -14,14 +16,15 @@ $sessionId = $_SESSION['user_id'];
 require_once 'dbindex.php';
 
 //実行したいSQLを準備する
-$sqlB = "SELECT * FROM ESG_memberInfoB WHERE key_id ='" .$thisid. "'ORDER BY tasks_sofarStart ASC";
-$stmtB = $pdo->prepare($sqlB);
+$dispatchedsql = "SELECT * FROM ESG_member_dispatched WHERE key_id = :id ORDER BY tasks_sofarStart ASC";
+$dispatchedstmt = $pdo->prepare($dispatchedsql);
+$dispatchedstmt->bindValue(':id', $thisid,  PDO::PARAM_INT);
 
 //SQLを実行
-$stmtB->execute();
+$dispatchedstmt->execute();
 
 //データベースの値を取得
-$resultB = $stmtB->fetchall();
+$dispatchedresult = $dispatchedstmt->fetchall();
 
 ?>
 
@@ -179,12 +182,12 @@ $resultB = $stmtB->fetchall();
                         <th scope="col">期間</th>
                         <th>詳細</th>
                     </tr>
-                    <?php foreach($resultB as $rB) {?>
+                    <?php foreach($dispatchedresult as $r) {?>
                     <tr>                  
-                        <td><?php print($rB['dispatched_sofar']); ?></td>
-                        <td><?php print($rB['tasks_sofar']); ?></td>
-                        <td><?php print($rB['tasks_sofarStart'])?>~<?php print($rB['tasks_sofarFin'])?></td>
-                        <td><?php print($rB['tasks_detail']); ?></td>
+                        <td><?php print($r['dispatched_sofar']); ?></td>
+                        <td><?php print($r['tasks_sofar']); ?></td>
+                        <td><?php print($r['tasks_sofarStart'])?>~<?php print($rB['tasks_sofarFin'])?></td>
+                        <td><?php print($r['tasks_detail']); ?></td>
                     </tr>
                     <?php } ?>
                 </table>            

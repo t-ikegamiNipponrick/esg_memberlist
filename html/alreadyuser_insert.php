@@ -2,8 +2,9 @@
  $protocol = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
  $thisurl = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
  $beforeurl = $_SERVER['HTTP_REFERER'];
- $thisid = substr($beforeurl, 51);
- // print($thisid);
+ $parse_url_arr = parse_url ($beforeurl);
+ parse_str ( $parse_url_arr['query'], $query_arr );
+ $thisid = $query_arr['id'];
 
  session_start();
 if (!isset($_SESSION['user_id'])) {
@@ -26,59 +27,61 @@ if (!isset($_SESSION['user_id'])) {
 
  require_once 'dbindex.php';
 
- try{
-    $pdo->beginTransaction();
-    $sqlA = "SELECT * FROM ESG_memberInfoB WHERE key_id =" .$thisid;
-    $stmtA = $pdo->prepare($sqlA);
+try{
+$pdo->beginTransaction();
+$dispatchedsql = "SELECT * FROM ESG_member_dispatched WHERE key_id = :id";
+$dispatchedstmt = $pdo->prepare($dispatchedsql);
+$dispatchedstmt->bindValue(':id', $thisid,    PDO::PARAM_INT);
 
-    $stmtA->execute();
-    if($stmtA) {    
-        $pdo->commit();
-    }
+$dispatchedstmt->execute();
+if($dispatchedstmt) {    
+    $pdo->commit();
+}
 
-    $resultA = $stmtA->fetchall();
+    $dispatchedresult = $dispatchedstmt->fetchall();
 }catch(PDOException $e) {
     throw $e;
 }
 
 try{
     $pdo->beginTransaction();
-    $sqlB = "SELECT * FROM ESG_memberSkills WHERE key_id =" .$thisid;
-    $stmtB = $pdo->prepare($sqlB);
+    $skillssql = "SELECT * FROM ESG_member_skills WHERE key_id = :id";
+    $skillsstmt = $pdo->prepare($skillssql);
+    $skillsstmt->bindValue(':id', $thisid,    PDO::PARAM_INT);
 
-    $stmtB->execute();
-    if($stmtB) {    
+    $skillsstmt->execute();
+    if($skillsstmt) {    
         $pdo->commit();
     }
 
-    $resultB = $stmtB->fetchall();
+    $skillsresult = $skillsstmt->fetchall();
 }catch(PDOException $e) {
     throw $e;
 }
 
-$columncountA = count($resultA);
+$columncountA = count($dispatchedresult);
 // print($columncountA);
 
-$columncountB = count($resultB);
+$columncountB = count($skillsresult);
 // print($columncountB);
 
 for($i = $columncountA; $i < $columncountA + $lengthpostD; $i++) {
     if(!empty($S_dispatched[$i]) && !empty($S_tasks[$i])) {
         try{
-            $sqlC = 'INSERT INTO ESG_memberInfoB (key_id, dispatched_sofar, tasks_sofar, tasks_detail, tasks_sofarStart, tasks_sofarFin) values (:key_id, :dispsof, :tasksof, :detail, :sofStart, :sofFin)';
-            $stmtC = $pdo->prepare($sqlC);
+            $disp_insertsql = 'INSERT INTO ESG_member_dispatched (key_id, dispatched_sofar, tasks_sofar, tasks_detail, tasks_sofarStart, tasks_sofarFin) values (:key_id, :dispsof, :tasksof, :detail, :sofStart, :sofFin)';
+            $disp_insertstmt = $pdo->prepare($disp_insertsql);
             $pdo->beginTransaction();
             
-            $stmtC->bindValue(':key_id', $thisid,    PDO::PARAM_INT);
-            $stmtC->bindValue(':dispsof', $S_dispatched[$i],    PDO::PARAM_STR);
-            $stmtC->bindValue(':tasksof', $S_tasks[$i],    PDO::PARAM_STR);
-            $stmtC->bindValue(':detail', $tasks_detail[$i],    PDO::PARAM_STR);
-            $stmtC->bindValue(':sofStart', $date_started[$i],    PDO::PARAM_STR);
-            $stmtC->bindValue(':sofFin', $date_finished[$i],   PDO::PARAM_STR);
+            $disp_insertstmt->bindValue(':key_id', $thisid,    PDO::PARAM_INT);
+            $disp_insertstmt->bindValue(':dispsof', $S_dispatched[$i],    PDO::PARAM_STR);
+            $disp_insertstmt->bindValue(':tasksof', $S_tasks[$i],    PDO::PARAM_STR);
+            $disp_insertstmt->bindValue(':detail', $tasks_detail[$i],    PDO::PARAM_STR);
+            $disp_insertstmt->bindValue(':sofStart', $date_started[$i],    PDO::PARAM_STR);
+            $disp_insertstmt->bindValue(':sofFin', $date_finished[$i],   PDO::PARAM_STR);
 
-            $stmtC->execute();
+            $disp_insertstmt->execute();
 
-            if($stmtC) {
+            if($disp_insertstmt) {
                 $pdo->commit();
             }
             
@@ -93,17 +96,17 @@ print($lengthpostS . $columncountB);
 for($i = $columncountB; $i < $columncountB + $lengthpostS; $i++) {
     if(!empty($skill_name[$i]) && !empty($skill_date[$i])) {
         try{
-            $sqlD = 'INSERT INTO ESG_memberSkills (key_id, skill_name, skill_date) values (:key_id, :skill_name, :skill_date)';
-            $stmtD = $pdo->prepare($sqlD);
+            $skills_insertsql = 'INSERT INTO ESG_member_skills (key_id, skill_name, skill_date) values (:key_id, :skill_name, :skill_date)';
+            $skills_insertstmt = $pdo->prepare($skills_insertsql);
             $pdo->beginTransaction();
             
-            $stmtD->bindValue(':key_id', $thisid,    PDO::PARAM_INT);
-            $stmtD->bindValue(':skill_name', $skill_name[$i],    PDO::PARAM_STR);
-            $stmtD->bindValue(':skill_date', $skill_date[$i],    PDO::PARAM_STR);
+            $skills_insertstmt->bindValue(':key_id', $thisid,    PDO::PARAM_INT);
+            $skills_insertstmt->bindValue(':skill_name', $skill_name[$i],    PDO::PARAM_STR);
+            $skills_insertstmt->bindValue(':skill_date', $skill_date[$i],    PDO::PARAM_STR);
 
-            $stmtD->execute();
+            $skills_insertstmt->execute();
 
-            if($stmtD) {
+            if($skills_insertstmt) {
                 $pdo->commit();
             }
             

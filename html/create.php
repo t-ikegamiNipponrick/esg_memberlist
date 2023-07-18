@@ -1,7 +1,7 @@
 <?php
     session_start();
     if (!isset($_SESSION['user_id'])) {
-        header('Location: login.php'); // ログインページにリダイレクト
+        header('Location: sign_in.php'); // ログインページにリダイレクト
         exit();
     }
 
@@ -27,24 +27,24 @@
     require_once 'dbindex.php';
 
     try {
-        $sqlA = 'INSERT into ESG_memberList values (:id, :name, :from, :entry, :dispatched, :tasks)';
-        $stmtA = $pdo->prepare($sqlA);
+        $indexsql = 'INSERT into ESG_member_index values (:id, :name, :from, :entry, :dispatched, :tasks)';
+        $indexstmt = $pdo->prepare($indexsql);
         $pdo->beginTransaction(); 
 
-        $stmtA->bindValue(':id', $id,    PDO::PARAM_INT);
-        $stmtA->bindValue(':name', $name,   PDO::PARAM_STR);
-        $stmtA->bindValue(':from', $from,    PDO::PARAM_STR);
-        $stmtA->bindValue(':entry', $entry,    PDO::PARAM_STR);
-        $stmtA->bindValue(':dispatched', $dispatched,   PDO::PARAM_STR);
-        $stmtA->bindValue(':tasks', $tasks,    PDO::PARAM_STR);
+        $indexstmt->bindValue(':id', $id,    PDO::PARAM_INT);
+        $indexstmt->bindValue(':name', $name,   PDO::PARAM_STR);
+        $indexstmt->bindValue(':from', $from,    PDO::PARAM_STR);
+        $indexstmt->bindValue(':entry', $entry,    PDO::PARAM_STR);
+        $indexstmt->bindValue(':dispatched', $dispatched,   PDO::PARAM_STR);
+        $indexstmt->bindValue(':tasks', $tasks,    PDO::PARAM_STR);
 
-        $stmtA->execute();
+        $indexstmt->execute();
 
-        if($stmtA) {    
+        if($indexstmt) {    
             $pdo->commit();
         }
         
-        $resultA = $stmtA->fetchall();
+        $indexresult = $indexstmt->fetchall();
         // print($result);
 
     }catch(PDOException $e) {
@@ -52,22 +52,18 @@
     }
 
     try {
-        $sqlB ='INSERT into ESG_memberInfo values (?, ?)';
-        $stmtB = $pdo->prepare($sqlB);
+        $memberidsql ='INSERT into ESG_memberid_info values (?, ?)';
+        $memberidstmt = $pdo->prepare($memberidsql);
         $pdo->beginTransaction();
     
-        $stmtB->bindValue(1, $id,    PDO::PARAM_INT);
-        $stmtB->bindValue(2, $id,   PDO::PARAM_INT);
+        $memberidstmt->bindValue(1, $id,   PDO::PARAM_INT);
+        $memberidstmt->bindValue(2, $id,   PDO::PARAM_INT);
 
-        $stmtB->execute();
+        $memberidstmt->execute();
 
-        if($stmtB) {    
+        if($memberidstmt) {    
             $pdo->commit();
         }
-    
-        $resultB = $stmtB->fetchall();
-        
-        // print($result);
         
     }catch(PDOException $e) {
         throw $e;
@@ -75,24 +71,22 @@
 
     for($i = 0; $i < $length; $i++) {
         try{
-            $sqlc = 'INSERT INTO ESG_memberInfoB (key_id, dispatched_sofar, tasks_sofar, tasks_detail, tasks_sofarStart, tasks_sofarFin) values (?, ?, ?, ?, ?, ?)';
-            $stmtC = $pdo->prepare($sqlc);
+            $dispatchedsql = 'INSERT INTO ESG_member_dispatched (key_id, dispatched_sofar, tasks_sofar, tasks_detail, tasks_sofarStart, tasks_sofarFin) values (?, ?, ?, ?, ?, ?)';
+            $dispatchedstmt = $pdo->prepare($dispatchedsql);
             $pdo->beginTransaction();
             
-            $stmtC->bindValue(1, $id,    PDO::PARAM_INT);
-            $stmtC->bindValue(2, $S_dispatched[$i],    PDO::PARAM_STR);
-            $stmtC->bindValue(3, $S_tasks[$i],    PDO::PARAM_STR);
-            $stmtC->bindValue(4, $tasks_detail[$i],    PDO::PARAM_STR);
-            $stmtC->bindValue(5, $date_started[$i],    PDO::PARAM_STR);
-            $stmtC->bindValue(6, $date_finished[$i],   PDO::PARAM_STR);
+            $dispatchedstmt->bindValue(1, $id,    PDO::PARAM_INT);
+            $dispatchedstmt->bindValue(2, $S_dispatched[$i],    PDO::PARAM_STR);
+            $dispatchedstmt->bindValue(3, $S_tasks[$i],    PDO::PARAM_STR);
+            $dispatchedstmt->bindValue(4, $tasks_detail[$i],    PDO::PARAM_STR);
+            $dispatchedstmt->bindValue(5, $date_started[$i],    PDO::PARAM_STR);
+            $dispatchedstmt->bindValue(6, $date_finished[$i],   PDO::PARAM_STR);
 
-            $stmtC->execute();
+            $dispatchedstmt->execute();
 
-            if($stmtC) {
+            if($dispatchedstmt) {
                 $pdo->commit();
             }
-
-            $resultC = $stmtC->fetchall();
             
         }catch(PDOException $e) {
             throw $e;
@@ -101,21 +95,19 @@
 
     for($i = 0; $i < $length; $i++) {
         try{
-            $sqlc = 'INSERT INTO ESG_memberSkills (key_id, skill_name, skill_date) values (?, ?, ?)';
-            $stmtC = $pdo->prepare($sqlc);
+            $skillssql = 'INSERT INTO ESG_member_skills (key_id, skill_name, skill_date) values (?, ?, ?)';
+            $skillsstmt = $pdo->prepare($skillssql);
             $pdo->beginTransaction();
 
-            $stmtC->bindValue(1, $id,    PDO::PARAM_INT);
-            $stmtC->bindValue(2, $skill_name[$i],    PDO::PARAM_STR);
-            $stmtC->bindValue(3, $skill_date[$i],    PDO::PARAM_STR);
+            $skillsstmt->bindValue(1, $id,    PDO::PARAM_INT);
+            $skillsstmt->bindValue(2, $skill_name[$i],    PDO::PARAM_STR);
+            $skillsstmt->bindValue(3, $skill_date[$i],    PDO::PARAM_STR);
 
-            $stmtC->execute();
+            $skillsstmt->execute();
 
-            if($stmtC) {
+            if($skillsstmt) {
                 $pdo->commit();
             }
-
-            $resultC = $stmtC->fetchall();
             
         }catch(PDOException $e) {
             throw $e;

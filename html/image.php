@@ -3,7 +3,7 @@ require_once 'dbindex.php';
 
 $employeeId = $_GET['id']; // 取得したい従業員のemployee_id
 
-$stmt = $pdo->prepare("SELECT file_content, file_type FROM ESG_memberPicsB WHERE key_id = :employeeId");
+$stmt = $pdo->prepare("SELECT file_content, file_type FROM ESG_member_picscontents WHERE key_id = :employeeId");
 $stmt->bindParam(':employeeId', $employeeId, PDO::PARAM_INT);
 $stmt->execute();
 

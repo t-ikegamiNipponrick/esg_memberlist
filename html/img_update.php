@@ -9,7 +9,7 @@ $thisid = substr($beforeurl, 47);
 define('UPLOADPASS', './img/');
 
 require_once 'dbindex.php';
-$sqlQuery = "SELECT COUNT(*) FROM ESG_memberPics WHERE employee_id = ?";
+$sqlQuery = "SELECT COUNT(*) FROM ESG_member_picsid WHERE employee_id = ?";
 $stmtQuery = $pdo->prepare($sqlQuery);
 $stmtQuery->execute([$thisid]);
 $validateQ = $stmtQuery->fetchColumn();
@@ -27,7 +27,7 @@ if($validateQ > 0) {
 
 		try {
 			$pdo->beginTransaction(); 
-			$sqlB = 'UPDATE ESG_memberPicsB SET key_id = :id, file_name = :name, file_type = :type, file_content = :content, file_size = :size WHERE key_id =' .$thisid;
+			$sqlB = 'UPDATE ESG_member_picscontents SET key_id = :id, file_name = :name, file_type = :type, file_content = :content, file_size = :size WHERE key_id =' .$thisid;
 			$stmtB = $pdo->prepare($sqlB);
 
 			$stmtB->bindValue(':id', $thisid,    PDO::PARAM_INT);
@@ -70,7 +70,7 @@ if($validateQ > 0) {
 
 		try {
 			$pdo->beginTransaction(); 
-			$sql = 'UPDATE ESG_memberPics SET employee_id = :employee_id, key_id = :key_id';
+			$sql = 'UPDATE ESG_member_picsid SET employee_id = :employee_id, key_id = :key_id';
 			$stmt = $pdo->prepare($sql);
 	
 			$stmt->bindValue(':employee_id', $thisid,    PDO::PARAM_INT);
@@ -92,7 +92,7 @@ if($validateQ > 0) {
 
 		try {
 			$pdo->beginTransaction(); 
-			$sqlB = 'UPDATE ESG_memberPicsB SET key_id = :id, file_name = :name, file_type = :type, file_content = :content, file_size = :size WHERE key_id =' .$thisid;
+			$sqlB = 'UPDATE ESG_member_picscontents SET key_id = :id, file_name = :name, file_type = :type, file_content = :content, file_size = :size WHERE key_id =' .$thisid;
 			$stmtB = $pdo->prepare($sqlB);
 
 			$stmtB->bindValue(':id', $thisid,    PDO::PARAM_INT);
@@ -132,11 +132,7 @@ if($validateQ > 0) {
 		<title>upload処理</title>
 	</head>
 	<body>
-		<form enctype="multipart/form-data" action="upload_test.php" method="POST">
-			<input type="file" name="photo">
-			<input type="submit" value="画像をアップロード">
-		</form>
-		<p>
+		<p>画像のアップデートが完了しました。</p>
 		<img src="<?php print UPLOADPASS.$name ?>">
 		<a href="top.php">戻る</a>
 	

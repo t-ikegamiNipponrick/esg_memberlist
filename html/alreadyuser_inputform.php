@@ -2,7 +2,10 @@
  $protocol = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
  $thisurl = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
  $beforeurl = $_SERVER['HTTP_REFERER'];
- $thisid = substr($beforeurl, 47);
+ $parse_url_arr = parse_url ($beforeurl);
+ parse_str ( $parse_url_arr['query'], $query_arr );
+ $thisid = $query_arr['id'];
+
  // print($thisid);
 
  session_start();
@@ -10,44 +13,46 @@ if (!isset($_SESSION['user_id'])) {
     header('Location: sign_in.php'); // ログインページにリダイレクト
     exit();
 }
+
 $sessionId = $_SESSION['user_id'];
 
  require_once 'dbindex.php';
 
     try{
         $pdo->beginTransaction();
-        $sql = "SELECT * FROM ESG_memberInfoB WHERE key_id =" .$thisid;
-        $stmt = $pdo->prepare($sql);
+        $dispatchedsql = "SELECT * FROM ESG_member_dispatched WHERE key_id = :id";
+        $dispatchedstmt = $pdo->prepare($dispatchedsql);
+        $dispatchedstmt->bindValue(':id', $thisid,    PDO::PARAM_INT);
 
-        $stmt->execute();
-        if($stmt) {    
+        $dispatchedstmt->execute();
+        if($dispatchedstmt) {    
             $pdo->commit();
         }
 
-        $result = $stmt->fetchall();
+        $dispatchedresult = $dispatchedstmt->fetchall();
     }catch(PDOException $e) {
         $pdo->rollback();
         throw $e;
     }
-    $count= count($result);
+    $count= count($dispatchedresult);
     // print($count);
 
     try{
         $pdo->beginTransaction();
-        $sql1 = "SELECT * FROM ESG_memberSkills WHERE key_id =" .$thisid;
-        $stmt1 = $pdo->prepare($sql1);
+        $skillssql = "SELECT * FROM ESG_member_skills WHERE key_id =" .$thisid;
+        $skillsstmt = $pdo->prepare($skillssql);
 
-        $stmt1->execute();
-        if($stmt1) {    
+        $skillsstmt->execute();
+        if($skillsstmt) {    
             $pdo->commit();
         }
 
-        $result1 = $stmt1->fetchall();
+        $skillsresult = $skillsstmt->fetchall();
     }catch(PDOException $e) {
         $pdo->rollback();
         throw $e;
     }
-    $count1= count($result1);
+    $count1= count($skillsresult);
     // print($count1);
 
 ?>
@@ -232,7 +237,8 @@ $sessionId = $_SESSION['user_id'];
                                 <div>スキル名</div>
                                 <input type="text" name="skill_name[<?=$count1 ?>]">
                                 <div>年数</div>
-                                <input type="text" name="skill_date[<?=$count1 ?>]">
+                                <input type="text" id="skilldate" name="skill_date[<?=$count1 ?>]">
+                                <label for="skilldate">年</label>
                                 <p>
                                     <div>&nbsp;</div>
                                 <input type="button" class="btn btn-primary" value="スキルを追加" onclick="addSkillRow()">
@@ -291,7 +297,8 @@ $sessionId = $_SESSION['user_id'];
                                 <div>スキル名</div>
                                 <input type="text" name="skill_name[${skillCount}]" required>
                                 <div>年数</div>
-                                <input type="text" name="skill_date[${skillCount}]" required>
+                                <input type="text" id="skilldate" name="skill_date[${skillCount}]" required>
+                                <label for="skilldate">年</label>
                                 <div>&nbsp;</div>
                                 <button onclick="removeSkillRow()">フォーム削除</button>
                             </td>

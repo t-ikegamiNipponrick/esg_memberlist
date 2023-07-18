@@ -14,26 +14,29 @@ $sessionId = $_SESSION['user_id'];
 // print($sessionId);
 $id = $_GET['id'];
 // print($id);
-$sqlA = "SELECT * FROM ESG_memberList WHERE employee_id =" .$id;
-$stmtA = $pdo->prepare($sqlA);
+$indexsql = "SELECT * FROM ESG_member_index WHERE employee_id = :id";
+$indexstmt = $pdo->prepare($indexsql);
+$indexstmt->bindValue(':id', $id,    PDO::PARAM_INT);
 
-$stmtA->execute();
+$indexstmt->execute();
 
-$resultA = $stmtA->fetchall();
+$indexresult = $indexstmt->fetchall();
 
-$sqlB = "SELECT * FROM ESG_memberInfoB WHERE key_id ='" .$id. "'ORDER BY tasks_sofarStart ASC";
-$stmtB = $pdo->prepare($sqlB);
+$dispatchedsql = "SELECT * FROM ESG_member_dispatched WHERE key_id = :id ORDER BY tasks_sofarStart ASC";
+$dispatchedstmt = $pdo->prepare($dispatchedsql);
+$dispatchedstmt->bindValue(':id', $id,    PDO::PARAM_INT);
 
-$stmtB->execute();
+$dispatchedstmt->execute();
 
-$resultB = $stmtB->fetchall();
+$dispatchedresult = $dispatchedstmt->fetchall();
 
-$sqlC = "SELECT * FROM ESG_memberSkills WHERE key_id ='" .$id. "'ORDER BY skill_name ASC";
-$stmtC = $pdo->prepare($sqlC);
+$skillssql = "SELECT * FROM ESG_member_skills WHERE key_id = :id ORDER BY skill_name ASC";
+$skillsstmt = $pdo->prepare($skillssql);
+$skillsstmt->bindValue(':id', $id,  PDO::PARAM_INT);
 
-$stmtC->execute();
+$skillsstmt->execute();
 
-$resultC = $stmtC->fetchall();
+$skillsresult = $skillsstmt->fetchall();
 ?>
 
 <!DOCTYPE html>
@@ -224,7 +227,7 @@ $resultC = $stmtC->fetchall();
 
             <h3 class="heading-lv3 heading-margin text-center">社員情報</h3>
             <section class="row">
-            <?php foreach($resultA as $rA)?>
+            <?php foreach($indexresult as $rA)?>
                 <table class="table">
                     <tr>
                         <th scope="col">社員番号</th>
@@ -260,7 +263,7 @@ $resultC = $stmtC->fetchall();
                         <th scope="col">業務内容</th>
                         <th scope="col">期間</th>
                     </tr>
-                    <?php foreach($resultB as $rB) {?>
+                    <?php foreach($dispatchedresult as $rB) {?>
                     <tr>
                         <td><?php print($rB['dispatched_sofar']); ?></td>
                         <td><?php print($rB['tasks_sofar']); ?></td>
@@ -277,10 +280,10 @@ $resultC = $stmtC->fetchall();
                         <th scope="col">スキル</th>
                         <th scope="col">年数</th>
                     </tr>
-                    <?php foreach($resultC as $rC) {?>
+                    <?php foreach($skillsresult as $rC) {?>
                     <tr>
                         <td><?php print($rC['skill_name']); ?></td>
-                        <td><?php print($rC['skill_date']); ?></td>
+                        <td><?php print($rC['skill_date']); ?>年</td>
                     </tr>
                     <?php } ?>
                 </table>                

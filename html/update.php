@@ -1,9 +1,10 @@
 <?php
-    $protocol = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
-    $thisurl = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
-    $beforeurl = $_SERVER['HTTP_REFERER'];
-    $thisid = substr($beforeurl, 47);
-    // print($thisid);
+ $protocol = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
+ $thisurl = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+ $beforeurl = $_SERVER['HTTP_REFERER'];
+ $parse_url_arr = parse_url ($beforeurl);
+ parse_str ( $parse_url_arr['query'], $query_arr );
+ $thisid = $query_arr['id'];
 
     $id = $_POST['employee_id'];
     $name = $_POST['member_name'];
@@ -25,24 +26,24 @@
 
     try {
         $pdo->beginTransaction(); 
-        $sqlA = 'UPDATE ESG_memberList SET employee_id = :id, member_name = :name, member_from = :from, DateEntry = :entry, dispatched = :dispatched, tasks = :tasks WHERE employee_id =' .$thisid;
+        $indexsql = 'UPDATE ESG_member_index SET employee_id = :id, member_name = :name, member_from = :from, DateEntry = :entry, dispatched = :dispatched, tasks = :tasks WHERE employee_id = :thisid';
         // print($sqlA);
-        $stmtA = $pdo->prepare($sqlA);
-        
-        $stmtA->bindValue(':id', $id,   PDO::PARAM_INT);
-        $stmtA->bindValue(':name', $name,   PDO::PARAM_STR);
-        $stmtA->bindValue(':from', $from,    PDO::PARAM_STR);
-        $stmtA->bindValue(':entry', $entry,    PDO::PARAM_STR);
-        $stmtA->bindValue(':dispatched', $dispatched,   PDO::PARAM_STR);
-        $stmtA->bindValue(':tasks', $tasks,    PDO::PARAM_STR);
+        $indexstmt = $pdo->prepare($indexsql);
+        $indexstmt->bindValue(':thisid', $thisid,   PDO::PARAM_INT);
+        $indexstmt->bindValue(':id', $id,   PDO::PARAM_INT);
+        $indexstmt->bindValue(':name', $name,   PDO::PARAM_STR);
+        $indexstmt->bindValue(':from', $from,    PDO::PARAM_STR);
+        $indexstmt->bindValue(':entry', $entry,    PDO::PARAM_STR);
+        $indexstmt->bindValue(':dispatched', $dispatched,   PDO::PARAM_STR);
+        $indexstmt->bindValue(':tasks', $tasks,    PDO::PARAM_STR);
 
-        $stmtA->execute();
+        $indexstmt->execute();
 
-        if($stmtA) {    
+        if($indexstmt) {    
             $pdo->commit();
         }
 
-        $resultA = $stmtA->fetchall();
+        $indexresult = $indexstmt->fetchall();
         // print($result);
 
     }catch(PDOException $e) {
@@ -52,18 +53,18 @@
 
     try {
         $pdo->beginTransaction(); 
-        $sqlB ='UPDATE ESG_memberInfo SET employee_id = :id, key_id = :key_id WHERE employee_id =' .$thisid;
-        // print($sqlB);
-        $stmtB = $pdo->prepare($sqlB);
-        $stmtB->bindValue(':id', $id,   PDO::PARAM_INT);
-        $stmtB->bindValue(':key_id', $id,   PDO::PARAM_INT);
-        $stmtB->execute();
+        $memberidsql ='UPDATE ESG_memberid_info SET employee_id = :id, key_id = :key_id WHERE employee_id = :thisid';
+        $memberidstmt = $pdo->prepare($memberidsql);
+        $memberidstmt->bindValue(':thisid', $thisid,   PDO::PARAM_INT);
+        $memberidstmt->bindValue(':id', $id,   PDO::PARAM_INT);
+        $memberidstmt->bindValue(':key_id', $id,   PDO::PARAM_INT);
+        $memberidstmt->execute();
 
-        if($stmtB) {    
+        if($memberidstmt) {    
             $pdo->commit();
         }
     
-        $resultB = $stmtB->fetchall();
+        $memberidresult = $memberidstmt->fetchall();
         // print($result);
         
     }catch(PDOException $e) {
@@ -74,22 +75,23 @@
     for($i = 0; $i < $length; $i++) {
         try {
             $pdo->beginTransaction(); 
-            $sqlC ='UPDATE ESG_memberInfoB SET key_id = :id, dispatched_sofar = :dispsof, tasks_sofar = :tasksof, tasks_detail = :detail, tasks_sofarStart = :sofsta, tasks_sofarFin = :soffin WHERE employee_id =' .$thisid;
+            $dispatchedsql ='UPDATE ESG_member_dispatched SET key_id = :id, dispatched_sofar = :dispsof, tasks_sofar = :tasksof, tasks_detail = :detail, tasks_sofarStart = :sofsta, tasks_sofarFin = :soffin WHERE employee_id = :thisid';
             // print($sqlC);
-            $stmtC = $pdo->prepare($sqlC);
-            $stmtC->bindValue(':id', $id,   PDO::PARAM_INT);
-            $stmtC->bindValue(':dispsof', $S_dispatched[$i],   PDO::PARAM_STR);
-            $stmtC->bindValue(':tasksof', $S_tasks[$i],    PDO::PARAM_STR);
-            $stmtC->bindValue(':detail', $tasks_detail[$i],  PDO::PARAM_STR);
-            $stmtC->bindValue(':sofsta', $date_started[$i],    PDO::PARAM_STR);
-            $stmtC->bindValue(':soffin', $date_finished[$i],   PDO::PARAM_STR);
-            $stmtC->execute();
+            $dispatchedstmt = $pdo->prepare($dispatchedsql);
+            $dispatchedstmt->bindValue(':thisid', $thisid,   PDO::PARAM_INT);
+            $dispatchedstmt->bindValue(':id', $id,   PDO::PARAM_INT);
+            $dispatchedstmt->bindValue(':dispsof', $S_dispatched[$i],   PDO::PARAM_STR);
+            $dispatchedstmt->bindValue(':tasksof', $S_tasks[$i],    PDO::PARAM_STR);
+            $dispatchedstmt->bindValue(':detail', $tasks_detail[$i],  PDO::PARAM_STR);
+            $dispatchedstmt->bindValue(':sofsta', $date_started[$i],    PDO::PARAM_STR);
+            $dispatchedstmt->bindValue(':soffin', $date_finished[$i],   PDO::PARAM_STR);
+            $dispatchedstmt->execute();
 
-            if($stmtC) {    
+            if($dispatchedstmt) {    
                 $pdo->commit();
             }
         
-            $resultC = $stmtC->fetchall();
+            $dispatchedresult = $dispatchedstmt->fetchall();
             // print($result);
             
         }catch(PDOException $e) {
@@ -101,19 +103,20 @@
     for($i = 0; $i < $length; $i++) {
         try {
             $pdo->beginTransaction(); 
-            $sqlD ='UPDATE ESG_memberSKills SET key_id = :id, skill_name = :sname, skill_date = :sdate WHERE employee_id =' .$thisid;
+            $skillssql ='UPDATE ESG_memberS_skills SET key_id = :id, skill_name = :sname, skill_date = :sdate WHERE employee_id = :thisid';
             // print($sqlD);
-            $stmtD = $pdo->prepare($sqlD);
-            $stmtD->bindValue(':id', $id,   PDO::PARAM_INT);
-            $stmtD->bindValue(':sname', $skill_name[$i],    PDO::PARAM_STR);
-            $stmtD->bindValue(':sdate', $skill_date[$i],    PDO::PARAM_STR);
-            $stmtD->execute();
+            $skillsstmt = $pdo->prepare($skillssql);
+            $skillsstmt->bindValue(':thisid', $thisid,   PDO::PARAM_INT);
+            $skillsstmt->bindValue(':id', $id,   PDO::PARAM_INT);
+            $skillsstmt->bindValue(':sname', $skill_name[$i],    PDO::PARAM_STR);
+            $skillsstmt->bindValue(':sdate', $skill_date[$i],    PDO::PARAM_STR);
+            $skillsstmt->execute();
 
-            if($stmtD) {    
+            if($skillsstmt) {    
                 $pdo->commit();
             }
         
-            $resultD = $stmtD->fetchall();
+            $skillsresult = $skillsstmt->fetchall();
             // print($result);
             
         }catch(PDOException $e) {

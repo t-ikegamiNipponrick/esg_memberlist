@@ -1,15 +1,15 @@
 <?php
-
-$protocol = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
-$thisurl = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
-$beforeurl = $_SERVER['HTTP_REFERER'];
-$thisid = substr($beforeurl, 47);
-// print($thisid);
+ $protocol = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
+ $thisurl = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+ $beforeurl = $_SERVER['HTTP_REFERER'];
+ $parse_url_arr = parse_url ($beforeurl);
+ parse_str ( $parse_url_arr['query'], $query_arr );
+ $thisid = $query_arr['id'];
 
 define('UPLOADPASS', './img/');
 
 require_once 'dbindex.php';
-$sqlQuery = "SELECT COUNT(*) FROM ESG_memberPics WHERE employee_id = ?";
+$sqlQuery = "SELECT COUNT(*) FROM ESG_member_picsid WHERE employee_id = ?";
 $stmtQuery = $pdo->prepare($sqlQuery);
 $stmtQuery->execute([$thisid]);
 $validateQ = $stmtQuery->fetchColumn();
@@ -27,7 +27,7 @@ if($validateQ > 0) {
 
 		try {
 			$pdo->beginTransaction(); 
-			$sqlB = 'INSERT into ESG_memberPicsB (key_id, file_name, file_type, file_content, file_size) values (:id, :name, :type, :content, :size)';
+			$sqlB = 'INSERT into ESG_member_picscontents (key_id, file_name, file_type, file_content, file_size) values (:id, :name, :type, :content, :size)';
 			$stmtB = $pdo->prepare($sqlB);
 
 			$stmtB->bindValue(':id', $thisid,    PDO::PARAM_INT);
@@ -70,7 +70,7 @@ if($validateQ > 0) {
 
 		try {
 			$pdo->beginTransaction(); 
-			$sql = 'INSERT into ESG_memberPics values (:employee_id, :key_id)';
+			$sql = 'INSERT into ESG_member_picsid values (:employee_id, :key_id)';
 			$stmt = $pdo->prepare($sql);
 	
 			$stmt->bindValue(':employee_id', $thisid,    PDO::PARAM_INT);
@@ -92,7 +92,7 @@ if($validateQ > 0) {
 
 		try {
 			$pdo->beginTransaction(); 
-			$sqlB = 'INSERT into ESG_memberPicsB (key_id, file_name, file_type, file_content, file_size) values (:id, :name, :type, :content, :size)';
+			$sqlB = 'INSERT into ESG_member_picscontents (key_id, file_name, file_type, file_content, file_size) values (:id, :name, :type, :content, :size)';
 			$stmtB = $pdo->prepare($sqlB);
 
 			$stmtB->bindValue(':id', $thisid,    PDO::PARAM_INT);
