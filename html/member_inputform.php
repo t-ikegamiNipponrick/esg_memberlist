@@ -222,7 +222,7 @@ $sessionId = $_SESSION['user_id'];
                                 <div>スキル名</div>
                                 <input type="text" name="skill_name[0]">
                                 <div>年数</div>
-                                <input type="text" id="skilldate" name="skill_date[0]">
+                                <input type="text" id="skilldate" name="skill_date[0]" oninput="restrictInput(event)">
                                 <label for="skilldate">年</label>
                                 <p>
                                     <div>&nbsp;</div>
@@ -282,7 +282,7 @@ $sessionId = $_SESSION['user_id'];
                                 <div>スキル名</div>
                                 <input type="text" name="skill_name[${skillCount}]" required>
                                 <div>年数</div>
-                                <input type="text" id="skilldate" name="skill_date[${skillCount}]" required>
+                                <input type="text" id="skilldate" oninput="restrictInput(event)" name="skill_date[${skillCount}]" required>
                                 <label for="skilldate">年</label>
                                 <div>&nbsp;</div>
                                 <button onclick="removeSkillRow()">フォーム削除</button>
@@ -334,6 +334,16 @@ $sessionId = $_SESSION['user_id'];
                         }
                         
                         return true;
+                    }
+
+                    function restrictInput(event) {
+                        var input = event.target;
+                        var value = input.value;
+                        var restrictedValue = value.replace(/[^\x01-\x7E]/g, ''); // 全角文字を削除
+
+                        if (value !== restrictedValue) {
+                            input.value = restrictedValue;
+                        }
                     }
                 </script>
             </form>

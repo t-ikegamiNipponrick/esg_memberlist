@@ -1,10 +1,10 @@
 <?php
-
-$protocol = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
-$thisurl = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
-$beforeurl = $_SERVER['HTTP_REFERER'];
-$thisid = substr($beforeurl, 47);
-// print($thisid);
+ $protocol = empty($_SERVER["HTTPS"]) ? "http://" : "https://";
+ $thisurl = $protocol . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+ $beforeurl = $_SERVER['HTTP_REFERER'];
+ $parse_url_arr = parse_url ($beforeurl);
+ parse_str ( $parse_url_arr['query'], $query_arr );
+ $thisid = $query_arr['id'];
 
 define('UPLOADPASS', './img/');
 

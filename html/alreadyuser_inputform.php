@@ -274,7 +274,7 @@ $sessionId = $_SESSION['user_id'];
                                 <div>&nbsp;</div>
                                 <div>詳細</div>
                                 <textarea name="tasks_detail[${dispatchCount}]" class="detailtxt"></textarea>
-                                <button onclick="removeDispatchRow()">フォーム削除</button>
+                                <button class="btn btn-primary" onclick="removeDispatchRow()">フォーム削除</button>
                             </td>
                         `;
 
@@ -300,7 +300,7 @@ $sessionId = $_SESSION['user_id'];
                                 <input type="text" id="skilldate" name="skill_date[${skillCount}]" required>
                                 <label for="skilldate">年</label>
                                 <div>&nbsp;</div>
-                                <button onclick="removeSkillRow()">フォーム削除</button>
+                                <button class="btn btn-primary" onclick="removeSkillRow()">フォーム削除</button>
                             </td>
                         `;
 
@@ -326,6 +326,16 @@ $sessionId = $_SESSION['user_id'];
                         dispatchSection.removeChild(skillSection.lastChild);
                         
                         skillCount--; // 派遣先の追加回数を減らす
+                    }
+
+                    function restrictInput(event) {
+                        var input = event.target;
+                        var value = input.value;
+                        var restrictedValue = value.replace(/[^\x01-\x7E]/g, ''); // 全角文字を削除
+
+                        if (value !== restrictedValue) {
+                            input.value = restrictedValue;
+                        }
                     }
                 </script>
             </form>

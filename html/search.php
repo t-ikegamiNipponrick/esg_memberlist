@@ -192,15 +192,20 @@ try{
                             <a href="?sort_by=tasks&sort_order=<?php echo $reverseSortOrder; ?>">▲</a>
                         </th>
                     </tr>
-                    <?php foreach($result as $r) { ?>
+                    <?php foreach($result as $r) { 
+                        $employeeId = htmlspecialchars($r['employee_id'], ENT_QUOTES, 'UTF-8');
+                        $memberName = htmlspecialchars($r['member_name'], ENT_QUOTES, 'UTF-8');
+                        $dispatched = htmlspecialchars($r['dispatched'], ENT_QUOTES, 'UTF-8');
+                        $tasks = htmlspecialchars($r['tasks'], ENT_QUOTES, 'UTF-8');
+                    ?>
                     <tr>
                         <td><figure class="profile-image">
                             <?php print'<img class="thumbnail" alt="画像" onclick="changeImage()" src="image.php?id=' . $r['employee_id'] . '">' ?> 
                             </figure></td>
-                        <td><?php print'<a href="memberinfo.php?id='. $r['employee_id'] .'">' . $r['employee_id'].'</a>'; ?></td>
-                        <td><?php print($r['member_name']); ?></td>
-                        <td><?php print($r['dispatched']); ?></td>
-                        <td><?php print($r['tasks']); ?></td>
+                        <td><?php print'<a href="memberinfo.php?id='. $employeeId .'">' . $employeeId .'</a>'; ?></td>
+                        <td><?php print($memberName); ?></td>
+                        <td><?php print($dispatched); ?></td>
+                        <td><?php print($tasks); ?></td>
                     </tr>
                     <?php } ?>
                 </table>                

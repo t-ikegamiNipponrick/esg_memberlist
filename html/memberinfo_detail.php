@@ -182,12 +182,18 @@ $dispatchedresult = $dispatchedstmt->fetchall();
                         <th scope="col">期間</th>
                         <th>詳細</th>
                     </tr>
-                    <?php foreach($dispatchedresult as $r) {?>
+                    <?php foreach($dispatchedresult as $r) {
+                        $dispatchedSofar = htmlspecialchars($r['dispatched_sofar'], ENT_QUOTES, 'UTF-8');
+                        $tasksSofar = htmlspecialchars($r['tasks_sofar'], ENT_QUOTES, 'UTF-8');
+                        $tasksSofarStart = htmlspecialchars($r['tasks_sofarStart'], ENT_QUOTES, 'UTF-8');
+                        $tasksSofarFin = htmlspecialchars($r['tasks_sofarFin'], ENT_QUOTES, 'UTF-8');
+                        $tasksDetail = htmlspecialchars($r['tasks_detail'], ENT_QUOTES, 'UTF-8');
+                        ?>
                     <tr>                  
-                        <td><?php print($r['dispatched_sofar']); ?></td>
-                        <td><?php print($r['tasks_sofar']); ?></td>
-                        <td><?php print($r['tasks_sofarStart'])?>~<?php print($rB['tasks_sofarFin'])?></td>
-                        <td><?php print($r['tasks_detail']); ?></td>
+                        <td><?php print($dispatchedSofar); ?></td>
+                        <td><?php print($tasksSofar); ?></td>
+                        <td><?php print($tasksSofarStart)?>~<?php print($tasksSofarFin)?></td>
+                        <td><?php print($tasksDetail); ?></td>
                     </tr>
                     <?php } ?>
                 </table>            

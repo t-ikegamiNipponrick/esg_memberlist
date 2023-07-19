@@ -227,32 +227,40 @@ $skillsresult = $skillsstmt->fetchall();
 
             <h3 class="heading-lv3 heading-margin text-center">社員情報</h3>
             <section class="row">
-            <?php foreach($indexresult as $rA)?>
+            <?php foreach($indexresult as $rA) {
+                $employeeId = htmlspecialchars($rA['employee_id'], ENT_QUOTES, 'UTF-8');
+                $memberName = htmlspecialchars($rA['member_name'], ENT_QUOTES, 'UTF-8');
+                $memberFrom = htmlspecialchars($rA['member_from'], ENT_QUOTES, 'UTF-8');
+                $dateEntry = htmlspecialchars($rA['DateEntry'], ENT_QUOTES, 'UTF-8');
+                $Dispatched = htmlspecialchars($rA['dispatched'], ENT_QUOTES, 'UTF-8');
+                $tasks = htmlspecialchars($rA['tasks'], ENT_QUOTES, 'UTF-8');
+                ?>
                 <table class="table">
                     <tr>
                         <th scope="col">社員番号</th>
-                        <td><?php print($rA['employee_id']); ?></td>
+                        <td><?php print($employeeId); ?></td>
                     </tr>
                     <tr>
                         <th scope="col">氏名</th>
-                        <td><?php print($rA['member_name']); ?></td>
+                        <td><?php print($memberName); ?></td>
                     </tr>
                     <tr>
                         <th scope="col">出身地</th>
-                        <td><?php print($rA['member_from']); ?></td>
+                        <td><?php print($memberFrom); ?></td>
                     </tr>
                     <tr>
                         <th scope="col">入社年月</th>
-                        <td><?php print($rA['DateEntry']); ?></td>
+                        <td><?php print($dateEntry); ?></td>
                     </tr>
                     <tr>
                         <th scope="col">現在の派遣先</th>
-                        <td><?php print($rA['dispatched']); ?></td>
+                        <td><?php print($Dispatched); ?></td>
                     </tr>  
                     <tr>
                         <th scope="col">現在の業務内容</th>
-                        <td><?php print($rA['tasks']); ?></td>
+                        <td><?php print($tasks); ?></td>
                     </tr>
+                    <?php } ?>
                 </table>                
             </section>
             <h3 class="heading-1v3 heading-margin text-center">これまでの派遣先</h3>
@@ -263,11 +271,16 @@ $skillsresult = $skillsstmt->fetchall();
                         <th scope="col">業務内容</th>
                         <th scope="col">期間</th>
                     </tr>
-                    <?php foreach($dispatchedresult as $rB) {?>
+                    <?php foreach($dispatchedresult as $rB) {
+                        $dispatchedSofar = htmlspecialchars($rB['dispatched_sofar'], ENT_QUOTES, 'UTF-8');
+                        $tasksSofar = htmlspecialchars($rB['tasks_sofar'], ENT_QUOTES, 'UTF-8');
+                        $tasksSofarStart = htmlspecialchars($rB['tasks_sofarStart'], ENT_QUOTES, 'UTF-8');
+                        $tasksSofarFin = htmlspecialchars($rB['tasks_sofarFin'], ENT_QUOTES, 'UTF-8');
+                        ?>
                     <tr>
-                        <td><?php print($rB['dispatched_sofar']); ?></td>
-                        <td><?php print($rB['tasks_sofar']); ?></td>
-                        <td><?php print($rB['tasks_sofarStart'])?>~<?php print($rB['tasks_sofarFin'])?></td>
+                        <td><?php print($dispatchedSofar); ?></td>
+                        <td><?php print($tasksSofar); ?></td>
+                        <td><?php print($tasksSofarStart)?>~<?php print($tasksSofarFin)?></td>
                     </tr>
                     <?php } ?>
                 </table>            
@@ -280,10 +293,13 @@ $skillsresult = $skillsstmt->fetchall();
                         <th scope="col">スキル</th>
                         <th scope="col">年数</th>
                     </tr>
-                    <?php foreach($skillsresult as $rC) {?>
+                    <?php foreach($skillsresult as $rC) {
+                        $skillName = htmlspecialchars($rC['skill_name'], ENT_QUOTES, 'UTF-8');
+                        $skillDate = htmlspecialchars($rC['skill_date'], ENT_QUOTES, 'UTF-8');
+                        ?>
                     <tr>
-                        <td><?php print($rC['skill_name']); ?></td>
-                        <td><?php print($rC['skill_date']); ?>年</td>
+                        <td><?php print($skillName); ?></td>
+                        <td><?php print($skillDate); ?>年</td>
                     </tr>
                     <?php } ?>
                 </table>                

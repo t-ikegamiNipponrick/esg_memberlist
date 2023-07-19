@@ -208,7 +208,14 @@ $columnCountC = count($skillsresult);
                 <h3 class="heading-lv3 heading-margin text-center">社員情報入力</h3>
                 <section class="row">
                     <table class="table">
-                    <?php foreach($indexresult as $rA) {?>
+                    <?php foreach($indexresult as $rA) {
+                        $employeeId = htmlspecialchars($rA['employee_id'], ENT_QUOTES, 'UTF-8');
+                        $memberName = htmlspecialchars($rA['member_name'], ENT_QUOTES, 'UTF-8');
+                        $memberFrom = htmlspecialchars($rA['member_from'], ENT_QUOTES, 'UTF-8');
+                        $dateEntry = htmlspecialchars($rA['DateEntry'], ENT_QUOTES, 'UTF-8');
+                        $Dispatched = htmlspecialchars($rA['dispatched'], ENT_QUOTES, 'UTF-8');
+                        $tasks = htmlspecialchars($rA['tasks'], ENT_QUOTES, 'UTF-8');
+                        ?>
                         <tr>
                             <th scope="col">社員番号</th>
                             <td>
@@ -248,7 +255,12 @@ $columnCountC = count($skillsresult);
                         <?php } ?>
                         
                         <?php $i=0;
-                            foreach($dispatchedresult as $rB) { ?>
+                            foreach($dispatchedresult as $rB) { 
+                                $dispatchedSofar = htmlspecialchars($rB['dispatched_sofar'], ENT_QUOTES, 'UTF-8');
+                                $tasksSofar = htmlspecialchars($rB['tasks_sofar'], ENT_QUOTES, 'UTF-8');
+                                $tasksSofarStart = htmlspecialchars($rB['tasks_sofarStart'], ENT_QUOTES, 'UTF-8');
+                                $tasksSofarFin = htmlspecialchars($rB['tasks_sofarFin'], ENT_QUOTES, 'UTF-8');
+                                ?>
                         <tr>
                             <th scope="col">これまでの派遣先<?=$i+1?></th> 
                             <td>
@@ -266,14 +278,17 @@ $columnCountC = count($skillsresult);
                         </tr>
                             <?php $i++; }
                             $j = 0;
-                            foreach($skillsresult as $rC) {?>
+                            foreach($skillsresult as $rC) {
+                                $skillName = htmlspecialchars($rC['skill_name'], ENT_QUOTES, 'UTF-8');
+                                $skillDate = htmlspecialchars($rC['skill_date'], ENT_QUOTES, 'UTF-8');
+                            ?>
                         <tr>
                             <th scope="col">スキル<?=$j+1?></th>
                             <td>
                                 <div>スキル名</div>
                                 <input type="text" name=<?="skill_name[$j]"?> value=<?= $rC['skill_name']; ?> required>
                                 <div>年数</div>
-                                <input type="text" id="skilldate" name=<?="skill_date[$j]"?> value=<?= $rC['skill_date']; ?> required>
+                                <input type="text" id="skilldate" oninput="restrictInput(event)" name=<?="skill_date[$j]"?> value=<?= $rC['skill_date']; ?> required>
                                 <label for="skilldate">年</label>
                             </td>
                         </tr>
