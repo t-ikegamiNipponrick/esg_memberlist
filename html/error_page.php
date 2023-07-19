@@ -62,6 +62,16 @@ session_destroy();
         }
     </style>
 </head>
+<header>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
+        <a class="navbar-brand" href="sign_in.php">日本リック株式会社ESG</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav4" aria-controls="navbarNav4" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav4">
+        </div>
+    </nav>
+</header>
 <body>
     <h1>エラーが発生しました</h1>
     <div>&nbsp;</div>

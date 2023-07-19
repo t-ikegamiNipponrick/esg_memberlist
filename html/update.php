@@ -124,6 +124,7 @@
             throw $e;
         }
     }
+    header('Location: memberinfo.php?id=' . $thisid);
 ?>
 
 <!DOCTYPE html>
