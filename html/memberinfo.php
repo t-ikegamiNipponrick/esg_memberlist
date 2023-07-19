@@ -198,7 +198,7 @@ $skillsresult = $skillsstmt->fetchall();
                 <ul class="navbar-nav">
                     <?php if($sessionId == 11400) {
                         print '<li class="nav-item active">';
-                        print '<a class="nav-link" href="memberinputForm.php">社員情報の追加<span class="sr-only">(current)</span></a>';
+                        print '<a class="nav-link" href="member_inputform.php">社員情報の追加<span class="sr-only">(current)</span></a>';
                         print '</li>';
                     } ?>                    
                     <li class="nav-item active">

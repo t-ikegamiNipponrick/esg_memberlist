@@ -5,6 +5,8 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+require_once 'url_validation.php';
+
 $sessionId = $_SESSION['user_id'];
 require_once 'dbindex.php';
 $sortOrder = 'ASC';

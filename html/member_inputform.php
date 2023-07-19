@@ -267,6 +267,7 @@ $sessionId = $_SESSION['user_id'];
                         dispatchSection.appendChild(newRow);
 
                         dispatchCount++; // 派遣先の追加回数を増やす
+                        button.style.display = 'none';
                     }
 
                     function addSkillRow() {
