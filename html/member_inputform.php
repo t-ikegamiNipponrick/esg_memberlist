@@ -203,9 +203,11 @@ $sessionId = $_SESSION['user_id'];
                                 <div>業務内容</div>
                                 <input type="text" name="tasks_sofar[0]" required>
                                 <div>期間</div>
-                                <input type="date" name="tasks_sofarStart[0]" required>
-                                <div>~</div>
-                                <input type="date" name="tasks_sofarFin[0]" required>
+                                <label for="start">開始:</label>
+                                <input type="date" id="start" name="tasks_sofarStart[0]" required>
+                                <div>～</div>
+                                <label for="fin">終了:</label>
+                                <input type="date" id="fin" name="tasks_sofarFin[0]" required>
                                 <div>詳細</div>
                                 <textarea name="tasks_detail[0]" class="detailtxt"></textarea>
                                 <p>
@@ -222,7 +224,7 @@ $sessionId = $_SESSION['user_id'];
                                 <div>スキル名</div>
                                 <input type="text" name="skill_name[0]">
                                 <div>年数</div>
-                                <input type="text" id="skilldate" name="skill_date[0]" oninput="restrictInput(event)">
+                                <input type="text" id="skilldate" name="skill_date[0]" placeholder="半角数字で入力してください" oninput="restrictInput(event)">
                                 <label for="skilldate">年</label>
                                 <p>
                                     <div>&nbsp;</div>
@@ -253,9 +255,11 @@ $sessionId = $_SESSION['user_id'];
                                 <div>業務内容</div>
                                 <input type="text" name="tasks_sofar[${dispatchCount}]" required>
                                 <div>期間</div>
-                                <input type="date" name="tasks_sofarStart[${dispatchCount}]" required>
-                                <div>~</div>
-                                <input type="date" name="tasks_sofarFin[${dispatchCount}]" required>
+                                <label for="start">開始:</label>
+                                <input type="date" id="start" name="tasks_sofarStart[${dispatchCount}]" required>
+                                <div>～</div>
+                                <label for="fin">終了:</label>
+                                <input type="date" id="fin" name="tasks_sofarFin[${dispatchCount}]" required>
                                 <div>詳細</div>
                                 <input type="text" name="tasks_detail[${dispatchCount}]" class="detailtxt">
                                 <div>&nbsp;</div>
@@ -283,7 +287,7 @@ $sessionId = $_SESSION['user_id'];
                                 <div>スキル名</div>
                                 <input type="text" name="skill_name[${skillCount}]" required>
                                 <div>年数</div>
-                                <input type="text" id="skilldate" oninput="restrictInput(event)" name="skill_date[${skillCount}]" required>
+                                <input type="text" id="skilldate" oninput="restrictInput(event)" name="skill_date[${skillCount}]" placeholder="半角数字で入力してください" required>
                                 <label for="skilldate">年</label>
                                 <div>&nbsp;</div>
                                 <button onclick="removeSkillRow()">フォーム削除</button>
@@ -352,7 +356,7 @@ $sessionId = $_SESSION['user_id'];
     </body>
     <footer class="footer">
         <div class="container text-center">
-        <p class="text-muted">©︎<?php echo $year;?> developped by Tomohiro Ikegami</p>
+        <p class="text-muted">©︎<?php echo $year;?><a href="https://www.nipponrick.co.jp/" target="_blank"> 日本リック株式会社</a>  developped by Tomohiro Ikegami</p>
         </div>
     </footer>
 </html>

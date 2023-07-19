@@ -27,22 +27,22 @@ if($validateQ > 0) {
 
 		try {
 			$pdo->beginTransaction(); 
-			$sqlB = 'UPDATE ESG_member_picscontents SET key_id = :id, file_name = :name, file_type = :type, file_content = :content, file_size = :size WHERE key_id =' .$thisid;
-			$stmtB = $pdo->prepare($sqlB);
+			$picscontentsql = 'UPDATE ESG_member_picscontents SET key_id = :id, file_name = :name, file_type = :type, file_content = :content, file_size = :size WHERE key_id =' .$thisid;
+			$picscontentstmt = $pdo->prepare($picscontentsql);
 
-			$stmtB->bindValue(':id', $thisid,    PDO::PARAM_INT);
-			$stmtB->bindValue(':name', $name,   PDO::PARAM_STR);
-			$stmtB->bindValue(':type', $type,    PDO::PARAM_STR);
-			$stmtB->bindValue(':content', $content,    PDO::PARAM_STR);
-			$stmtB->bindValue(':size', $size,   PDO::PARAM_INT);
+			$picscontentstmt->bindValue(':id', $thisid,    PDO::PARAM_INT);
+			$picscontentstmt->bindValue(':name', $name,   PDO::PARAM_STR);
+			$picscontentstmt->bindValue(':type', $type,    PDO::PARAM_STR);
+			$picscontentstmt->bindValue(':content', $content,    PDO::PARAM_STR);
+			$picscontentstmt->bindValue(':size', $size,   PDO::PARAM_INT);
 
-			$stmtB->execute();
+			$picscontentstmt->execute();
 
-			if($stmtB) {    
+			if($picscontentstmt) {    
 				$pdo->commit();
 			}
 			
-			$resultB = $stmtB->fetchall();
+			$resultB = $picscontentstmt->fetchall();
 			// print($result);
 
 		}catch(PDOException $e) {
@@ -70,20 +70,17 @@ if($validateQ > 0) {
 
 		try {
 			$pdo->beginTransaction(); 
-			$sql = 'UPDATE ESG_member_picsid SET employee_id = :employee_id, key_id = :key_id';
-			$stmt = $pdo->prepare($sql);
+			$picsidsql = 'UPDATE ESG_member_picsid SET employee_id = :employee_id, key_id = :key_id';
+			$picsidstmt = $pdo->prepare($picsidsql);
 	
-			$stmt->bindValue(':employee_id', $thisid,    PDO::PARAM_INT);
-			$stmt->bindValue(':key_id', $thisid,   PDO::PARAM_INT);
+			$picsidstmt->bindValue(':employee_id', $thisid,    PDO::PARAM_INT);
+			$picsidstmt->bindValue(':key_id', $thisid,   PDO::PARAM_INT);
 	
-			$stmt->execute();
+			$picsidstmt->execute();
 	
-			if($stmt) {    
+			if($picsidstmt) {    
 				$pdo->commit();
 			}
-			
-			$result = $stmt->fetchall();
-			// print($result);
 	
 		}catch(PDOException $e) {
 			$pdo->rollback();
@@ -92,18 +89,18 @@ if($validateQ > 0) {
 
 		try {
 			$pdo->beginTransaction(); 
-			$sqlB = 'UPDATE ESG_member_picscontents SET key_id = :id, file_name = :name, file_type = :type, file_content = :content, file_size = :size WHERE key_id =' .$thisid;
-			$stmtB = $pdo->prepare($sqlB);
+			$picscontentsql = 'UPDATE ESG_member_picscontents SET key_id = :id, file_name = :name, file_type = :type, file_content = :content, file_size = :size WHERE key_id =' .$thisid;
+			$picscontentstmt = $pdo->prepare($picscontentsql);
 
-			$stmtB->bindValue(':id', $thisid,    PDO::PARAM_INT);
-			$stmtB->bindValue(':name', $name,   PDO::PARAM_STR);
-			$stmtB->bindValue(':type', $type,    PDO::PARAM_STR);
-			$stmtB->bindValue(':content', $content,    PDO::PARAM_STR);
-			$stmtB->bindValue(':size', $size,   PDO::PARAM_INT);
+			$picscontentstmt->bindValue(':id', $thisid,    PDO::PARAM_INT);
+			$picscontentstmt->bindValue(':name', $name,   PDO::PARAM_STR);
+			$picscontentstmt->bindValue(':type', $type,    PDO::PARAM_STR);
+			$picscontentstmt->bindValue(':content', $content,    PDO::PARAM_STR);
+			$picscontentstmt->bindValue(':size', $size,   PDO::PARAM_INT);
 
-			$stmtB->execute();
+			$picscontentstmt->execute();
 
-			if($stmtB) {    
+			if($picscontentstmt) {    
 				$pdo->commit();
 			}
 			

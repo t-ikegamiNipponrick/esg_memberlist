@@ -54,6 +54,17 @@ $columnCountB = count($dispatchedresult);
 $columnCountC = count($skillsresult);
 // print($columnCount);
 
+$picscountsqlQuery = "SELECT COUNT(*) FROM ESG_member_picsid WHERE employee_id = ?";
+$picscountstmtQuery = $pdo->prepare($picscountsqlQuery);
+$picscountstmtQuery->execute([$thisid]);
+$validateQ = $picscountstmtQuery->fetchColumn();
+// echo $validateQ;
+
+if($validateQ = 0) {
+    $formaction = 'img_upload_test.php';
+} else {
+    $formaction = 'img_update.php';
+}
 ?>
 
 <!DOCTYPE html>
@@ -303,15 +314,8 @@ $columnCountC = count($skillsresult);
             </form>
             <hr>
             <div class="heading-lv3 heading-margin text-center">画像アップロード</div><br>
-            <div>&nbsp;</div>
-            <div><b>画像の新規追加</b></div>
-        <form enctype="multipart/form-data" action="img_upload_test.php" method="POST">
-            <input type="file" name="photo">
-            <input type="submit" value="画像をアップロード">
-		</form>
         <div>&nbsp;</div>
-        <div><b>画像のアップデート</b></div>
-        <form enctype="multipart/form-data" action="img_update.php" method="POST">
+        <form enctype="multipart/form-data" action="<?php echo $formaction; ?>" method="POST">
             <input type="file" name="photo">
             <input type="submit" value="画像をアップロード">
 		</form>
@@ -319,7 +323,7 @@ $columnCountC = count($skillsresult);
     </body>
     <footer class="footer">
         <div class="container text-center">
-        <p class="text-muted">©︎<?php echo $year;?> developped by Tomohiro Ikegami</p>
+        <p class="text-muted">©︎<?php echo $year;?><a href="https://www.nipponrick.co.jp/" target="_blank"> 日本リック株式会社</a>  developped by Tomohiro Ikegami</p>
         </div>
     </footer>
 </html>

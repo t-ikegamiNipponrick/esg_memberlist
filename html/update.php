@@ -137,6 +137,6 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
     <body>
-    <p>更新が完了しました。<br><a href="top.php">戻る</a></p>
+    <p>更新が完了しました。<br><?php print'<a href="memberinfo.php?id=' . $thisid . '">戻る</a>'; ?></p>
     </body>
 </html>

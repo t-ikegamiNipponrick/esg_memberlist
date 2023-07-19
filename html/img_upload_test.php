@@ -27,23 +27,20 @@ if($validateQ > 0) {
 
 		try {
 			$pdo->beginTransaction(); 
-			$sqlB = 'INSERT into ESG_member_picscontents (key_id, file_name, file_type, file_content, file_size) values (:id, :name, :type, :content, :size)';
-			$stmtB = $pdo->prepare($sqlB);
+			$contentssql = 'INSERT into ESG_member_picscontents (key_id, file_name, file_type, file_content, file_size) values (:id, :name, :type, :content, :size)';
+			$contentsstmt = $pdo->prepare($contentssql);
 
-			$stmtB->bindValue(':id', $thisid,    PDO::PARAM_INT);
-			$stmtB->bindValue(':name', $name,   PDO::PARAM_STR);
-			$stmtB->bindValue(':type', $type,    PDO::PARAM_STR);
-			$stmtB->bindValue(':content', $content,    PDO::PARAM_STR);
-			$stmtB->bindValue(':size', $size,   PDO::PARAM_INT);
+			$contentsstmt->bindValue(':id', $thisid,    PDO::PARAM_INT);
+			$contentsstmt->bindValue(':name', $name,   PDO::PARAM_STR);
+			$contentsstmt->bindValue(':type', $type,    PDO::PARAM_STR);
+			$contentsstmt->bindValue(':content', $content,    PDO::PARAM_STR);
+			$contentsstmt->bindValue(':size', $size,   PDO::PARAM_INT);
 
-			$stmtB->execute();
+			$contentsstmt->execute();
 
-			if($stmtB) {    
+			if($contentsstmt) {    
 				$pdo->commit();
 			}
-			
-			$resultB = $stmtB->fetchall();
-			// print($result);
 
 		}catch(PDOException $e) {
 			$pdo->rollback();
@@ -70,20 +67,17 @@ if($validateQ > 0) {
 
 		try {
 			$pdo->beginTransaction(); 
-			$sql = 'INSERT into ESG_member_picsid values (:employee_id, :key_id)';
-			$stmt = $pdo->prepare($sql);
+			$picsidsql = 'INSERT into ESG_member_picsid values (:employee_id, :key_id)';
+			$picsidstmt = $pdo->prepare($picsidsql);
 	
-			$stmt->bindValue(':employee_id', $thisid,    PDO::PARAM_INT);
-			$stmt->bindValue(':key_id', $thisid,   PDO::PARAM_INT);
+			$picsidstmt->bindValue(':employee_id', $thisid,    PDO::PARAM_INT);
+			$picsidstmt->bindValue(':key_id', $thisid,   PDO::PARAM_INT);
 	
-			$stmt->execute();
+			$picsidstmt->execute();
 	
-			if($stmt) {    
+			if($picsidstmt) {    
 				$pdo->commit();
 			}
-			
-			$result = $stmt->fetchall();
-			// print($result);
 	
 		}catch(PDOException $e) {
 			$pdo->rollback();
@@ -92,23 +86,20 @@ if($validateQ > 0) {
 
 		try {
 			$pdo->beginTransaction(); 
-			$sqlB = 'INSERT into ESG_member_picscontents (key_id, file_name, file_type, file_content, file_size) values (:id, :name, :type, :content, :size)';
-			$stmtB = $pdo->prepare($sqlB);
+			$contentssql = 'INSERT into ESG_member_picscontents (key_id, file_name, file_type, file_content, file_size) values (:id, :name, :type, :content, :size)';
+			$contentsstmt = $pdo->prepare($contentssql);
 
-			$stmtB->bindValue(':id', $thisid,    PDO::PARAM_INT);
-			$stmtB->bindValue(':name', $name,   PDO::PARAM_STR);
-			$stmtB->bindValue(':type', $type,    PDO::PARAM_STR);
-			$stmtB->bindValue(':content', $content,    PDO::PARAM_STR);
-			$stmtB->bindValue(':size', $size,   PDO::PARAM_INT);
+			$contentsstmt->bindValue(':id', $thisid,    PDO::PARAM_INT);
+			$contentsstmt->bindValue(':name', $name,   PDO::PARAM_STR);
+			$contentsstmt->bindValue(':type', $type,    PDO::PARAM_STR);
+			$contentsstmt->bindValue(':content', $content,    PDO::PARAM_STR);
+			$contentsstmt->bindValue(':size', $size,   PDO::PARAM_INT);
 
-			$stmtB->execute();
+			$contentsstmt->execute();
 
-			if($stmtB) {    
+			if($contentsstmt) {    
 				$pdo->commit();
 			}
-			
-			$resultB = $stmt->fetchall();
-			// print($result);
 
 		}catch(PDOException $e) {
 			$pdo->rollback();
@@ -132,7 +123,7 @@ if($validateQ > 0) {
 		<title>upload処理</title>
 	</head>
 	<body>
-		<p>アップロード完了！</p>
+		<p>以下の画像をアップロードしました。</p>
 		<img src="<?php print UPLOADPASS.$name ?>">
 		<a href="top.php">戻る</a>
 	
