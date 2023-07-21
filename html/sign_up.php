@@ -43,6 +43,10 @@
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     }
+
+    .form check tecxt-start my-3 {
+    text-align:left;
+    }
   </style>
 </head>
 
@@ -57,16 +61,27 @@
       </div>
       <div>&nbsp;</div>
       <div class="form-floating">
-      <label for="floatingPassword">パスワード</label>
-      <input type="password" data-toggle="password" class="form-control" name="password" id="floatingPassword" placeholder="パスワード" required>
+        <label for="floatingInput">メールアドレス</label>
+        <input type="text" class="form-control" name="user_email" id="floatingInput" placeholder="xxx@nipponrick.co.jp" required>
+      </div>
+      <div>&nbsp;</div>
+      <div class="form-floating">
+        <label for="floatingPassword">パスワード</label>
+        <input type="password" data-toggle="password" class="form-control" name="password" id="floatingPassword" placeholder="パスワード" required>
       </div>
 
-      <div class="form-check text-start my-3">
-        <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
+      <p class="form-check text-start my-3">
+        <input class="form-check-input" name="checking_admin" value="0" type="checkbox" id="flexCheckDefault">
         <label class="form-check-label" for="flexCheckDefault">
-          状態を記憶する
+          管理者用アカウント
         </label>
-      </div>
+      </p>
+      <p class="form-check text-start my-3">
+        <input class="form-check-input" name="checking_admin" value="1" type="checkbox" id="flexCheckDefault">
+        <label class="form-check-label" for="flexCheckDefault">
+          一般アカウント
+        </label>
+     </p>
       <button class="btn btn-primary w-100 py-2" type="submit">サインアップ</button>
       <p class="mt-5 mb-3 text-body-secondary">日本リック株式会社第二事業本部ESG</p>
       <p class="mt-5 mb-3 text-body-secondary">&copy; 2023- developped by T. Ikegami</p>

@@ -23,32 +23,32 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $perPage = isset($_GET['per_page']) ? $_GET['per_page'] : $defaultPerPage;
 $offset = ($page - 1) * $perPage;
 
-$sessionId = htmlspecialchars($sessionId, ENT_QUOTES, 'UTF-8');
+// $sessionId = htmlspecialchars($sessionId, ENT_QUOTES, 'UTF-8');
 $sortBy = htmlspecialchars($sortBy, ENT_QUOTES, 'UTF-8');
 $sortOrder = htmlspecialchars($sortOrder, ENT_QUOTES, 'UTF-8');
 $page = htmlspecialchars($page, ENT_QUOTES, 'UTF-8');
 $perPage = htmlspecialchars($perPage, ENT_QUOTES, 'UTF-8');
 $offset = htmlspecialchars($offset, ENT_QUOTES, 'UTF-8');
 
-
-//実行したいSQLを準備する
-$sql = 'SELECT * FROM ESG_member_index';
+$indexsql = 'SELECT * FROM ESG_member_index';
 
 if(!empty($sortBy) && !empty($sortOrder)) {
-    $sql .= ' ORDER BY ' . $sortBy . ' ' . $sortOrder;
+    $indexsql .= ' ORDER BY ' . $sortBy . ' ' . $sortOrder;
 }
 
-$sql .= ' LIMIT ' . $offset . ', ' . $perPage;
+$indexsql .= ' LIMIT ' . $offset . ', ' . $perPage;
 
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-$result = $stmt->fetchall(PDO::FETCH_ASSOC);
+$indexstmt = $pdo->prepare($indexsql);
+$indexstmt->execute();
+$result = $indexstmt->fetchall(PDO::FETCH_ASSOC);
 
 $countsql = 'SELECT COUNT(*) AS count FROM ESG_member_index';
 $countstmt = $pdo->prepare($countsql);
 $countstmt->execute();
 $totalCount = $countstmt->fetch(PDO::FETCH_ASSOC)['count'];
 $totalPages = ceil($totalCount / $perPage);
+
+require_once 'admincheck.php';
 ?>
 
 <!DOCTYPE html>
@@ -117,7 +117,7 @@ $totalPages = ceil($totalCount / $perPage);
                 </button>
                 <div class="collapse navbar-collapse justify-content-end" id="navbarNav4">
                     <ul class="navbar-nav">
-                        <?php if($sessionId == 11400) {
+                        <?php if($resultadmin['checking_admin'] == 0) {
                         print '<li class="nav-item active">';
                         print '<a class="nav-link" href="member_inputform.php">社員情報の追加<span class="sr-only">(current)</span></a>';
                         print '</li>';

@@ -1,16 +1,20 @@
 <?php
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_id = $_POST['user_id'];
-    $password = $_POST['password'];
+    $user_id = htmlspecialchars($_POST['user_id'], ENT_QUOTES, 'UTF-8');
+    $user_email = htmlspecialchars($_POST['user_email'], ENT_QUOTES, 'UTF-8');
+    $password = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
+    $checking_admin = htmlspecialchars($_POST['checking_admin'], ENT_QUOTES, 'UTF-8');
 
     require_once 'dbindex.php';
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    $sql = 'INSERT INTO ESG_login VALUES (:user_id, :password)';
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-    $stmt->bindValue(':password', $hashedPassword, PDO::PARAM_STR);
-    $stmt->execute();
+    $signinsql = 'INSERT INTO ESG_login VALUES (:user_id, :user_email, :password, :checking_admin)';
+    $signinstmt = $pdo->prepare($signinsql);
+    $signinstmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $signinstmt->bindValue(':user_email', $user_email, PDO::PARAM_STR);
+    $signinstmt->bindValue(':password', $hashedPassword, PDO::PARAM_STR);
+    $signinstmt->bindValue(':checking_admin', $checking_admin, PDO::PARAM_INT);
+    $signinstmt->execute();
 
     echo 'ユーザーの追加が完了しました。';
 }
@@ -27,6 +31,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
     <body>
-     <a href="sign_in.php">サインイン</a>
+     <a href="sign_in.php">サインインページへ</a>
     </body>
 </html>

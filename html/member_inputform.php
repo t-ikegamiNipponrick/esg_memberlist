@@ -5,6 +5,8 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+require_once 'url_validation.php';
+
 $sessionId = $_SESSION['user_id'];
 ?>
 
@@ -351,6 +353,13 @@ $sessionId = $_SESSION['user_id'];
                         }
                     }
                 </script>
+            </form>
+            <hr>
+        <div class="heading-lv3 heading-margin text-center">画像アップロード</div><br>
+            <div>&nbsp;</div>
+            <form enctype="multipart/form-data" action="img_upload_test.php" method="POST">
+                <input type="file" name="photo">
+                <input type="submit" value="画像をアップロード">
             </form>
         </div>
     </body>

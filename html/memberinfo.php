@@ -8,6 +8,8 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+require_once 'url_validation.php';
+
 require_once 'dbindex.php';
 
 $sessionId = $_SESSION['user_id'];
@@ -37,6 +39,8 @@ $skillsstmt->bindValue(':id', $id,  PDO::PARAM_INT);
 $skillsstmt->execute();
 
 $skillsresult = $skillsstmt->fetchall();
+
+require_once 'admincheck.php';
 ?>
 
 <!DOCTYPE html>
@@ -196,7 +200,7 @@ $skillsresult = $skillsstmt->fetchall();
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav4">
                 <ul class="navbar-nav">
-                    <?php if($sessionId == 11400) {
+                    <?php if($resultadmin['check_admin'] == 0) {
                         print '<li class="nav-item active">';
                         print '<a class="nav-link" href="member_inputform.php">社員情報の追加<span class="sr-only">(current)</span></a>';
                         print '</li>';

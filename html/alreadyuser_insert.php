@@ -12,13 +12,24 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
- $S_dispatched = $_POST['dispatched_sofar'];
- $S_tasks = $_POST['tasks_sofar'];
- $tasks_detail = $_POST['tasks_detail'];
- $date_started = $_POST['tasks_sofarStart'];
- $date_finished = $_POST['tasks_sofarFin'];
- $skill_name = $_POST['skill_name'];
- $skill_date = $_POST['skill_date'];
+function sanitaizeArray($array){
+    foreach($array as $value) {
+        if(is_array($value)) {
+            $value = sanitaizeArray($value);
+        }else{
+            $value = htmlspecialchars(($value, ENT_QUOTES, 'UTF-8'))
+        }
+    }
+    return $array;
+}
+
+ $S_dispatched = sanitaizeArray($_POST['dispatched_sofar']);
+ $S_tasks = sanitaizeArray($_POST['tasks_sofar']);
+ $tasks_detail = sanitaizeArray($_POST['tasks_detail']);
+ $date_started = sanitaizeArray($_POST['tasks_sofarStart']);
+ $date_finished = sanitaizeArray($_POST['tasks_sofarFin']);
+ $skill_name = sanitaizeArray($_POST['skill_name']);
+ $skill_date = sanitaizeArray($_POST['skill_date']);
      // print($id. $name. $from. $entry. $dispatched. $tasks. $S_dispatched. $S_tasks. $date_started. $date_finished. $skill_name. $skill_date);
 
  $lengthpostD = count($S_tasks);

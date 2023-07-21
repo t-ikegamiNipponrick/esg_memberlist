@@ -5,19 +5,30 @@
         exit();
     }
 
-    $id = $_POST['employee_id'];
-    $name = $_POST['member_name'];
-    $from = $_POST['member_from'];
-    $entry = $_POST['DateEntry'];
-    $dispatched = $_POST['dispatched'];
-    $tasks = $_POST['tasks'];
-    $S_dispatched = $_POST['dispatched_sofar'];
-    $S_tasks = $_POST['tasks_sofar'];
-    $date_started = $_POST['tasks_sofarStart'];
-    $date_finished = $_POST['tasks_sofarFin'];
-    $tasks_detail = $_POST['tasks_detail'];
-    $skill_name = $_POST['skill_name'];
-    $skill_date = $_POST['skill_date'];
+    function sanitaizeArray($array){
+        foreach($array as $value) {
+            if(is_array($value)) {
+                $value = sanitaizeArray($value);
+            }else{
+                $value = htmlspecialchars(($value, ENT_QUOTES, 'UTF-8'))
+            }
+        }
+        return $array;
+    }
+
+    $id = htmlspecialchars($_POST['employee_id'], ENT_QUOTES, 'UTF-8');
+    $name = htmlspecialchars($_POST['member_name'], ENT_QUOTES, 'UTF-8');
+    $from = htmlspecialchars($_POST['member_from'], ENT_QUOTES, 'UTF-8');
+    $entry = htmlspecialchars($_POST['DateEntry'], ENT_QUOTES, 'UTF-8');
+    $dispatched = htmlspecialchars($_POST['dispatched'], ENT_QUOTES, 'UTF-8');
+    $tasks = htmlspecialchars($_POST['tasks'], ENT_QUOTES, 'UTF-8');
+    $S_dispatched = sanitaizeArray($_POST['dispatched_sofar']);
+    $S_tasks = sanitaizeArray($_POST['tasks_sofar']);
+    $date_started = sanitaizeArray($_POST['tasks_sofarStart']);
+    $date_finished = sanitaizeArray($_POST['tasks_sofarFin']);
+    $tasks_detail = sanitaizeArray($_POST['tasks_detail']);
+    $skill_name = sanitaizeArray($_POST['skill_name']);
+    $skill_date = sanitaizeArray($_POST['skill_date']);
 
     // print($id. $name. $from. $entry. $dispatched. $tasks. $S_dispatched[1]. $S_tasks[1]. $date_started[1]. $date_finished[1]. $skill_name[1]. $skill_date[1]);
 

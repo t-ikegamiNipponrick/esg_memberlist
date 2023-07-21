@@ -1,34 +1,28 @@
 <?php
-if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_id = $_POST['user_id'];
-    $password = $_POST['password'];
+session_start();
 
-    if(validateLogin($user_id, $password)) {
-        session_start();
-        $_SESSION['user_id'] = $user_id;
-        header('LOCATION: top.php');
-        exit();
-    } else {
-        $errorMessage = 'ユーザー名またはパスワードが正しくありません';
-    }
+require_once 'dbindex.php';
+$passwordResetToken = filter_input(INPUT_GET, 'token');
+$sql = 'SELECT * FROM ESG_password_resets WHERE token = :token';
+$stmt = $pdo->prepare($sql);
+$stmt->bindValue(':token', $passwordResetToken, PDO::PARAM_STR);
+$stmt->execute();
+$passwordResetuser = $stmt->fetch(\PDO::FETCH_OBJ);
+
+if (!$passwordResetuser) exit('無効なURLです');
+
+$tokenValidPeriod = (new DateTime())->modify("-24 hour")->format('Y-m-d H:i:s');
+
+if ($passwordResetuser->token_sent_at < $tokenValidPeriod) {
+    exit('有効期限切れです');
 }
 
-function validateLogin($user_id, $password) {
-    require_once 'dbindex.php';
-
-    $sql = 'SELECT * FROM ESG_login WHERE user_id = :user_id';
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-    $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if($user && password_verify($password, $user['password'])) {
-        return true;
-    } else {
-        return false;
-    }
+if (empty($_SESSION['_csrf_token'])) {
+    $_SESSION['_csrf_token'] = bin2hex(random_bytes(32));
 }
 
+
+$errorMessage = "パスワードが一致しません。";
 ?>
 
 <!doctype html>
@@ -36,7 +30,7 @@ function validateLogin($user_id, $password) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>サインインページ</title>
+  <title>パスワードのリセット</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <!-- CSSの設定ファイル -->
@@ -89,31 +83,25 @@ function validateLogin($user_id, $password) {
 </head>
 <body class="d-flex align-items-center py-4 bg-body-tertiary">
   <main class="form-signin w-100 m-auto">
-    <form class="text-center" method="post">
-      <h1 class="h3 mb-3 fw-normal">サインインして下さい</h1>
+    <form class="text-center" action="reset.php" method="post">
+      <h1 class="h3 mb-3 fw-normal">新しいパスワードを入力してください</h1>
       <font color="red">
-        <? print($errorMessage); ?><br>
+      <?php echo isset($_SESSION['errorMessage']) ? $_SESSION['errorMessage'] : ''; ?><br>
       </font>
+      <input type="hidden" name="_csrf_token" value="<?= $_SESSION['_csrf_token']; ?>">
+      <input type="hidden" name="password_reset_token" value="<?= $passwordResetToken ?>">
       <div class="form-floating">
-        <label for="floatingInput">ユーザーID（社員番号）</label>  
-        <input type="text" class="form-control" name="user_id" id="floatingInput" placeholder="社員番号" required>
+        <label for="floatingInput">新しいパスワード</label>  
+        <input type="password" data-toggle="password" class="form-control" name="password" id="floatingPassword" required>
       </div>
       <div>&nbsp;</div>
       <div class="form-floating">
-        <label for="floatingPassword">パスワード</label>
-        <input type="password" data-toggle="password" class="form-control" name="password" id="floatingPassword" placeholder="パスワード" required>
+        <label for="floatingPassword">新しいパスワード（確認用）</label>
+        <input type="password" data-toggle="password" class="form-control" name="password_confirmation" id="floatingPassword" required>
       </div>
-
-      <div class="form-check text-start my-3">
-        <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
-        <label class="form-check-label" for="flexCheckDefault">
-          状態を記憶する
-        </label>
-      </div>
-      <button class="btn btn-primary w-100 py-2" type="submit">サインイン</button>
-      <a href="resetpassword_request_form.php">パスワードを忘れましたか？</a>
       <div>&nbsp;</div>
-      <a href="sign_up.php" class="btn btn-primary btn-lg">新規登録はこちら</a>
+      <button class="btn btn-primary w-100 py-2" type="submit">パスワードの変更</button>
+      <div>&nbsp;</div>
       <p class="mt-5 mb-3 text-body-secondary">日本リック株式会社第二事業本部ESG</p>
       <p class="mt-5 mb-3 text-body-secondary">&copy; 2023- developped by T. Ikegami</p>
    </form>

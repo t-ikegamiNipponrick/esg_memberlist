@@ -5,6 +5,8 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+require_once 'url_validation.php';
+
 // 正規表現処理
 /*
 if(!isset($_POST['word'])) {
@@ -45,6 +47,8 @@ $countstmt->execute();
 $totalCount = $countstmt->fetch(PDO::FETCH_ASSOC)['count'];
 $totalPages = ceil($totalCount / $perPage);
 // print($totalPages);
+
+require_once 'admincheck.php';
 
 try{
     //実行したいSQLを準備する
@@ -133,7 +137,7 @@ try{
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav4">
                 <ul class="navbar-nav">
-                    <?php if($sessionId == 11400) {
+                    <?php if($resultadmin['check_admin'] == 0) {
                         print '<li class="nav-item active">';
                         print '<a class="nav-link" href="member_inputform.php">社員情報の追加<span class="sr-only">(current)</span></a>';
                         print '</li>';

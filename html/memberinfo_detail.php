@@ -12,6 +12,8 @@
      exit();
  }
 
+require_once 'url_validation.php';
+
 $sessionId = $_SESSION['user_id'];
 require_once 'dbindex.php';
 
@@ -26,6 +28,7 @@ $dispatchedstmt->execute();
 //データベースの値を取得
 $dispatchedresult = $dispatchedstmt->fetchall();
 
+require_once 'admincheck.php';
 ?>
 
 <!DOCTYPE html>
@@ -149,7 +152,7 @@ $dispatchedresult = $dispatchedstmt->fetchall();
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav4">
                 <ul class="navbar-nav">
-                    <?php if($sessionId == 11400) {
+                    <?php if($resultadmin['check_admin'] == 0) {
                         print '<li class="nav-item active">';
                         print '<a class="nav-link" href="memberinputForm.php">社員情報の追加<span class="sr-only">(current)</span></a>';
                         print '</li>';

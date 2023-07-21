@@ -12,6 +12,8 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+require_once 'url_validation.php';
+
 require_once 'dbindex.php';
 $sessionId = $_SESSION['user_id'];
 
