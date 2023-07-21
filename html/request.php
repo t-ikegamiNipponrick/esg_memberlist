@@ -1,4 +1,12 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
     session_start();
     $csrfToken = filter_input(INPUT_POST, '_csrf_token');
 
@@ -61,6 +69,17 @@
         mb_language("Japanese");
         mb_internal_encoding("UTF-8");
 
+        $mail = new PHPMailer(true);
+        $mail->CharSet = 'utf-8';
+
+        $mail->isSMTP();
+        $mail->Host = "smtp.office365.com";
+        $mail->SMTPAuth = true;
+        $mail->Username = $_ENV['usermail'];
+        $mail->Password = $_ENV['userpass'];
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
+
         $url = "http://localhost:8080/resetpassword_form.php?token={$passwordResetToken}";
         $subject = "パスワードリセット用URLをお送りします";
 
@@ -69,15 +88,14 @@
         {$url}
 EOD;
 
-        $headers = "From: esgmemberlist.info@gmail.com\n";
-        $headers .= "Content-Type: text/plain";
-        $smtpPassword = $_ENV['GMAIL_PASSWORD'];
+        $mail->setFrom('t-ikegami@nipponrick.co.jp', '差出人名'); 
+        $mail->addAddress($email, '受信者名');   
 
-        $isSent = mb_send_mail($email, $subject, $body, $headers);
-        
-        if(!$isSent){
-            throw new Exception('メールの送信に失敗しました。');
-        } 
+        $mail->Subject = $subject; 
+        $mail->Body    = $body;  
+
+        $mail->send();
+
         $pdo->commit();
     } catch (Exception $e) {
         $pdo->rollBack();

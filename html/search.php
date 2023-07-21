@@ -7,19 +7,8 @@ if (!isset($_SESSION['user_id'])) {
 
 require_once 'url_validation.php';
 
-// 正規表現処理
-/*
-if(!isset($_POST['word'])) {
-    header('Location:http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/');
-    exit();
-} */
-
 $word = trim(htmlspecialchars($_POST['word'],ENT_QUOTES));
 $word = str_replace("　","",$word);
-/*  if($word === "") {
-        $word = "キーワード指定がありません";
-    } */
-// print($word);
 define('WORD', $word);
 
 $sessionId = $_SESSION['user_id'];
