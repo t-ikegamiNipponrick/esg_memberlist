@@ -1,42 +1,9 @@
-<?php
-if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_id = $_POST['user_id'];
-    $password = $_POST['password'];
-
-    if(validateLogin($user_id, $password)) {
-        session_start();
-        $_SESSION['user_id'] = $user_id;
-        header('LOCATION: top.php');
-        exit();
-    } else {
-        $errorMessage = 'ユーザー名またはパスワードが正しくありません';
-    }
-}
-
-function validateLogin($user_id, $password) {
-    require_once 'dbindex.php';
-
-    $sql = 'SELECT * FROM ESG_login WHERE user_id = :user_id';
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-    $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if($user && password_verify($password, $user['password'])) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-?>
-
 <!doctype html>
 <html lang="ja">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>サインインページ</title>
+  <title>パスワードのリセット</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <!-- CSSの設定ファイル -->
@@ -89,8 +56,8 @@ function validateLogin($user_id, $password) {
 </head>
 <body class="d-flex align-items-center py-4 bg-body-tertiary">
   <main class="form-signin w-100 m-auto">
-    <form class="text-center" method="post">
-      <h1 class="h3 mb-3 fw-normal">サインインして下さい</h1>
+    <form class="text-center" action="secretquestion_verify.php"  method="post">
+      <h1 class="h3 mb-3 fw-normal">必要な情報を入力してください</h1>
       <font color="red">
         <? print($errorMessage); ?><br>
       </font>
@@ -100,20 +67,21 @@ function validateLogin($user_id, $password) {
       </div>
       <div>&nbsp;</div>
       <div class="form-floating">
-        <label for="floatingPassword">パスワード</label>
-        <input type="password" data-toggle="password" class="form-control" name="password" id="floatingPassword" placeholder="パスワード" required>
+        <label for="floatingInput">秘密の質問</label>
+        <select class="form-select" name="secret_question" aria-label="Default select example" required>
+          <option selected>質問を選択してください</option>
+          <option value="あなたが生まれた場所は？">あなたが生まれた場所は？</option>
+          <option value="子供のときの一番の思い出は？">子供のときの一番の思い出は？</option>
+          <option value="中学2年生の時の担任の先生の名前は？">中学2年生の時の担任の先生の名前は？</option>
+        </select>
       </div>
-
-      <div class="form-check text-start my-3">
-        <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
-        <label class="form-check-label" for="flexCheckDefault">
-          状態を記憶する
-        </label>
-      </div>
-      <button class="btn btn-primary w-100 py-2" type="submit">サインイン</button>
-      <a href="secretquestion_inputform.php">パスワードを忘れましたか？</a>
       <div>&nbsp;</div>
-      <a href="sign_up.php" class="btn btn-primary btn-lg">新規登録はこちら</a>
+      <div class="form-floating">
+        <label for="floatingInput">秘密の質問の答え</label>
+        <input type="text" class="form-control" name="secret_answer" id="floatingInput" required>
+      </div>
+      <div>&nbsp;</div>
+      <button class="btn btn-primary w-100 py-2" type="submit">リセット</button>
       <p class="mt-5 mb-3 text-body-secondary">日本リック株式会社第二事業本部ESG</p>
       <p class="mt-5 mb-3 text-body-secondary">&copy; 2023- developped by T. Ikegami</p>
    </form>

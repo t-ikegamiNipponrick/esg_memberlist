@@ -1,6 +1,7 @@
 <?php
 session_start();
-
+$id = $_GET['id']
+/*
 require_once 'dbindex.php';
 $passwordResetToken = filter_input(INPUT_GET, 'token');
 $sql = 'SELECT * FROM ESG_password_resets WHERE token = :token';
@@ -23,6 +24,7 @@ if (empty($_SESSION['_csrf_token'])) {
 
 
 $errorMessage = "パスワードが一致しません。";
+*/
 ?>
 
 <!doctype html>
@@ -90,6 +92,7 @@ $errorMessage = "パスワードが一致しません。";
       </font>
       <input type="hidden" name="_csrf_token" value="<?= $_SESSION['_csrf_token']; ?>">
       <input type="hidden" name="password_reset_token" value="<?= $passwordResetToken ?>">
+      <input type="hidden" name="user_id" value="<?= $id ?>">
       <div class="form-floating">
         <label for="floatingInput">新しいパスワード</label>  
         <input type="password" data-toggle="password" class="form-control" name="password" id="floatingPassword" required>

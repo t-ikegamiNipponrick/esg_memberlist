@@ -69,19 +69,27 @@
         <label for="floatingPassword">パスワード</label>
         <input type="password" data-toggle="password" class="form-control" name="password" id="floatingPassword" placeholder="パスワード" required>
       </div>
-
+      <div>&nbsp;</div>
+      <div class="form-floating">
+        <label for="floatingInput">秘密の質問</label>
+        <select class="form-select" name="secret_question" aria-label="Default select example">
+          <option selected>質問を選択してください</option>
+          <option value="あなたが生まれた場所は？">あなたが生まれた場所は？</option>
+          <option value="子供のときの一番の思い出は？">子供のときの一番の思い出は？</option>
+          <option value="中学2年生の時の担任の先生の名前は？">中学2年生の時の担任の先生の名前は？</option>
+        </select>
+      </div>
+      <div>&nbsp;</div>
+      <div class="form-floating">
+        <label for="floatingInput">秘密の質問の答え</label>
+        <input type="text" class="form-control" name="secret_answer" id="floatingInput" required>
+      </div>
       <p class="form-check text-start my-3">
         <input class="form-check-input" name="checking_admin" value="0" type="checkbox" id="flexCheckDefault">
         <label class="form-check-label" for="flexCheckDefault">
-          管理者用アカウント
+          管理者用アカウントで登録する
         </label>
       </p>
-      <p class="form-check text-start my-3">
-        <input class="form-check-input" name="checking_admin" value="1" type="checkbox" id="flexCheckDefault">
-        <label class="form-check-label" for="flexCheckDefault">
-          一般アカウント
-        </label>
-     </p>
       <button class="btn btn-primary w-100 py-2" type="submit">サインアップ</button>
       <p class="mt-5 mb-3 text-body-secondary">日本リック株式会社第二事業本部ESG</p>
       <p class="mt-5 mb-3 text-body-secondary">&copy; 2023- developped by T. Ikegami</p>
