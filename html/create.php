@@ -10,7 +10,7 @@
             if(is_array($value)) {
                 $value = sanitaizeArray($value);
             }else{
-                $value = htmlspecialchars(($value, ENT_QUOTES, 'UTF-8'))
+                $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
             }
         }
         return $array;
@@ -29,6 +29,12 @@
     $tasks_detail = sanitaizeArray($_POST['tasks_detail']);
     $skill_name = sanitaizeArray($_POST['skill_name']);
     $skill_date = sanitaizeArray($_POST['skill_date']);
+
+    if($id == null || $name == null || $from == null || $entry == null || $dispatched == null || $tasks == null || $S_dispatched == null
+     || $S_tasks == null || $date_started == null || $date_finished == null || $tasks_detail == null || $skill_name == null || $skill_date == null) {
+        header('Location: member_inputform.php');
+        $errorMessage = '未入力の項目があります。';
+    }
 
     // print($id. $name. $from. $entry. $dispatched. $tasks. $S_dispatched[1]. $S_tasks[1]. $date_started[1]. $date_finished[1]. $skill_name[1]. $skill_date[1]);
 

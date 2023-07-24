@@ -16,8 +16,8 @@ function sanitaizeArray($array){
     foreach($array as $value) {
         if(is_array($value)) {
             $value = sanitaizeArray($value);
-        }else{
-            $value = htmlspecialchars(($value, ENT_QUOTES, 'UTF-8'))
+        } else {
+            $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
         }
     }
     return $array;

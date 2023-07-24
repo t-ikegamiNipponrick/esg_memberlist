@@ -1,6 +1,7 @@
 <?php
 session_start();
 $id = $_GET['id']
+
 /*
 require_once 'dbindex.php';
 $passwordResetToken = filter_input(INPUT_GET, 'token');

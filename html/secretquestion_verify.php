@@ -13,7 +13,7 @@ $verifyresult = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if($verifyresult['secret_question'] == $secretquestion) {
     if($verifyresult['secret_answer'] == $secretanswer) {
-        header("Location: resetpassword_form.php?id='.$user_id.'");
+        header("Location: resetpassword_form.php?id=$user_id");
     }else{
         $errorMessage = '秘密の質問の回答が間違っています。';
     }

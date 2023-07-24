@@ -158,6 +158,9 @@ $sessionId = $_SESSION['user_id'];
         <div class="content">
             <form name="register" onsubmit="return validateForm()" method="post" action="create.php" >
                 <h3 class="heading-lv3 heading-margin text-center">社員情報入力</h3>
+                <font color="red">
+                    <?=$errorMessage?>
+                </font>
                 <section class="row">
                     <table class="table">
                         <tr>

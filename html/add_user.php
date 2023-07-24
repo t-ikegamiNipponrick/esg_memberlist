@@ -1,4 +1,5 @@
 <?php
+session_start();
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = htmlspecialchars($_POST['user_id'], ENT_QUOTES, 'UTF-8');
     $user_email = htmlspecialchars($_POST['user_email'], ENT_QUOTES, 'UTF-8');
@@ -7,11 +8,38 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $secretanswer = htmlspecialchars($_POST['secret_answer'], ENT_QUOTES, 'UTF-8');
     $checking_admin = htmlspecialchars($_POST['checking_admin'], ENT_QUOTES, 'UTF-8');
 
+    if(!preg_match('/^[0-9]+$/', $user_id)) {
+        $_SESSION['$errorMessage'] = "社員番号は数字のみで入力してください";
+        header('Location: sign_up.php');
+        exit();
+    }
+    
+    if(!preg_match('/^[a-zA-Z0-9]+$/', $password)) {
+        $_SESSION['errorMessage'] = 'パスワードは半角英数字のみで入力してください。';
+        header('Location: sign_up.php');
+        exit();
+    } 
+
     if(empty($checking_admin)){
         $checking_admin = 1;
     }
-    
-    var_dump($secretquestion);
+
+    if(isValidEmail($user_email) == false){
+        $_SESSION['errorMessage'] = 'メールアドレスの形式が無効です。';
+        header('Location: sign_up.php');
+        exit();
+    } 
+
+
+    function isValidEmail($email) {
+        $pattern = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
+
+        if (preg_match($pattern, $email)) {
+            return true; 
+        } else {
+            return false;
+        }
+    } 
 
     require_once 'dbindex.php';
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -26,7 +54,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $signinstmt->bindValue(':checking_admin', $checking_admin, PDO::PARAM_INT);
     $signinstmt->execute();
 
-    echo 'ユーザーの追加が完了しました。';
+    $success = 'ユーザーの追加が完了しました。';
 }
 ?>
 
@@ -41,6 +69,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
     <body>
+        <p><?=print($success);?></p>
      <a href="sign_in.php">サインインページへ</a>
     </body>
 </html>

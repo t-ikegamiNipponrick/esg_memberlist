@@ -1,32 +1,54 @@
 <?php
+
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_POST['user_id'];
     $password = $_POST['password'];
 
     if(validateLogin($user_id, $password)) {
+      if(isUserExists($user_id)) {
         session_start();
         $_SESSION['user_id'] = $user_id;
         header('LOCATION: top.php');
         exit();
+      } else {
+        session_start();
+        $_SESSION['user_id'] = $user_id;
+        header('LOCATION: member_inputform.php');
+        exit();
+      } 
     } else {
         $errorMessage = 'ユーザー名またはパスワードが正しくありません';
     }
 }
 
+function isUserExists($user_id) {
+  require_once 'dbindex.php';
+  $pdo = connect_db();
+  $countsql = 'SELECT COUNT(*) FROM ESG_memberid_info WHERE employee_id = :employee_id';
+  $countstmt = $pdo->prepare($countsql);
+  $countstmt->bindValue(':employee_id', $user_id, PDO::PARAM_INT);
+  $countstmt->execute();
+  $usercount = $countstmt->fetchColumn();
+  if($usercount > 0){
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function validateLogin($user_id, $password) {
-    require_once 'dbindex.php';
+  require_once 'dbindex.php';
+  $sql = 'SELECT * FROM ESG_login WHERE user_id = :user_id';
+  $stmt = $pdo->prepare($sql);
+  $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+  $stmt->execute();
+  $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $sql = 'SELECT * FROM ESG_login WHERE user_id = :user_id';
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-    $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if($user && password_verify($password, $user['password'])) {
-        return true;
-    } else {
-        return false;
-    }
+  if($user && password_verify($password, $user['password'])) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 ?>

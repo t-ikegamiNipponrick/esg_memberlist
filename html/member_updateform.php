@@ -232,37 +232,37 @@ if($validateQ = 0) {
                         <tr>
                             <th scope="col">社員番号</th>
                             <td>
-                                <input type="text" name="employee_id" value=<?= $rA['employee_id']; ?> required>
+                                <input type="text" name="employee_id" value="<?= $rA['employee_id']; ?>" required>
                             </td>
                         </tr>
                         <tr>
                             <th scope="col">氏名</th>
                             <td>
-                                <input type="text" name="member_name" value=<?= $rA['member_name']; ?> required>
+                                <input type="text" name="member_name" value="<?= $rA['member_name']; ?>" required>
                             </td>
                         </tr>
                         <tr>
                             <th scope="col">出身地</th>
                             <td>
-                                <input type="text" name="member_from" value=<?= $rA['member_from']; ?> required>
+                                <input type="text" name="member_from" value="<?= $rA['member_from']; ?>" required>
                             </td>
                         </tr>
                         <tr>
                             <th scope="col">入社年月</th>
                             <td>
-                                <input type="date" name="DateEntry" value=<?= $rA['DateEntry']; ?> required>
+                                <input type="date" name="DateEntry" value="<?= $rA['DateEntry']; ?>" required>
                             </td>
                         </tr>
                         <tr>
                             <th scope="col">現在の派遣先</th>
                             <td>
-                                <input type="text" name="dispatched" value=<?= $rA['dispatched']; ?> required>
+                                <input type="text" name="dispatched" value="<?= $rA['dispatched']; ?>" required>
                             </td>
                         </tr>  
                         <tr>
                             <th scope="col">現在の業務内容</th>
                             <td>
-                                <input type="text" name="tasks" value=<?= $rA['tasks']; ?> required>
+                                <input type="text" name="tasks" value="<?= $rA['tasks']; ?>" required>
                             </td>
                         </tr> 
                         <?php } ?>
@@ -278,13 +278,13 @@ if($validateQ = 0) {
                             <th scope="col">これまでの派遣先<?=$i+1?></th> 
                             <td>
                                 <div>派遣先</div>   
-                                <input type="text" name=<?="dispatched_sofar[$i]" ?> value=<?= $rB['dispatched_sofar']; ?> required>       
+                                <input type="text" name=<?="dispatched_sofar[$i]" ?> value="<?= $rB['dispatched_sofar']; ?>" required>       
           '                      <div>業務内容</div>
-                                <input type="text" name=<?="tasks_sofar[$i]"?> value=<?= $rB['tasks_sofar']; ?> required>
+                                <input type="text" name=<?="tasks_sofar[$i]"?> value="<?= $rB['tasks_sofar']; ?>" required>
                                 <div>期間</div>
-                                <input type="date" name=<?="tasks_sofarStart[$i]"?> value=<?= $rB['tasks_sofarStart']; ?> required>
+                                <input type="date" name=<?="tasks_sofarStart[$i]"?> value="<?= $rB['tasks_sofarStart']; ?>" required>
                                 <div>~</div>
-                                <input type="date" name=<?="tasks_sofarFin[$i]"?> value=<?= $rB['tasks_sofarFin']; ?> required>
+                                <input type="date" name=<?="tasks_sofarFin[$i]"?> value="<?= $rB['tasks_sofarFin']; ?>" required>
                                 <div>詳細</div>
                                 <textarea name=<?="tasks_detail[$i]" ?> class="detailtxt"><?=$rB['tasks_detail']; ?></textarea>
                             </td>
@@ -299,9 +299,9 @@ if($validateQ = 0) {
                             <th scope="col">スキル<?=$j+1?></th>
                             <td>
                                 <div>スキル名</div>
-                                <input type="text" name=<?="skill_name[$j]"?> value=<?= $rC['skill_name']; ?> required>
+                                <input type="text" name=<?="skill_name[$j]"?> value="<?= $rC['skill_name']; ?>" required>
                                 <div>年数</div>
-                                <input type="text" id="skilldate" oninput="restrictInput(event)" name=<?="skill_date[$j]"?> value=<?= $rC['skill_date']; ?> required>
+                                <input type="text" id="skilldate" oninput="restrictInput(event)" name=<?="skill_date[$j]"?> value="<?= $rC['skill_date']; ?>" required>
                                 <label for="skilldate">年</label>
                             </td>
                         </tr>

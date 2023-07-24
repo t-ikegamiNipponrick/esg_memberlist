@@ -28,7 +28,8 @@ $passwordResetuser = $stmt->fetch(PDO::FETCH_OBJ);
 
 if (!$passwordResetuser) exit('無効なURLです');
 */
-$hashedPassword = password_hash($request['password'], PASSWORD_BCRYPT);
+$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+var_dump($hashedPassword);
 
 try {
     $pdo->beginTransaction();

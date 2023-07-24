@@ -11,7 +11,7 @@
             if(is_array($value)) {
                 $value = sanitaizeArray($value);
             }else{
-                $value = htmlspecialchars(($value, ENT_QUOTES, 'UTF-8'))
+                $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
             }
         }
         return $array;

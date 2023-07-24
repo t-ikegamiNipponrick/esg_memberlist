@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!doctype html>
 <html lang="ja">
 <head>
@@ -16,11 +20,11 @@
 	display: table;
     }
     body {
-        min-height: 100%;
-        margin: 0 auto;
-        padding: 0;
-        display: table-cell;
-        vertical-align: middle;
+      min-height: 100%;
+      margin: 0 auto;
+      padding: 0;
+      display: table-cell;
+      vertical-align: middle;
     }
 
     .form-signin {
@@ -54,7 +58,7 @@
   <main class="form-signin w-100 m-auto">
     <form class="text-center" method="post" action="add_user.php">
       <h1 class="h3 mb-3 fw-normal">新規ユーザー登録</h1>
-      
+      <div style="color: red;"><?= print($_SESSION['errorMessage']); ?></div>
       <div class="form-floating">
         <label for="floatingInput">ユーザーID（社員番号）</label>
         <input type="text" class="form-control" name="user_id" id="floatingInput" placeholder="社員番号" required>
@@ -67,7 +71,7 @@
       <div>&nbsp;</div>
       <div class="form-floating">
         <label for="floatingPassword">パスワード</label>
-        <input type="password" data-toggle="password" class="form-control" name="password" id="floatingPassword" placeholder="パスワード" required>
+        <input type="password" data-toggle="password" class="form-control" name="password" id="floatingPassword" placeholder="半角英数字8文字以上" required>
       </div>
       <div>&nbsp;</div>
       <div class="form-floating">

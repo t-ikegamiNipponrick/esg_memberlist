@@ -242,27 +242,27 @@ require_once 'admincheck.php';
                 <table class="table">
                     <tr>
                         <th scope="col">社員番号</th>
-                        <td><?php print($employeeId); ?></td>
+                        <td><?php print($rA['employee_id']); ?></td>
                     </tr>
                     <tr>
                         <th scope="col">氏名</th>
-                        <td><?php print($memberName); ?></td>
+                        <td><?php print($rA['member_name']); ?></td>
                     </tr>
                     <tr>
                         <th scope="col">出身地</th>
-                        <td><?php print($memberFrom); ?></td>
+                        <td><?php print($rA['member_from']); ?></td>
                     </tr>
                     <tr>
                         <th scope="col">入社年月</th>
-                        <td><?php print($dateEntry); ?></td>
+                        <td><?php print($rA['DateEntry']); ?></td>
                     </tr>
                     <tr>
                         <th scope="col">現在の派遣先</th>
-                        <td><?php print($Dispatched); ?></td>
+                        <td><?php print($rA['dispatched']); ?></td>
                     </tr>  
                     <tr>
                         <th scope="col">現在の業務内容</th>
-                        <td><?php print($tasks); ?></td>
+                        <td><?php print($rA['tasks']); ?></td>
                     </tr>
                     <?php } ?>
                 </table>                
@@ -282,9 +282,9 @@ require_once 'admincheck.php';
                         $tasksSofarFin = htmlspecialchars($rB['tasks_sofarFin'], ENT_QUOTES, 'UTF-8');
                         ?>
                     <tr>
-                        <td><?php print($dispatchedSofar); ?></td>
-                        <td><?php print($tasksSofar); ?></td>
-                        <td><?php print($tasksSofarStart)?>~<?php print($tasksSofarFin)?></td>
+                        <td><?php print($rB['dispatched_sofar']); ?></td>
+                        <td><?php print($rB['tasks_sofar']); ?></td>
+                        <td><?php print($rB['tasks_sofarStart'])?>~<?php print($rB['tasks_sofarFin'])?></td>
                     </tr>
                     <?php } ?>
                 </table>            
@@ -302,8 +302,8 @@ require_once 'admincheck.php';
                         $skillDate = htmlspecialchars($rC['skill_date'], ENT_QUOTES, 'UTF-8');
                         ?>
                     <tr>
-                        <td><?php print($skillName); ?></td>
-                        <td><?php print($skillDate); ?>年</td>
+                        <td><?php print($rC['skill_name']); ?></td>
+                        <td><?php print($rC['skill_date']); ?>年</td>
                     </tr>
                     <?php } ?>
                 </table>                
