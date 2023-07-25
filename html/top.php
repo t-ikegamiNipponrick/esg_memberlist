@@ -33,17 +33,11 @@ $offset = htmlspecialchars($offset, ENT_QUOTES, 'UTF-8');
 $indexsql = 'SELECT * FROM ESG_member_index';
 
 if(!empty($sortBy) && !empty($sortOrder)) {
-    $indexsql .= ' ORDER BY ' . ':sortBy' . ' ' . ':sortOrder';
+    $indexsql .= ' ORDER BY ' . $sortBy . ' ' . $sortOrder;
 }
 
-$indexsql .= ' LIMIT ' . ':offset' . ', ' . ':perPage';
+$indexsql .= ' LIMIT ' . $offset . ', ' . $perPage;
 $indexstmt = $pdo->prepare($indexsql);
-if(!empty($sortBy) && !empty($sortOrder)) {
-    $indexstmt->bindValue(':sortBy', $sortBy,  PDO::PARAM_STR);
-    $indexstmt->bindValue(':sortOrder', $sortOrder,    PDO::PARAM_STR);
-}
-$indexstmt->bindValue(':offset', $offset,    PDO::PARAM_STR);
-$indexstmt->bindValue(':perPage', $perPage,    PDO::PARAM_STR);
 $indexstmt->execute();
 $result = $indexstmt->fetchall(PDO::FETCH_ASSOC);
 

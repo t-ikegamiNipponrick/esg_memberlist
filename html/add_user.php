@@ -8,8 +8,52 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $secretanswer = htmlspecialchars($_POST['secret_answer'], ENT_QUOTES, 'UTF-8');
     $checking_admin = htmlspecialchars($_POST['checking_admin'], ENT_QUOTES, 'UTF-8');
 
+    // 重複チェック
+    require_once 'dbindex.php';
+
+    $indexnumsql = 'SELECT COUNT(*) FROM ESG_login WHERE user_id = :user_id';
+    $indexnumstmt = $pdo->prepare($indexnumsql);
+    $indexnumstmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $indexnumstmt->execute();
+    $indexnumcount = $indexnumstmt->fetchColumn();
+    // print($indexnumcount);
+
+    if($indexnumcount > 0) {
+        $_SESSION['errorMessage'] = "この社員番号は既に登録されています。";
+        header('Location: sign_up.php');
+        exit();
+    }
+
+    $addressindexsql = 'SELECT COUNT(*) FROM ESG_login WHERE user_email = :user_email';
+    $addressindexstmt = $pdo->prepare($addressindexsql);
+    $addressindexstmt->bindValue(':user_email', $user_email, PDO::PARAM_STR);
+    $addressindexstmt->execute();
+    $indexaddcount = $addressindexstmt->fetchColumn();
+
+    if($indexaddcount > 0) {
+        $_SESSION['$errorMessage'] = "このメールアドレスは既に登録されています。";
+        header('Location: sign_up.php');
+        exit();
+    }
+
+    // 管理者登録
+    if(empty($checking_admin)){
+        $checking_admin = 1;
+    }
+
+    // 形式バリデーション
+    function isValidEmail($user_email) {
+        $pattern = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
+
+        if (preg_match($pattern, $user_email)) {
+            return true; 
+        } else {
+            return false;
+        }
+    } 
+
     if(!preg_match('/^[0-9]+$/', $user_id)) {
-        $_SESSION['$errorMessage'] = "社員番号は数字のみで入力してください";
+        $_SESSION['errorMessage'] = "社員番号は数字のみで入力してください。";
         header('Location: sign_up.php');
         exit();
     }
@@ -20,8 +64,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     } 
 
-    if(empty($checking_admin)){
-        $checking_admin = 1;
+    if(strlen($password) < 8) {
+        $_SESSION['errorMessage'] = "パスワードが短すぎます。半角英数字8文字以上で入力してください。";
+        header('Location: sign_up.php');
+        exit();
     }
 
     if(isValidEmail($user_email) == false){
@@ -30,18 +76,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     } 
 
-
-    function isValidEmail($email) {
-        $pattern = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
-
-        if (preg_match($pattern, $email)) {
-            return true; 
-        } else {
-            return false;
-        }
-    } 
-
-    require_once 'dbindex.php';
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     $signinsql = 'INSERT INTO ESG_login VALUES (:user_id, :user_email, :password, :secret_question, :secret_answer, :checking_admin)';

@@ -126,7 +126,7 @@ try{
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav4">
                 <ul class="navbar-nav">
-                    <?php if($resultadmin['check_admin'] == 0) {
+                    <?php if($resultadmin['checking_admin'] == 0) {
                         print '<li class="nav-item active">';
                         print '<a class="nav-link" href="member_inputform.php">社員情報の追加<span class="sr-only">(current)</span></a>';
                         print '</li>';

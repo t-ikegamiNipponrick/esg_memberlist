@@ -200,16 +200,16 @@ require_once 'admincheck.php';
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav4">
                 <ul class="navbar-nav">
-                    <?php if($resultadmin['check_admin'] == 0) {
+                    <?php if($resultadmin['checking_admin'] == 0) {
                         print '<li class="nav-item active">';
                         print '<a class="nav-link" href="member_inputform.php">社員情報の追加<span class="sr-only">(current)</span></a>';
                         print '</li>';
-                    } ?>                    
-                    <li class="nav-item active">
-                        <a class="nav-link" href="sign_out.php">サインアウト<span class="sr-only">(current)</span></a>
-                    </li>
+                    } ?>
                     <li class="nav-item active">
                         <a class="nav-link" href="memberinfo.php?id=<? print($_SESSION['user_id']); ?>">プロフィール<span class="sr-only">(current)</span></a>
+                    </li>                    
+                    <li class="nav-item active">
+                        <a class="nav-link" href="sign_out.php">サインアウト<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
                         <figure>
@@ -238,7 +238,7 @@ require_once 'admincheck.php';
                 $dateEntry = htmlspecialchars($rA['DateEntry'], ENT_QUOTES, 'UTF-8');
                 $Dispatched = htmlspecialchars($rA['dispatched'], ENT_QUOTES, 'UTF-8');
                 $tasks = htmlspecialchars($rA['tasks'], ENT_QUOTES, 'UTF-8');
-                ?>
+            ?>
                 <table class="table">
                     <tr>
                         <th scope="col">社員番号</th>

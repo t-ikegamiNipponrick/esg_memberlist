@@ -1,5 +1,6 @@
 <?php
 session_start();
+$error = $_SESSION['errorMessage'];
 ?>
 
 <!doctype html>
@@ -14,11 +15,12 @@ session_start();
   <!-- CSSの設定ファイル -->
   <style>
     html {
-	height: 100%;
-	margin: 0 auto;
-	padding: 0;
-	display: table;
+      height: 100%;
+      margin: 0 auto;
+      padding: 0;
+      display: table;
     }
+    
     body {
       min-height: 100%;
       margin: 0 auto;
@@ -58,7 +60,12 @@ session_start();
   <main class="form-signin w-100 m-auto">
     <form class="text-center" method="post" action="add_user.php">
       <h1 class="h3 mb-3 fw-normal">新規ユーザー登録</h1>
-      <div style="color: red;"><?= print($_SESSION['errorMessage']); ?></div>
+      <div style="color: red;">
+        <?php if(isset($_SESSION['errorMessage'])) {
+          print($_SESSION['errorMessage']); 
+        } ?>
+      </div>
+      <div>&nbsp;</div>
       <div class="form-floating">
         <label for="floatingInput">ユーザーID（社員番号）</label>
         <input type="text" class="form-control" name="user_id" id="floatingInput" placeholder="社員番号" required>
