@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: mysql
--- 生成日時: 2023 年 7 月 21 日 04:17
+-- 生成日時: 2023 年 7 月 25 日 05:00
 -- サーバのバージョン： 5.7.42
 -- PHP のバージョン: 8.1.17
 
@@ -33,6 +33,8 @@ CREATE TABLE `ESG_login` (
   `user_id` int(11) NOT NULL,
   `user_email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `secret_question` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `secret_answer` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `checking_admin` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -40,9 +42,13 @@ CREATE TABLE `ESG_login` (
 -- テーブルのデータのダンプ `ESG_login`
 --
 
-INSERT INTO `ESG_login` (`user_id`, `user_email`, `password`, `checking_admin`) VALUES
-(11093, 'tanaka.pinpin999@gmail.com', '$2y$10$/7wpf1aGRFFXuJiFuBuhzO64oDJGg/mXxkAspfSp1coMUBq6jCUia', 1),
-(11400, 't-ikegami@nipponrick.co.jp', '$2y$10$UPeGWGMrmCPdmB4YugvNROQGDYce.SS3lQCoDiNCpbn1YLzrHoX0K', 0);
+INSERT INTO `ESG_login` (`user_id`, `user_email`, `password`, `secret_question`, `secret_answer`, `checking_admin`) VALUES
+(11000, 'tomclause10@gmail.com', '$2y$10$/TFukodz0ReliZNN5eAGvunSW/H8Kqb0ApyJDdKEXK1Q9VJMd3CEm', '', 'ハリウッドにカメオ出演したこと', 1),
+(11005, 'pdp@gmail.com', '$2y$10$T136AKhXd6Mn..Hc.4Tl8uOYUtGXoNx/e9rpSvNDgg/4xl6tV0N1C', '中学2年生の時の担任の先生の名前は？', 'モリタ先生', 1),
+(11093, 'tanaka.pinpin999@gmail.com', '$2y$10$/7wpf1aGRFFXuJiFuBuhzO64oDJGg/mXxkAspfSp1coMUBq6jCUia', '', '', 1),
+(11256, 'tyou@yahoo.co.jp', '$2y$10$nYKUrj6u5PDp74w5fIjcweKpTE3IWPpv7a64zNJrwrqXr4rCjrXZy', 'あなたが生まれた場所は？', 'okayama', 1),
+(11400, 't-ikegami@nipponrick.co.jp', '$2y$10$ZefJyCvdNMSs75KuZVeBfehCw4cHHMb7WUV0WyhcUvrbqLQ0ZrzoS', 'あなたが生まれた場所は？', '福岡県', 0),
+(12098, 'php@gmail.com', '$2y$10$TeQA61HLLR6NAMUNqOCQ3ehntR23pyGxKNvkJ2EnCnSzy9nB5ePsq', 'あなたが生まれた場所は？', 'ハリウッド', 1);
 
 -- --------------------------------------------------------
 
@@ -67,7 +73,8 @@ INSERT INTO `ESG_memberid_info` (`employee_id`, `key_id`) VALUES
 (11203, 11203),
 (11400, 11400),
 (11549, 11549),
-(11600, 11600);
+(11600, 11600),
+(12005, 12005);
 
 -- --------------------------------------------------------
 
@@ -80,7 +87,7 @@ CREATE TABLE `ESG_member_dispatched` (
   `key_id` int(11) NOT NULL,
   `dispatched_sofar` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `tasks_sofar` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `tasks_detail` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `tasks_detail` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `tasks_sofarStart` date NOT NULL,
   `tasks_sofarFin` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -104,7 +111,8 @@ INSERT INTO `ESG_member_dispatched` (`dummy_id`, `key_id`, `dispatched_sofar`, `
 (23, 11005, 'ｍｍ株式会社', 'サーバー保守', '情報システム管理部門統括', '2012-02-15', '2018-01-19'),
 (24, 11004, 'mouseシステムズ', '社内システム運用', '社内で運用していた経理システムの運用支援', '2012-05-02', '2015-01-08'),
 (25, 11004, 'ビジョンネットシステムズ', 'サーバー保守', 'レンタル用サーバーの保守', '2015-01-15', '2018-02-25'),
-(26, 11004, 'Ascend', 'システム開発', '債務処理システム開発', '2018-03-01', '2020-03-30');
+(26, 11004, 'Ascend', 'システム開発', '債務処理システム開発', '2018-03-01', '2020-03-30'),
+(27, 12005, 'c s', 'd s', 'fffvvv', '2005-04-01', '2010-05-01');
 
 -- --------------------------------------------------------
 
@@ -126,14 +134,15 @@ CREATE TABLE `ESG_member_index` (
 --
 
 INSERT INTO `ESG_member_index` (`employee_id`, `member_name`, `member_from`, `DateEntry`, `dispatched`, `tasks`) VALUES
-(11000, 'Thomas Cruise Mapother IV', 'アメリカ合衆国', '2015-01-05', 'ハリウッド', '俳優'),
+(11000, 'Thomas Cruise Mapother IV', '&lt;script&gt;alert(document.cookie)&lt;/scirpt&gt;', '2015-01-05', 'ハリウッド', '俳優'),
 (11004, 'Max Weaver', 'Tronto, Canada', '2012-05-01', 'toxicシステム', 'システム開発'),
 (11005, '田中太郎', '新潟県', '2012-02-12', 'jjシステムズ', 'システム開発'),
 (11093, 'ジェイソンステイサム', 'イングランド', '2019-04-05', 'ハリウッド', '俳優'),
 (11203, 'ルフィ', '愛媛県', '2015-04-01', 'jjシステムズ', 'システム開発'),
 (11400, '池上智啓', '岡山県', '2023-04-03', '日本リック', 'システム開発'),
 (11549, '鈴木太郎', '鹿児島県', '2014-04-05', 'Microsoft', '社内SE'),
-(11600, '田中次郎', '福岡県', '2020-04-05', 'aa株式会社', 'IT事務');
+(11600, '田中次郎', '福岡県', '2020-04-05', 'aa株式会社', 'IT事務'),
+(12005, 'jesus christ', 'rome', '2005-04-01', 'a s', 'b s');
 
 -- --------------------------------------------------------
 
@@ -231,7 +240,8 @@ INSERT INTO `ESG_member_skills` (`dummy_id`, `key_id`, `skill_name`, `skill_date
 (21, 11000, '飛行機操縦', '10'),
 (22, 11005, 'LPIC', '20'),
 (23, 11004, 'LPIC', '2'),
-(24, 11004, 'Oracle', '3');
+(24, 11004, 'Oracle', '3'),
+(25, 12005, 'Java', '2');
 
 -- --------------------------------------------------------
 
@@ -307,19 +317,19 @@ ALTER TABLE `ESG_password_resets`
 -- テーブルの AUTO_INCREMENT `ESG_memberid_info`
 --
 ALTER TABLE `ESG_memberid_info`
-  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11601;
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12006;
 
 --
 -- テーブルの AUTO_INCREMENT `ESG_member_dispatched`
 --
 ALTER TABLE `ESG_member_dispatched`
-  MODIFY `dummy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `dummy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- テーブルの AUTO_INCREMENT `ESG_member_index`
 --
 ALTER TABLE `ESG_member_index`
-  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11601;
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12006;
 
 --
 -- テーブルの AUTO_INCREMENT `ESG_member_picscontents`
@@ -331,7 +341,7 @@ ALTER TABLE `ESG_member_picscontents`
 -- テーブルの AUTO_INCREMENT `ESG_member_skills`
 --
 ALTER TABLE `ESG_member_skills`
-  MODIFY `dummy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `dummy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
