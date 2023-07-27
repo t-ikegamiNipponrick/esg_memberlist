@@ -123,20 +123,121 @@
             throw $e;
         }
     }
+
+    define('UPLOADPASS', './img/');
+
+    require_once 'dbindex.php';
+    $sqlQuery = "SELECT COUNT(*) FROM ESG_member_picsid WHERE employee_id = ?";
+    $stmtQuery = $pdo->prepare($sqlQuery);
+    $stmtQuery->execute([$thisid]);
+    $validateQ = $stmtQuery->fetchColumn();
+
+    if($validateQ > 0) {
+        if($_SERVER['REQUEST_METHOD']==='POST') {
+            //var_dump($_FILES);
+            $name = $_FILES['photo']['name'];
+            $type = $_FILES['photo']['type'];
+            $size = $_FILES['photo']['size'];
+            $content = file_get_contents($_FILES['photo']['tmp_name']);
+            $error = $_FILES['photo']['error'];
+            
+            $target=UPLOADPASS.$name;
+
+            try {
+                $pdo->beginTransaction(); 
+                $picscontentsql = 'UPDATE ESG_member_picscontents SET key_id = :id, file_name = :name, file_type = :type, file_content = :content, file_size = :size WHERE key_id =' .$thisid;
+                $picscontentstmt = $pdo->prepare($picscontentsql);
+
+                $picscontentstmt->bindValue(':id', $thisid,    PDO::PARAM_INT);
+                $picscontentstmt->bindValue(':name', $name,   PDO::PARAM_STR);
+                $picscontentstmt->bindValue(':type', $type,    PDO::PARAM_STR);
+                $picscontentstmt->bindValue(':content', $content,    PDO::PARAM_STR);
+                $picscontentstmt->bindValue(':size', $size,   PDO::PARAM_INT);
+
+                $picscontentstmt->execute();
+
+                if($picscontentstmt) {    
+                    $pdo->commit();
+                }
+                
+                $resultB = $picscontentstmt->fetchall();
+                // print($result);
+
+            }catch(PDOException $e) {
+                $pdo->rollback();
+                throw $e;
+            }
+
+            if(move_uploaded_file($_FILES['photo']['tmp_name'], $target)) {
+                print 'OK';
+            }else {
+                print 'down';
+            }
+
+        }
+    } else {
+        if($_SERVER['REQUEST_METHOD']==='POST') {
+            //var_dump($_FILES);
+            $name = $_FILES['photo']['name'];
+            $type = $_FILES['photo']['type'];
+            $size = $_FILES['photo']['size'];
+            $content = file_get_contents($_FILES['photo']['tmp_name']);
+            $error = $_FILES['photo']['error'];
+            
+            $target=UPLOADPASS.$name;
+
+            try {
+                $pdo->beginTransaction(); 
+                $picsidsql = 'UPDATE ESG_member_picsid SET employee_id = :employee_id, key_id = :key_id';
+                $picsidstmt = $pdo->prepare($picsidsql);
+        
+                $picsidstmt->bindValue(':employee_id', $thisid,    PDO::PARAM_INT);
+                $picsidstmt->bindValue(':key_id', $thisid,   PDO::PARAM_INT);
+        
+                $picsidstmt->execute();
+        
+                if($picsidstmt) {    
+                    $pdo->commit();
+                }
+        
+            }catch(PDOException $e) {
+                $pdo->rollback();
+                throw $e;
+            }
+
+            try {
+                $pdo->beginTransaction(); 
+                $picscontentsql = 'UPDATE ESG_member_picscontents SET key_id = :id, file_name = :name, file_type = :type, file_content = :content, file_size = :size WHERE key_id =' .$thisid;
+                $picscontentstmt = $pdo->prepare($picscontentsql);
+
+                $picscontentstmt->bindValue(':id', $thisid,    PDO::PARAM_INT);
+                $picscontentstmt->bindValue(':name', $name,   PDO::PARAM_STR);
+                $picscontentstmt->bindValue(':type', $type,    PDO::PARAM_STR);
+                $picscontentstmt->bindValue(':content', $content,    PDO::PARAM_STR);
+                $picscontentstmt->bindValue(':size', $size,   PDO::PARAM_INT);
+
+                $picscontentstmt->execute();
+
+                if($picscontentstmt) {    
+                    $pdo->commit();
+                }
+                
+                $resultB = $stmt->fetchall();
+                // print($result);
+
+            }catch(PDOException $e) {
+                $pdo->rollback();
+                throw $e;
+            }
+
+            if(move_uploaded_file($_FILES['photo']['tmp_name'], $target)) {
+                print 'OK';
+            }else {
+                print 'down';
+            }
+
+        }
+    }
+
     header('Location: memberinfo.php?id=' . $thisid);
 ?>
-
-<!DOCTYPE html>
-<html lang="ja">
-    <head>
-        <title>更新結果</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    </head>
-    <body>
-    <p>更新が完了しました。<br><?php print'<a href="memberinfo.php?id=' . $thisid . '">戻る</a>'; ?></p>
-    </body>
-</html>

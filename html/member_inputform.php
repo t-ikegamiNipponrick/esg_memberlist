@@ -156,7 +156,7 @@ $sessionId = $_SESSION['user_id'];
     </header>
     <body class="wrap">
         <div class="content">
-            <form name="register" onsubmit="return validateForm()" method="post" action="create.php" >
+            <form name="register" enctype="multipart/form-data" onsubmit="return validateForm()" method="post" action="create.php" >
                 <h3 class="heading-lv3 heading-margin text-center">社員情報入力</h3>
                 <font color="red">
                     <?=$errorMessage?>
@@ -238,8 +238,16 @@ $sessionId = $_SESSION['user_id'];
                             </td>
                         </tr>
                         </tbody>
+                        <tr>
+                            <th scope="col">プロフィール画像</th>
+                            <td>
+                                <input type="file" name="photo">
+                            </td>
+                        </tr>
                     </table>                
                 </section>
+                <hr>
+                <div>&nbsp;</div>
                 <button type="submit" class="btn btn-primary">登録する</button>
                 <script>
                     var dispatchCount = 1; // 派遣先の追加回数を保持する変数
@@ -358,12 +366,6 @@ $sessionId = $_SESSION['user_id'];
                 </script>
             </form>
             <hr>
-        <div class="heading-lv3 heading-margin text-center">画像アップロード</div><br>
-            <div>&nbsp;</div>
-            <form enctype="multipart/form-data" action="img_upload_test.php" method="POST">
-                <input type="file" name="photo">
-                <input type="submit" value="画像をアップロード">
-            </form>
         </div>
     </body>
     <footer class="footer">

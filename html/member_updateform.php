@@ -307,20 +307,19 @@ if($validateQ = 0) {
                         </tr>
                             <?php $j++; 
                             } ?>
+                        <tr>
+                            <th scope="col">プロフィール画像</th>
+                            <td>
+                                <input type="file" name="photo"> 
+                            </td>
+                        </tr>
                     </table>
                     <div>&nbsp;</div>            
-                </section>
+                </section>  
                 <div>&nbsp;</div>
                 <input type="submit" class="btn btn-primary" value="更新する">&emsp;
                 <input type="button" class="btn btn-primary" value="新規情報を追加する" onclick="location.href='<?php print('alreadyuser_inputform.php?id='. $rA['employee_id'] .'') ?>'">
             </form>
-            <hr>
-            <div class="heading-lv3 heading-margin text-center">画像アップロード</div><br>
-        <div>&nbsp;</div>
-        <form enctype="multipart/form-data" action="<?php echo $formaction; ?>" method="POST">
-            <input type="file" name="photo">
-            <input type="submit" value="画像をアップロード">
-		</form>
         </div>
     </body>
     <footer class="footer">

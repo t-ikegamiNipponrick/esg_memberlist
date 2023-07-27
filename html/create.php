@@ -130,6 +130,115 @@
             throw $e;
         }
     }
+
+    define('UPLOADPASS', './img/');
+
+    require_once 'dbindex.php';
+    $sqlQuery = "SELECT COUNT(*) FROM ESG_member_picsid WHERE employee_id = ?";
+    $stmtQuery = $pdo->prepare($sqlQuery);
+    $stmtQuery->execute([$id]);
+    $validateQ = $stmtQuery->fetchColumn();
+
+    if($validateQ > 0) {
+        if($_SERVER['REQUEST_METHOD']==='POST') {
+            //var_dump($_FILES);
+            $name = $_FILES['photo']['name'];
+            $type = $_FILES['photo']['type'];
+            $size = $_FILES['photo']['size'];
+            $content = file_get_contents($_FILES['photo']['tmp_name']);
+            $error = $_FILES['photo']['error'];
+            
+            $target=UPLOADPASS.$name;
+
+            try {
+                $pdo->beginTransaction(); 
+                $contentssql = 'INSERT into ESG_member_picscontents (key_id, file_name, file_type, file_content, file_size) values (:id, :name, :type, :content, :size)';
+                $contentsstmt = $pdo->prepare($contentssql);
+
+                $contentsstmt->bindValue(':id', $id,    PDO::PARAM_INT);
+                $contentsstmt->bindValue(':name', $name,   PDO::PARAM_STR);
+                $contentsstmt->bindValue(':type', $type,    PDO::PARAM_STR);
+                $contentsstmt->bindValue(':content', $content,    PDO::PARAM_STR);
+                $contentsstmt->bindValue(':size', $size,   PDO::PARAM_INT);
+
+                $contentsstmt->execute();
+
+                if($contentsstmt) {    
+                    $pdo->commit();
+                }
+
+            }catch(PDOException $e) {
+                $pdo->rollback();
+                throw $e;
+            }
+
+            if(move_uploaded_file($_FILES['photo']['tmp_name'], $target)) {
+                print 'OK';
+            }else {
+                print 'down';
+            }
+
+        }
+    } else {
+        if($_SERVER['REQUEST_METHOD']==='POST') {
+            var_dump($_FILES);
+            $name = $_FILES['photo']['name'];
+            $type = $_FILES['photo']['type'];
+            $size = $_FILES['photo']['size'];
+            $content = file_get_contents($_FILES['photo']['tmp_name']);
+            $error = $_FILES['photo']['error'];
+
+            $target=UPLOADPASS.$name;
+
+            try {
+                $pdo->beginTransaction(); 
+                $picsidsql = 'INSERT into ESG_member_picsid values (:employee_id, :key_id)';
+                $picsidstmt = $pdo->prepare($picsidsql);
+        
+                $picsidstmt->bindValue(':employee_id', $id,    PDO::PARAM_INT);
+                $picsidstmt->bindValue(':key_id', $id,   PDO::PARAM_INT);
+        
+                $picsidstmt->execute();
+        
+                if($picsidstmt) {    
+                    $pdo->commit();
+                }
+        
+            }catch(PDOException $e) {
+                $pdo->rollback();
+                throw $e;
+            }
+
+            try {
+                $pdo->beginTransaction(); 
+                $contentssql = 'INSERT into ESG_member_picscontents (key_id, file_name, file_type, file_content, file_size) values (:id, :name, :type, :content, :size)';
+                $contentsstmt = $pdo->prepare($contentssql);
+
+                $contentsstmt->bindValue(':id', $id,    PDO::PARAM_INT);
+                $contentsstmt->bindValue(':name', $name,   PDO::PARAM_STR);
+                $contentsstmt->bindValue(':type', $type,    PDO::PARAM_STR);
+                $contentsstmt->bindValue(':content', $content,    PDO::PARAM_STR);
+                $contentsstmt->bindValue(':size', $size,   PDO::PARAM_INT);
+
+                $contentsstmt->execute();
+
+                if($contentsstmt) {    
+                    $pdo->commit();
+                }
+
+            }catch(PDOException $e) {
+                $pdo->rollback();
+                throw $e;
+            }
+
+            if(move_uploaded_file($_FILES['photo']['tmp_name'], $target)) {
+                print 'OK';
+            }else {
+                print 'down';
+            }
+
+        }
+    }
 ?>
 
 <!DOCTYPE html>
