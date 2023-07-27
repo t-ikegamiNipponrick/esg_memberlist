@@ -81,7 +81,6 @@
         try {
             $pdo->beginTransaction(); 
             $dispatchedsql ='UPDATE ESG_member_dispatched SET key_id = :id, dispatched_sofar = :dispsof, tasks_sofar = :tasksof, tasks_detail = :detail, tasks_sofarStart = :sofsta, tasks_sofarFin = :soffin WHERE employee_id = :thisid';
-            // print($sqlC);
             $dispatchedstmt = $pdo->prepare($dispatchedsql);
             $dispatchedstmt->bindValue(':thisid', $thisid,   PDO::PARAM_INT);
             $dispatchedstmt->bindValue(':id', $id,   PDO::PARAM_INT);
@@ -106,7 +105,6 @@
         try {
             $pdo->beginTransaction(); 
             $skillssql ='UPDATE ESG_memberS_skills SET key_id = :id, skill_name = :sname, skill_date = :sdate WHERE employee_id = :thisid';
-            // print($sqlD);
             $skillsstmt = $pdo->prepare($skillssql);
             $skillsstmt->bindValue(':thisid', $thisid,   PDO::PARAM_INT);
             $skillsstmt->bindValue(':id', $id,   PDO::PARAM_INT);
@@ -123,7 +121,7 @@
             throw $e;
         }
     }
-
+    // 画像のアップデート
     define('UPLOADPASS', './img/');
 
     require_once 'dbindex.php';
@@ -131,6 +129,7 @@
     $stmtQuery = $pdo->prepare($sqlQuery);
     $stmtQuery->execute([$thisid]);
     $validateQ = $stmtQuery->fetchColumn();
+    // var_dump($validateQ);
 
     if($validateQ > 0) {
         if($_SERVER['REQUEST_METHOD']==='POST') {
@@ -169,9 +168,9 @@
             }
 
             if(move_uploaded_file($_FILES['photo']['tmp_name'], $target)) {
-                print 'OK';
+                // print 'OK';
             }else {
-                print 'down';
+                // print 'down';
             }
 
         }
@@ -188,7 +187,7 @@
 
             try {
                 $pdo->beginTransaction(); 
-                $picsidsql = 'UPDATE ESG_member_picsid SET employee_id = :employee_id, key_id = :key_id';
+                $picsidsql = 'INSERT INTO ESG_member_picsid VALUES (:employee_id, :key_id)';
                 $picsidstmt = $pdo->prepare($picsidsql);
         
                 $picsidstmt->bindValue(':employee_id', $thisid,    PDO::PARAM_INT);
@@ -207,7 +206,7 @@
 
             try {
                 $pdo->beginTransaction(); 
-                $picscontentsql = 'UPDATE ESG_member_picscontents SET key_id = :id, file_name = :name, file_type = :type, file_content = :content, file_size = :size WHERE key_id =' .$thisid;
+                $picscontentsql = 'INSERT INTO ESG_member_picscontents (key_id, file_name, file_type, file_content, file_size) VALUES (:id, :name, :type, :content, :size)';
                 $picscontentstmt = $pdo->prepare($picscontentsql);
 
                 $picscontentstmt->bindValue(':id', $thisid,    PDO::PARAM_INT);
@@ -221,9 +220,6 @@
                 if($picscontentstmt) {    
                     $pdo->commit();
                 }
-                
-                $resultB = $stmt->fetchall();
-                // print($result);
 
             }catch(PDOException $e) {
                 $pdo->rollback();
@@ -231,9 +227,9 @@
             }
 
             if(move_uploaded_file($_FILES['photo']['tmp_name'], $target)) {
-                print 'OK';
+                // print 'OK';
             }else {
-                print 'down';
+                // print 'down';
             }
 
         }
