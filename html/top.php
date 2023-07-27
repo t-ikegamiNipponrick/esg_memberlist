@@ -21,6 +21,9 @@ $perPageOptions = array(5, 10, 20, 50);
 $defaultPerPage = 5;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $perPage = isset($_GET['per_page']) ? $_GET['per_page'] : $defaultPerPage;
+if (isset($_GET['per_page']) && in_array($_GET['per_page'], $perPageOptions)) {
+    $perPage = $_GET['per_page'];
+}
 $offset = ($page - 1) * $perPage;
 /*
 // $sessionId = htmlspecialchars($sessionId, ENT_QUOTES, 'UTF-8');
@@ -142,12 +145,16 @@ require_once 'admincheck.php';
             <br>
             <main class="container">
                 <section class="row mb-3">
-                    <form method="post" action="search.php" class="form-inline form-group col-12 col-md-8">
+                    <form method="get" action="search.php" class="form-inline form-group col-12 col-md-8">
                         <label class="sr-only" for="kwork">検索ワード</label>
-                        <input type="search" name="word" class="form-control form form-control-sm mr-2" placeholder="キーワード" id="kword" requied>
+                        <input type="search" name="query" class="form-control form form-control-sm mr-2" id="kword" placeholder="キーワード" requied>
+                        <input type="hidden" name="sort_by" value="<?php echo $sortBy; ?>">
+                        <input type="hidden" name="sort_order" value="<?php echo $sortOrder; ?>">
                         <button type="submit" class="btn btn-warning btn-sm pl-3 pr-3">検索</button>
                     </form>
-                    <form class="form-inline mb-3">
+                    <form class="form-inline mb-3" method="GET">
+                       <input type="hidden" name="sort_by" value="<?php echo $sortBy; ?>">
+                       <input type="hidden" name="sort_order" value="<?php echo $sortOrder; ?>">
                        <label class="mr-2">1ページあたりの表示数:</label>
                        <select class="form-control" name="per_page" onchange="this.form.submit()">
                        <?php foreach ($perPageOptions as $option) {
@@ -161,20 +168,24 @@ require_once 'admincheck.php';
                         <tr>
                             <th class="photo"></th>
                             <th scope="col">社員番号 
-                                <?php $reverseSortOrder = ($sortOrder === 'ASC') ? 'DESC' : 'ASC'; ?>
-                                <a href="?sort_by=employee_id&sort_order=<?php echo $reverseSortOrder; ?>">▼</a>
+                                <?php $reverseSortOrder = ($sortOrder === 'ASC' && $sortBy === 'employee_id') ? 'DESC' : 'ASC'; 
+                                 $sortBy = "employee_id" ?>
+                                <a href="?sort_by=<?php echo $sortBy?>&sort_order=<?php echo $reverseSortOrder; ?>&per_page=<?php echo $perPage?>">▼</a>
                             </th>
                             <th scope="col">社員名
-                                <?php $reverseSortOrder = ($sortOrder === 'ASC') ? 'DESC' : 'ASC'; ?>
-                                <a href="?sort_by=member_name&sort_order=<?php echo $reverseSortOrder; ?>">▼</a>
+                                <?php $reverseSortOrder = ($sortOrder === 'ASC') ? 'DESC' : 'ASC'; 
+                                 $sortBy = "member_name"; ?>
+                                <a href="?sort_by=member_name&sort_order=<?php echo $reverseSortOrder; ?>&per_page=<?php echo $perPage?>">▼</a>
                             </th>
                             <th scope="col">派遣先
-                                <?php $reverseSortOrder = ($sortOrder === 'ASC') ? 'DESC' : 'ASC'; ?>
-                                <a href="?sort_by=dispatched&sort_order=<?php echo $reverseSortOrder; ?>">▼</a>
+                                <?php $reverseSortOrder = ($sortOrder === 'ASC') ? 'DESC' : 'ASC'; 
+                                 $sortBy = "dispatched"; ?>
+                                <a href="?sort_by=dispatched&sort_order=<?php echo $reverseSortOrder; ?>&per_page=<?php echo $perPage?>">▼</a>
                             </th>
                             <th scope="col">業務内容
-                                <?php $reverseSortOrder = ($sortOrder === 'ASC') ? 'DESC' : 'ASC'; ?>
-                                <a href="?sort_by=tasks&sort_order=<?php echo $reverseSortOrder; ?>">▼</a>
+                                <?php $reverseSortOrder = ($sortOrder === 'ASC') ? 'DESC' : 'ASC';
+                                 $sortBy = "tasks"; ?>
+                                <a href="?sort_by=tasks&sort_order=<?php echo $reverseSortOrder; ?>&per_page=<?php echo $perPage?>">▼</a>
                             </th>
                         </tr>
                         <?php foreach($result as $r) { 
@@ -200,7 +211,7 @@ require_once 'admincheck.php';
                 <ul class="pagination justify-content-center">
                     <?php for ($i = 1; $i <= $totalPages; $i++) {
                         echo '<li class="page-item ' . ($i == $page ? 'active' : '') . '">';
-                        echo '<a class="page-link" href="?sort_by=' . $sortBy . '&sort_order=' . $sortOrder . '&page=' . $i . '">' . $i . '</a>';
+                        echo '<a class="page-link" href="?sort_by=' . $sortBy . '&sort_order=' . $sortOrder . '&per_page=' . $perPage . '&page=' . $i . '">' . $i . '</a>';
                         echo '</li>';
                     } ?>
                 </ul>

@@ -246,7 +246,6 @@ $sessionId = $_SESSION['user_id'];
                         </tr>
                     </table>                
                 </section>
-                <hr>
                 <div>&nbsp;</div>
                 <button type="submit" class="btn btn-primary">登録する</button>
                 <script>
@@ -365,7 +364,6 @@ $sessionId = $_SESSION['user_id'];
                     }
                 </script>
             </form>
-            <hr>
         </div>
     </body>
     <footer class="footer">
