@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 $sessionId = $_SESSION['user_id'];
 require_once 'dbindex.php';
 $sortOrder = 'ASC';
-$sortBy = 'employee_id';
+$sortBy = 'user_id';
 
 if(isset($_GET['sort_by']) && isset($_GET['sort_order'])) {
     $sortBy = $_GET['sort_by'];
@@ -18,22 +18,15 @@ if(isset($_GET['sort_by']) && isset($_GET['sort_order'])) {
 }
 
 $perPageOptions = array(5, 10, 20, 50);
-$defaultPerPage = 5;
+$defaultPerPage = 10;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $perPage = isset($_GET['per_page']) ? $_GET['per_page'] : $defaultPerPage;
 if (isset($_GET['per_page']) && in_array($_GET['per_page'], $perPageOptions)) {
     $perPage = $_GET['per_page'];
 }
 $offset = ($page - 1) * $perPage;
-/*
-// $sessionId = htmlspecialchars($sessionId, ENT_QUOTES, 'UTF-8');
-$sortBy = htmlspecialchars($sortBy, ENT_QUOTES, 'UTF-8');
-$sortOrder = htmlspecialchars($sortOrder, ENT_QUOTES, 'UTF-8');
-$page = htmlspecialchars($page, ENT_QUOTES, 'UTF-8');
-$perPage = htmlspecialchars($perPage, ENT_QUOTES, 'UTF-8');
-$offset = htmlspecialchars($offset, ENT_QUOTES, 'UTF-8');
-*/
-$indexsql = 'SELECT * FROM ESG_member_index';
+
+$indexsql = 'SELECT * FROM ESG_login';
 
 if(!empty($sortBy) && !empty($sortOrder)) {
     $indexsql .= ' ORDER BY ' . $sortBy . ' ' . $sortOrder;
@@ -44,7 +37,7 @@ $indexstmt = $pdo->prepare($indexsql);
 $indexstmt->execute();
 $result = $indexstmt->fetchall(PDO::FETCH_ASSOC);
 
-$countsql = 'SELECT COUNT(*) AS count FROM ESG_member_index';
+$countsql = 'SELECT COUNT(*) AS count FROM ESG_login';
 $countstmt = $pdo->prepare($countsql);
 $countstmt->execute();
 $totalCount = $countstmt->fetch(PDO::FETCH_ASSOC)['count'];
@@ -56,7 +49,7 @@ require_once 'admincheck.php';
 <!DOCTYPE html>
 <html lang="ja">
     <head>
-        <title>エンジニアリングサービスグループ社員名簿</title>
+        <title>アカウント一覧</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -150,15 +143,6 @@ require_once 'admincheck.php';
                 </button>
                 <div class="collapse navbar-collapse justify-content-end" id="navbarNav4">
                     <ul class="navbar-nav">
-                        <?php if($resultadmin['checking_admin'] == 0) {
-                        print '<li class="nav-item active" onclick="toggleSublist()">';
-                        print '<a class="nav-link" href="#">管理者メニュー<span class="sr-only">(current)</span></a>';
-                        print '<ul id="sublist" class="popup" style="display: none;">';
-                        print '<li><a href="member_inputform.php">新規メンバーの追加</ad></li>';
-                        print '<li><a href="account_list.php">アカウント一覧</a></li>';
-                        print '</ul>';
-                        print '</li>';
-                        } ?>
                         <li class="nav-item active">
                             <a class="nav-link" href="memberinfo.php?id=<? print($_SESSION['user_id']); ?>">プロフィール<span class="sr-only">(current)</span></a>
                         </li>
@@ -185,17 +169,10 @@ require_once 'admincheck.php';
         </header>
         <br>
         <body style="min-width: 600px;">
-            <h1>エンジニアリングサービスグループ社員名簿</h1>
+            <h1>登録アカウント一覧</h1>
             <br>
             <main class="container">
                 <section class="row mb-3">
-                    <form method="get" action="search.php" class="form-inline form-group col-12 col-md-8">
-                        <label class="sr-only" for="kwork">検索ワード</label>
-                        <input type="search" name="query" class="form-control form form-control-sm mr-2" id="kword" placeholder="キーワード" requied>
-                        <input type="hidden" name="sort_by" value="<?php echo $sortBy; ?>">
-                        <input type="hidden" name="sort_order" value="<?php echo $sortOrder; ?>">
-                        <button type="submit" class="btn btn-warning btn-sm pl-3 pr-3">検索</button>
-                    </form>
                     <form class="form-inline mb-3" method="GET">
                        <input type="hidden" name="sort_by" value="<?php echo $sortBy; ?>">
                        <input type="hidden" name="sort_order" value="<?php echo $sortOrder; ?>">
@@ -210,38 +187,40 @@ require_once 'admincheck.php';
                 <section class="row">
                     <table class="table">
                         <tr>
-                            <th class="photo"></th>
                             <th scope="col">社員番号 
-                                <?php $reverseSortOrder = ($sortOrder === 'ASC' && $sortBy === 'employee_id') ? 'DESC' : 'ASC'; ?>
-                                <a href="?sort_by=employee_id&sort_order=<?php echo $reverseSortOrder; ?>&per_page=<?php echo $perPage?>">▼</a>
+                                <?php $reverseSortOrder = ($sortOrder === 'ASC' && $sortBy === 'user_id') ? 'DESC' : 'ASC'; ?>
+                                <a href="?sort_by=user_id&sort_order=<?php echo $reverseSortOrder; ?>&per_page=<?php echo $perPage?>">▼</a>
                             </th>
-                            <th scope="col">社員名
-                                <?php $reverseSortOrder = ($sortOrder === 'ASC' && $sortBy === 'member_name') ? 'DESC' : 'ASC'; ?>
-                                <a href="?sort_by=member_name&sort_order=<?php echo $reverseSortOrder; ?>&per_page=<?php echo $perPage?>">▼</a>
+                            <th scope="col">メールアドレス
+                                <?php $reverseSortOrder = ($sortOrder === 'ASC' && $sortBy === 'user_email') ? 'DESC' : 'ASC'; ?>
+                                <a href="?sort_by=user_email&sort_order=<?php echo $reverseSortOrder; ?>&per_page=<?php echo $perPage?>">▼</a>
                             </th>
-                            <th scope="col">派遣先
-                                <?php $reverseSortOrder = ($sortOrder === 'ASC' && $sortBy === 'dispatched') ? 'DESC' : 'ASC'; ?>
-                                <a href="?sort_by=dispatched&sort_order=<?php echo $reverseSortOrder; ?>&per_page=<?php echo $perPage?>">▼</a>
+                            <th scope="col">秘密の質問
+                                <?php $reverseSortOrder = ($sortOrder === 'ASC' && $sortBy === 'secret_question') ? 'DESC' : 'ASC'; ?>
+                                <a href="?sort_by=secret_question&sort_order=<?php echo $reverseSortOrder; ?>&per_page=<?php echo $perPage?>">▼</a>
                             </th>
-                            <th scope="col">業務内容
-                                <?php $reverseSortOrder = ($sortOrder === 'ASC' && $sortBy === 'tasks') ? 'DESC' : 'ASC'; ?>
-                                <a href="?sort_by=tasks&sort_order=<?php echo $reverseSortOrder; ?>&per_page=<?php echo $perPage?>">▼</a>
+                            <th scope="col">アカウント状態
+                                <?php $reverseSortOrder = ($sortOrder === 'ASC' && $sortBy === 'checking_admin') ? 'DESC' : 'ASC'; ?>
+                                <a href="?sort_by=checking_admin&sort_order=<?php echo $reverseSortOrder; ?>&per_page=<?php echo $perPage?>">▼</a>
                             </th>
+                            <th scope="col">パスワード</th>
                         </tr>
                         <?php foreach($result as $r) { 
-                                $employeeId = htmlspecialchars($r['employee_id'], ENT_QUOTES, 'UTF-8');
-                                $memberName = htmlspecialchars($r['member_name'], ENT_QUOTES, 'UTF-8');
-                                $dispatched = htmlspecialchars($r['dispatched'], ENT_QUOTES, 'UTF-8');
-                                $tasks = htmlspecialchars($r['tasks'], ENT_QUOTES, 'UTF-8');
+                                $user_id = htmlspecialchars($r['user_id'], ENT_QUOTES, 'UTF-8');
+                                $user_email = htmlspecialchars($r['user_email'], ENT_QUOTES, 'UTF-8');
+                                $secret_question = htmlspecialchars($r['secret_question'], ENT_QUOTES, 'UTF-8');
+                                $checking_admin = htmlspecialchars($r['checking_admin'], ENT_QUOTES, 'UTF-8');
                             ?>
                         <tr>
-                            <td><figure class="profile-image">
-                                <?php print'<img class="thumbnail" alt="画像" src="image.php?id=' . $r['employee_id'] . '">' ?> 
-                                </figure></td>
-                            <td><?php print'<a href="memberinfo.php?id='. $r['employee_id'] .'">' . $r['employee_id'].'</a>'; ?></td>
-                            <td><?php print($r['member_name']); ?></td>
-                            <td><?php print($r['dispatched']); ?></td>
-                            <td><?php print($r['tasks']); ?></td>
+                            <td><?php print'<a href="memberinfo.php?id='. $r['user_id'] .'">' . $r['user_id'].'</a>'; ?></td>
+                            <td><?php print($r['user_email']); ?></td>
+                            <td><?php print($r['secret_question']); ?></td>
+                            <td><?php if($r['checking_admin'] == 0) {
+                                print '管理者';
+                            }else{
+                                print '一般';
+                            }; ?></td>
+                            <td><a href="resetpassword_form.php?id=<?php print $r['$user_id']; ?>">リセット</a></td>
                         </tr>
                         <?php } ?>
                     </table>                

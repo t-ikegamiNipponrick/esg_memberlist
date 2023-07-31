@@ -110,7 +110,15 @@ if($validateQ = 0) {
             }
 
             .heading-lv3 {
+                padding-top: 10%;
                 font-size: 20px;
+            }
+
+            .navbar {
+                position: fixed; 
+                top: 0; 
+                width: 100%; 
+                z-index: 100; 
             }
 
             .heading-margin {
@@ -188,6 +196,20 @@ if($validateQ = 0) {
             .container .text-muted {
                 margin: 20px 0;
             }
+
+            .popup {
+                position: absolute;
+                background-color: #f9f9f9;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                display: none;
+                top: 100%;
+                left: 85%;
+                transform: translateX(-50%);
+                max-width: 200px;
+                white-space: nowrap;
+            }
         </style>
     </head>
     <header>
@@ -206,10 +228,19 @@ if($validateQ = 0) {
                     </li>
                     <li class="nav-item active">
                         <figure>
-                            <?php print'<img class="headerimage" alt="画像" onclick="changeImage()" src="image.php?id=' . $sessionId . '">' ?> 
+                            <?php print'<img class="headerimage" alt="画像" onmouseover="showPopup(' . $sessionId . ')" onmouseout="hidePopup(' . $sessionId . ')" onclick="showPopup(' . $sessionId . ')" src="image.php?id=' . $sessionId . '">'; ?> 
                         </figure>
                     </li>
                 </ul>
+            </div>
+            <div id="popup-<?php echo $sessionId; ?>" class="popup">
+                <p>社員番号: <?php echo $sessionId ?></p>
+                <?php if($resultadmin['checking_admin'] == 0) {
+                    echo 'アカウントの状態：管理者';
+                } else {
+                    echo 'アカウントの状態：一般';
+                }
+                ?>
             </div>
         </nav>
     </header>
@@ -218,90 +249,94 @@ if($validateQ = 0) {
             <form enctype="multipart/form-data" method="post" action="update.php">
                 <!-- <h1 class="heading-lv1 text-center">Profile</h1> -->
 
-                <h3 class="heading-lv3 heading-margin text-center">社員情報入力</h3>
+                <h3 class="heading-lv3 heading-margin text-center">社員情報更新</h3>
                 <section class="row">
                     <table class="table">
-                    <?php foreach($indexresult as $rA) {
-                        $employeeId = htmlspecialchars($rA['employee_id'], ENT_QUOTES, 'UTF-8');
-                        $memberName = htmlspecialchars($rA['member_name'], ENT_QUOTES, 'UTF-8');
-                        $memberFrom = htmlspecialchars($rA['member_from'], ENT_QUOTES, 'UTF-8');
-                        $dateEntry = htmlspecialchars($rA['DateEntry'], ENT_QUOTES, 'UTF-8');
-                        $Dispatched = htmlspecialchars($rA['dispatched'], ENT_QUOTES, 'UTF-8');
-                        $tasks = htmlspecialchars($rA['tasks'], ENT_QUOTES, 'UTF-8');
+                    <?php foreach($indexresult as $rI) {
+                        $employeeId = htmlspecialchars($rI['employee_id'], ENT_QUOTES, 'UTF-8');
+                        $memberName = htmlspecialchars($rI['member_name'], ENT_QUOTES, 'UTF-8');
+                        $memberFrom = htmlspecialchars($rI['member_from'], ENT_QUOTES, 'UTF-8');
+                        $dateEntry = htmlspecialchars($rI['DateEntry'], ENT_QUOTES, 'UTF-8');
+                        $Dispatched = htmlspecialchars($rI['dispatched'], ENT_QUOTES, 'UTF-8');
+                        $tasks = htmlspecialchars($rI['tasks'], ENT_QUOTES, 'UTF-8');
                         ?>
                         <tr>
                             <th scope="col">社員番号</th>
                             <td>
-                                <input type="text" name="employee_id" value="<?= $rA['employee_id']; ?>" required>
+                                <input type="text" name="employee_id" value="<?= $rI['employee_id']; ?>" required>
                             </td>
                         </tr>
                         <tr>
                             <th scope="col">氏名</th>
                             <td>
-                                <input type="text" name="member_name" value="<?= $rA['member_name']; ?>" required>
+                                <input type="text" name="member_name" value="<?= $rI['member_name']; ?>" required>
                             </td>
                         </tr>
                         <tr>
                             <th scope="col">出身地</th>
                             <td>
-                                <input type="text" name="member_from" value="<?= $rA['member_from']; ?>" required>
+                                <input type="text" name="member_from" value="<?= $rI['member_from']; ?>" required>
                             </td>
                         </tr>
                         <tr>
                             <th scope="col">入社年月</th>
                             <td>
-                                <input type="date" name="DateEntry" value="<?= $rA['DateEntry']; ?>" required>
+                                <input type="date" name="DateEntry" value="<?= $rI['DateEntry']; ?>" required>
                             </td>
                         </tr>
                         <tr>
                             <th scope="col">現在の派遣先</th>
                             <td>
-                                <input type="text" name="dispatched" value="<?= $rA['dispatched']; ?>" required>
+                                <input type="text" name="dispatched" value="<?= $rI['dispatched']; ?>" required>
                             </td>
                         </tr>  
                         <tr>
                             <th scope="col">現在の業務内容</th>
                             <td>
-                                <input type="text" name="tasks" value="<?= $rA['tasks']; ?>" required>
+                                <input type="text" name="tasks" value="<?= $rI['tasks']; ?>" required>
                             </td>
                         </tr> 
                         <?php } ?>
                         
                         <?php $i=0;
-                            foreach($dispatchedresult as $rB) { 
-                                $dispatchedSofar = htmlspecialchars($rB['dispatched_sofar'], ENT_QUOTES, 'UTF-8');
-                                $tasksSofar = htmlspecialchars($rB['tasks_sofar'], ENT_QUOTES, 'UTF-8');
-                                $tasksSofarStart = htmlspecialchars($rB['tasks_sofarStart'], ENT_QUOTES, 'UTF-8');
-                                $tasksSofarFin = htmlspecialchars($rB['tasks_sofarFin'], ENT_QUOTES, 'UTF-8');
+                            foreach($dispatchedresult as $rD) { 
+                                $dispatchedSofar = htmlspecialchars($rD['dispatched_sofar'], ENT_QUOTES, 'UTF-8');
+                                $tasksSofar = htmlspecialchars($rD['tasks_sofar'], ENT_QUOTES, 'UTF-8');
+                                $tasksSofarStart = htmlspecialchars($rD['tasks_sofarStart'], ENT_QUOTES, 'UTF-8');
+                                $tasksSofarFin = htmlspecialchars($rD['tasks_sofarFin'], ENT_QUOTES, 'UTF-8');
                                 ?>
                         <tr>
                             <th scope="col">これまでの派遣先<?=$i+1?></th> 
                             <td>
                                 <div>派遣先</div>   
-                                <input type="text" name=<?="dispatched_sofar[$i]" ?> value="<?= $rB['dispatched_sofar']; ?>" required>       
-          '                      <div>業務内容</div>
-                                <input type="text" name=<?="tasks_sofar[$i]"?> value="<?= $rB['tasks_sofar']; ?>" required>
+                                <input type="text" name=<?="dispatched_sofar[$i]" ?> value="<?= $rD['dispatched_sofar']; ?>" required>   
+                                <div>&nbsp;</div>    
+                                <div>業務内容</div>
+                                <input type="text" name=<?="tasks_sofar[$i]"?> value="<?= $rD['tasks_sofar']; ?>" required>
+                                <div>&nbsp;</div>
                                 <div>期間</div>
-                                <input type="date" name=<?="tasks_sofarStart[$i]"?> value="<?= $rB['tasks_sofarStart']; ?>" required>
+                                <input type="date" name=<?="tasks_sofarStart[$i]"?> value="<?= $rD['tasks_sofarStart']; ?>" required>
                                 <div>~</div>
-                                <input type="date" name=<?="tasks_sofarFin[$i]"?> value="<?= $rB['tasks_sofarFin']; ?>" required>
+                                <input type="date" name=<?="tasks_sofarFin[$i]"?> value="<?= $rD['tasks_sofarFin']; ?>" required>
+                                <div>&nbsp;</div>
                                 <div>詳細</div>
-                                <textarea name=<?="tasks_detail[$i]" ?> class="detailtxt"><?=$rB['tasks_detail']; ?></textarea>
+                                <textarea name=<?="tasks_detail[$i]" ?> class="detailtxt"><?=$rD['tasks_detail']; ?></textarea>
                             </td>
                         </tr>
                             <?php $i++; }
                             $j = 0;
-                            foreach($skillsresult as $rC) {
-                                $skillName = htmlspecialchars($rC['skill_name'], ENT_QUOTES, 'UTF-8');
-                                $skillDate = htmlspecialchars($rC['skill_date'], ENT_QUOTES, 'UTF-8');
+                            foreach($skillsresult as $rS) {
+                                $skillName = htmlspecialchars($rS['skill_name'], ENT_QUOTES, 'UTF-8');
+                                $skillDate = htmlspecialchars($rS['skill_date'], ENT_QUOTES, 'UTF-8');
                             ?>
                         <tr>
                             <th scope="col">スキル<?=$j+1?></th>
                             <td>
                                 <div>スキル名</div>
-                                <input type="text" name=<?="skill_name[$j]"?> value="<?= $rC['skill_name']; ?>" required>
+                                <input type="text" name=<?="skill_name[$j]"?> value="<?= $rS['skill_name']; ?>" required>
+                                <div>&nbsp;</div>
                                 <div>年数</div>
-                                <input type="text" id="skilldate" oninput="restrictInput(event)" name=<?="skill_date[$j]"?> value="<?= $rC['skill_date']; ?>" required>
+                                <input type="text" id="skilldate" oninput="restrictInput(event)" name=<?="skill_date[$j]"?> value="<?= $rS['skill_date']; ?>" required>
                                 <label for="skilldate">年</label>
                             </td>
                         </tr>
@@ -318,10 +353,21 @@ if($validateQ = 0) {
                 </section>  
                 <div>&nbsp;</div>
                 <input type="submit" class="btn btn-primary" value="更新する">&emsp;
-                <input type="button" class="btn btn-primary" value="新規情報を追加する" onclick="location.href='<?php print('alreadyuser_inputform.php?id='. $rA['employee_id'] .'') ?>'">
+                <input type="button" class="btn btn-primary" value="新規情報を追加する" onclick="location.href='<?php print('alreadyuser_inputform.php?id='. $rI['employee_id'] .'') ?>'">
             </form>
         </div>
     </body>
+    <script>
+        function showPopup(imgId) {
+            var popup = document.getElementById('popup-' + imgId);
+            popup.style.display = 'block';
+        }
+
+        function hidePopup(imgId) {
+            var popup = document.getElementById('popup-' + imgId);
+            popup.style.display = 'none';
+        }
+    </script>
     <footer class="footer">
         <div class="container text-center">
         <p class="text-muted">©︎<?php echo $year;?><a href="https://www.nipponrick.co.jp/" target="_blank"> 日本リック株式会社</a>  developped by Tomohiro Ikegami</p>

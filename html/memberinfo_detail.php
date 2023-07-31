@@ -141,7 +141,20 @@ require_once 'admincheck.php';
             .container .text-muted {
                 margin: 20px 0;
             }
-
+            
+            .popup {
+                position: absolute;
+                background-color: #f9f9f9;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                display: none;
+                top: 100%;
+                left: 85%;
+                transform: translateX(-50%);
+                max-width: 200px;
+                white-space: nowrap;
+            }
         </style>
     </head>
     <header>
@@ -165,10 +178,19 @@ require_once 'admincheck.php';
                     </li>
                     <li class="nav-item active">
                         <figure>
-                            <?php print'<img class="headerimage" alt="画像" onclick="changeImage()" src="image.php?id=' . $sessionId . '">' ?> 
+                            <?php print'<img class="headerimage" alt="画像" onmouseover="showPopup(' . $sessionId . ')" onmouseout="hidePopup(' . $sessionId . ')" onclick="showPopup(' . $sessionId . ')" src="image.php?id=' . $sessionId . '">'; ?> 
                         </figure>
                     </li>
                 </ul>
+            </div>
+            <div id="popup-<?php echo $sessionId; ?>" class="popup">
+                <p>社員番号: <?php echo $sessionId ?></p>
+                <?php if($resultadmin['checking_admin'] == 0) {
+                    echo 'アカウントの状態：管理者';
+                } else {
+                    echo 'アカウントの状態：一般';
+                }
+                ?>
             </div>
         </nav>
     </header>
@@ -204,6 +226,17 @@ require_once 'admincheck.php';
         </div>
         </form>
     </body>
+    <script>
+        function showPopup(imgId) {
+            var popup = document.getElementById('popup-' + imgId);
+            popup.style.display = 'block';
+        }
+
+        function hidePopup(imgId) {
+            var popup = document.getElementById('popup-' + imgId);
+            popup.style.display = 'none';
+        }
+    </script>
     <?php $year = date('Y'); ?>
     <footer class="footer">
         <div class="container text-center">

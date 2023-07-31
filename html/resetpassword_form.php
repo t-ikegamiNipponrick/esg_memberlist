@@ -1,6 +1,7 @@
 <?php
 session_start();
-$id = $_GET['id']
+$id = $_GET['id'];
+var_dump($id);
 
 /*
 require_once 'dbindex.php';

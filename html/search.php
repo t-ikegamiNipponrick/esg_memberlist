@@ -74,6 +74,7 @@ try{
         <style>
             h1 {
                 text-align: center;
+                padding-top: 5%;
             }
             html {
                 position: relative;
@@ -88,6 +89,13 @@ try{
                 width:40px;
                 height:40px;
                 border-radius:50%;
+            }
+
+            .navbar {
+                position: fixed; 
+                top: 0; 
+                width: 100%; 
+                z-index: 100; 
             }
 
             .footer {
@@ -117,6 +125,20 @@ try{
                 height:80px;
                 border-radius:50%;
             }
+
+            .popup {
+                position: absolute;
+                background-color: #f9f9f9;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                display: none;
+                top: 100%;
+                left: 85%;
+                transform: translateX(-50%);
+                max-width: 200px;
+                white-space: nowrap;
+            }
         </style>
     </head>
     <header>
@@ -140,10 +162,19 @@ try{
                     </li>
                     <li class="nav-item active">
                         <figure class="profile-image">
-                            <?php print'<img class="headerimage" alt="画像" onclick="changeImage()" src="image.php?id=' . $sessionId . '">' ?> 
+                            <?php print'<img class="headerimage" alt="画像" onmouseover="showPopup(' . $sessionId . ')" onmouseout="hidePopup(' . $sessionId . ')" onclick="showPopup(' . $sessionId . ')" src="image.php?id=' . $sessionId . '">'; ?> 
                         </figure>
                     </li>
                 </ul>
+            </div>
+            <div id="popup-<?php echo $sessionId; ?>" class="popup">
+                <p>社員番号: <?php echo $sessionId ?></p>
+                <?php if($resultadmin['checking_admin'] == 0) {
+                    echo 'アカウントの状態：管理者';
+                } else {
+                    echo 'アカウントの状態：一般';
+                }
+                ?>
             </div>
         </nav>
     </header>
@@ -163,6 +194,7 @@ try{
                 <form class="form-inline mb-3">
                     <input type="hidden" name="sort_by" value="<?php echo $sortBy; ?>">
                     <input type="hidden" name="sort_order" value="<?php echo $sortOrder; ?>">
+                    <input type="hidden" name="query" class="form-control form form-control-sm mr-2" id="kword" value="<?php echo WORD ?>" requied>
                     <label class="mr-2">1ページあたりの表示数:</label>
                     <select class="form-control" name="per_page" onchange="this.form.submit()">
                     <?php foreach ($perPageOptions as $option) {
@@ -170,6 +202,8 @@ try{
                     } ?>
                     </select>
                 </form>
+                <p class="bg-primary text-white rounded-pill p-2"><?php echo $totalCount ?>件見つかりました</p>
+                <div>&nbsp;</div>
                 <table class="table">
                     <tr>
                         <th class="photo"></th>
@@ -205,9 +239,9 @@ try{
                             <?php print'<img class="thumbnail" alt="画像" onclick="changeImage()" src="image.php?id=' . $r['employee_id'] . '">' ?> 
                             </figure></td>
                         <td><?php print'<a href="memberinfo.php?id='. $employeeId .'">' . $employeeId .'</a>'; ?></td>
-                        <td><?php print($memberName); ?></td>
-                        <td><?php print($dispatched); ?></td>
-                        <td><?php print($tasks); ?></td>
+                        <td><?php print($r['member_name']); ?></td>
+                        <td><?php print($r['dispatched']); ?></td>
+                        <td><?php print($r['tasks']); ?></td>
                     </tr>
                     <?php } ?>
                 </table>                
@@ -217,13 +251,24 @@ try{
             <ul class="pagination justify-content-center">
                 <?php for ($i = 1; $i <= $totalPages; $i++) {
                     echo '<li class="page-item ' . ($i == $page ? 'active' : '') . '">';
-                    echo '<a class="page-link" href="?sort_by=' . $sortBy . '&sort_order=' . $sortOrder . '&per_page=' . $perPage . '&page=' . $i . '">' . $i . '</a>';
+                    echo '<a class="page-link" href="?query=' . WORD . '&sort_by=' . $sortBy . '&sort_order=' . $sortOrder . '&per_page=' . $perPage . '&page=' . $i . '">' . $i . '</a>';
                     echo '</li>';
                 } ?>
             </ul>
         </nav>
             <div>&nbsp;</div>
     </body>
+    <script>
+        function showPopup(imgId) {
+            var popup = document.getElementById('popup-' + imgId);
+            popup.style.display = 'block';
+        }
+
+        function hidePopup(imgId) {
+            var popup = document.getElementById('popup-' + imgId);
+            popup.style.display = 'none';
+        }
+    </script>
     <?php $year = date('Y'); ?>
     <footer class="footer">
         <div class="container text-center">

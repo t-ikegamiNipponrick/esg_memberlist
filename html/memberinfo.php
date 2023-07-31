@@ -74,7 +74,15 @@ require_once 'admincheck.php';
                 background-color: #fff;
             }
 
+            .navbar {
+                position: fixed; 
+                top: 0; 
+                width: 100%; 
+                z-index: 100; 
+            }
+
             .heading-lv1 {
+                padding-top: 10%;
                 font-size: 32px;
                 font-style: italic;
             }
@@ -166,11 +174,13 @@ require_once 'admincheck.php';
                 background-color: rgba(0, 0, 0, 0.9);
             }
 
-            .modal-content {
-                margin: auto;
+            #myModal img {
                 display: block;
-                max-width: 80%;
-                max-height: 100%;
+                margin: auto;
+                max-width: 30%; 
+                max-height: 100%; 
+                padding: 0;
+                object-fit: contain;
             }
 
             .close {
@@ -189,6 +199,20 @@ require_once 'admincheck.php';
                 color: #bbb;
                 text-decoration: none;
                 cursor: pointer;
+            }
+
+            .popup {
+                position: absolute;
+                background-color: #f9f9f9;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                display: none;
+                top: 100%;
+                left: 85%;
+                transform: translateX(-50%);
+                max-width: 200px;
+                white-space: nowrap;
             }
         </style>
     </head>
@@ -213,10 +237,19 @@ require_once 'admincheck.php';
                     </li>
                     <li class="nav-item active">
                         <figure>
-                            <?php print'<img class="headerimage" alt="画像" onclick="changeImage()" src="image.php?id=' . $sessionId . '">' ?> 
+                            <?php print'<img class="headerimage" alt="画像" onmouseover="showPopup(' . $sessionId . ')" onmouseout="hidePopup(' . $sessionId . ')" onclick="showPopup(' . $sessionId . ')" src="image.php?id=' . $sessionId . '">'; ?> 
                         </figure>
                     </li>
                 </ul>
+            </div>
+            <div id="popup-<?php echo $sessionId; ?>" class="popup">
+                <p>社員番号: <?php echo $sessionId ?></p>
+                <?php if($resultadmin['checking_admin'] == 0) {
+                    echo 'アカウントの状態：管理者';
+                } else {
+                    echo 'アカウントの状態：一般';
+                }
+                ?>
             </div>
         </nav>
     </header>
@@ -346,6 +379,15 @@ require_once 'admincheck.php';
                 modal.style.display = "none";
             }
 
+            function showPopup(imgId) {
+                var popup = document.getElementById('popup-' + imgId);
+                popup.style.display = 'block';
+            }
+
+            function hidePopup(imgId) {
+                var popup = document.getElementById('popup-' + imgId);
+                popup.style.display = 'none';
+            }
         </script>
     </body>
     <div id="myModal" class="modal">

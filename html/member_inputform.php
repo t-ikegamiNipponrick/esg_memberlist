@@ -41,6 +41,13 @@ $sessionId = $_SESSION['user_id'];
                 background-color: #fff;
             }
 
+            .navbar {
+                position: fixed; 
+                top: 0; 
+                width: 100%; 
+                z-index: 100; 
+            }
+
             .heading-lv1 {
                 font-size: 32px;
                 font-style: italic;
@@ -51,6 +58,7 @@ $sessionId = $_SESSION['user_id'];
             }
 
             .heading-lv3 {
+                padding-top: 10%;
                 font-size: 20px;
             }
 
@@ -129,6 +137,20 @@ $sessionId = $_SESSION['user_id'];
             .container .text-muted {
                 margin: 20px 0;
             }
+
+            .popup {
+                position: absolute;
+                background-color: #f9f9f9;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                display: none;
+                top: 100%;
+                left: 85%;
+                transform: translateX(-50%);
+                max-width: 200px;
+                white-space: nowrap;
+            }
         </style>
     </head>
     <header>
@@ -147,10 +169,19 @@ $sessionId = $_SESSION['user_id'];
                     </li>
                     <li class="nav-item active">
                         <figure>
-                            <?php print'<img class="headerimage" alt="画像" onclick="changeImage()" src="image.php?id=' . $sessionId . '">' ?> 
+                            <?php print'<img class="headerimage" alt="画像" onmouseover="showPopup(' . $sessionId . ')" onmouseout="hidePopup(' . $sessionId . ')" onclick="showPopup(' . $sessionId . ')" src="image.php?id=' . $sessionId . '">'; ?> 
                         </figure>
                     </li>
                 </ul>
+            </div>
+            <div id="popup-<?php echo $sessionId; ?>" class="popup">
+                <p>社員番号: <?php echo $sessionId ?></p>
+                <?php if($resultadmin['checking_admin'] == 0) {
+                    echo 'アカウントの状態：管理者';
+                } else {
+                    echo 'アカウントの状態：一般';
+                }
+                ?>
             </div>
         </nav>
     </header>
@@ -361,6 +392,16 @@ $sessionId = $_SESSION['user_id'];
                         if (value !== restrictedValue) {
                             input.value = restrictedValue;
                         }
+                    }
+
+                    function showPopup(imgId) {
+                        var popup = document.getElementById('popup-' + imgId);
+                        popup.style.display = 'block';
+                    }
+
+                    function hidePopup(imgId) {
+                        var popup = document.getElementById('popup-' + imgId);
+                        popup.style.display = 'none';
                     }
                 </script>
             </form>
