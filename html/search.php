@@ -260,12 +260,12 @@ try{
     </body>
     <script>
         function showPopup(imgId) {
-            var popup = document.getElementById('popup-' + imgId);
+            let popup = document.getElementById('popup-' + imgId);
             popup.style.display = 'block';
         }
 
         function hidePopup(imgId) {
-            var popup = document.getElementById('popup-' + imgId);
+            let popup = document.getElementById('popup-' + imgId);
             popup.style.display = 'none';
         }
     </script>

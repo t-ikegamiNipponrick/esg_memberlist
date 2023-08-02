@@ -280,14 +280,14 @@ $sessionId = $_SESSION['user_id'];
                 <div>&nbsp;</div>
                 <button type="submit" class="btn btn-primary">登録する</button>
                 <script>
-                    var dispatchCount = 1; // 派遣先の追加回数を保持する変数
-                    var skillCount = 1; // スキルの追加回数を保持する変数
+                    let dispatchCount = 1; // 派遣先の追加回数を保持する変数
+                    let skillCount = 1; // スキルの追加回数を保持する変数
 
                     function addDispatchRow() {
-                        var dispatchSection = document.getElementById("dispatchSection");
+                        let dispatchSection = document.getElementById("dispatchSection");
 
                         // 新しい行を作成
-                        var newRow = document.createElement("tr");
+                        let newRow = document.createElement("tr");
 
                         // 新しい行のHTMLコードを設定
                         newRow.innerHTML = `
@@ -318,10 +318,10 @@ $sessionId = $_SESSION['user_id'];
                     }
 
                     function addSkillRow() {
-                        var skillSection = document.getElementById("skillSection");
+                        let skillSection = document.getElementById("skillSection");
 
                         // 新しい行を作成
-                        var newRow = document.createElement("tr");
+                        let newRow = document.createElement("tr");
 
                         // 新しい行のHTMLコードを設定
                         newRow.innerHTML = `
@@ -344,7 +344,7 @@ $sessionId = $_SESSION['user_id'];
                     }
 
                     function removeDispatchRow() {
-                        var dispatchSection = document.getElementById("dispatchSection");
+                        let dispatchSection = document.getElementById("dispatchSection");
                         
                         // 最後の行を削除
                         dispatchSection.removeChild(dispatchSection.lastChild);
@@ -353,7 +353,7 @@ $sessionId = $_SESSION['user_id'];
                     }
 
                     function removeSkillRow() {
-                        var dispatchSection = document.getElementById("skillSection");
+                        let dispatchSection = document.getElementById("skillSection");
                         
                         // 最後の行を削除
                         dispatchSection.removeChild(skillSection.lastChild);
@@ -363,18 +363,18 @@ $sessionId = $_SESSION['user_id'];
 
                     // 実装予定バリデーション
                     function validateForm() {
-                        var employeeId = document.forms["register"]["employee_id"].value;
-                        var memberName = document.forms["register"]["memeber_name"].value;
-                        var memberFrom = document.forms["register"]["member_from"].value;
-                        var dateEntry = document.forms["register"]["DateEntry"].value;
-                        var dispatched = document.forms["register"]["dispatched"].value;
-                        var tasks = document.forms["register"]["tasks"].value;
-                        var dispatchedSofar = document.forms["register"]["dispatched_sofar"].value;
-                        var tasksSofar = document.forms["register"]["tasks_sofar"].value;
-                        var tasksSofatStart = document.forms["register"]["tasks_sofarStart"].value;
-                        var tasksSofarFin = document.forms["register"]["tasks_sofarFin"].value;
-                        var skillName = document.forms["register"]["skill_name"].value;
-                        var skillDate = document.forms["register"]["skill_date"].value;
+                        let employeeId = document.forms["register"]["employee_id"].value;
+                        let memberName = document.forms["register"]["memeber_name"].value;
+                        let memberFrom = document.forms["register"]["member_from"].value;
+                        let dateEntry = document.forms["register"]["DateEntry"].value;
+                        let dispatched = document.forms["register"]["dispatched"].value;
+                        let tasks = document.forms["register"]["tasks"].value;
+                        let dispatchedSofar = document.forms["register"]["dispatched_sofar"].value;
+                        let tasksSofar = document.forms["register"]["tasks_sofar"].value;
+                        let tasksSofatStart = document.forms["register"]["tasks_sofarStart"].value;
+                        let tasksSofarFin = document.forms["register"]["tasks_sofarFin"].value;
+                        let skillName = document.forms["register"]["skill_name"].value;
+                        let skillDate = document.forms["register"]["skill_date"].value;
                         
                         if (employeeId.trim() === "") {
                             alert("社員番号を入力してください");
@@ -385,9 +385,9 @@ $sessionId = $_SESSION['user_id'];
                     }
 
                     function restrictInput(event) {
-                        var input = event.target;
-                        var value = input.value;
-                        var restrictedValue = value.replace(/[^\x01-\x7E]/g, ''); // 全角文字を削除
+                        let input = event.target;
+                        let value = input.value;
+                        let restrictedValue = value.replace(/[^\x01-\x7E]/g, ''); // 全角文字を削除
 
                         if (value !== restrictedValue) {
                             input.value = restrictedValue;
@@ -395,12 +395,12 @@ $sessionId = $_SESSION['user_id'];
                     }
 
                     function showPopup(imgId) {
-                        var popup = document.getElementById('popup-' + imgId);
+                        let popup = document.getElementById('popup-' + imgId);
                         popup.style.display = 'block';
                     }
 
                     function hidePopup(imgId) {
-                        var popup = document.getElementById('popup-' + imgId);
+                        let popup = document.getElementById('popup-' + imgId);
                         popup.style.display = 'none';
                     }
                 </script>
@@ -409,7 +409,7 @@ $sessionId = $_SESSION['user_id'];
     </body>
     <footer class="footer">
         <div class="container text-center">
-        <p class="text-muted">©︎<?php echo $year;?><a href="https://www.nipponrick.co.jp/" target="_blank"> 日本リック株式会社</a>  developped by Tomohiro Ikegami</p>
+        <p class="text-muted">©︎ 2023<a href="https://www.nipponrick.co.jp/" target="_blank"> 日本リック株式会社</a>  developped by Tomohiro Ikegami</p>
         </div>
     </footer>
 </html>

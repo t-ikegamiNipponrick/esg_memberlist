@@ -245,17 +245,17 @@ require_once 'admincheck.php';
     </footer>
     <script>
         function showPopup(imgId) {
-            var popup = document.getElementById('popup-' + imgId);
+            let popup = document.getElementById('popup-' + imgId);
             popup.style.display = 'block';
         }
 
         function hidePopup(imgId) {
-            var popup = document.getElementById('popup-' + imgId);
+            let popup = document.getElementById('popup-' + imgId);
             popup.style.display = 'none';
         }
 
         function toggleSublist() {
-            var sublist = document.getElementById('sublist');
+            let sublist = document.getElementById('sublist');
             sublist.style.display = sublist.style.display === 'none' ? 'block' : 'none';
         }
     </script>

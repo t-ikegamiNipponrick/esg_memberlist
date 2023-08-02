@@ -214,6 +214,15 @@ require_once 'admincheck.php';
                 max-width: 200px;
                 white-space: nowrap;
             }
+
+            .popup ul {
+                padding: 0;
+                margin: 0;
+            }
+
+            .popup li {
+                list-style-type: none;
+            }
         </style>
     </head>
     <header>
@@ -225,8 +234,12 @@ require_once 'admincheck.php';
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav4">
                 <ul class="navbar-nav">
                     <?php if($resultadmin['checking_admin'] == 0) {
-                        print '<li class="nav-item active">';
-                        print '<a class="nav-link" href="member_inputform.php">社員情報の追加<span class="sr-only">(current)</span></a>';
+                        print '<li class="nav-item active" onclick="toggleSublist()">';
+                        print '<a class="nav-link" href="#">管理者メニュー<span class="sr-only">(current)</span></a>';
+                        print '<ul id="sublist" class="popup" style="display: none;">';
+                        print '<li><a href="member_inputform.php">新規メンバーの追加</ad></li>';
+                        print '<li><a href="account_list.php">アカウント一覧</a></li>';
+                        print '</ul>';
                         print '</li>';
                     } ?>
                     <li class="nav-item active">
@@ -360,11 +373,11 @@ require_once 'admincheck.php';
 
             function openModal() {
                 // モーダルを取得
-                var modal = document.getElementById('myModal');
+                let modal = document.getElementById('myModal');
 
                 // 画像を取得
-                var img = document.getElementById('myImage');
-                var modalImg = document.getElementById("img01");
+                let img = document.getElementById('myImage');
+                let modalImg = document.getElementById("img01");
 
                 // 画像をモーダルに表示
                 modal.style.display = "block";
@@ -373,20 +386,25 @@ require_once 'admincheck.php';
 
             function closeModal() {
                 // モーダルを取得
-                var modal = document.getElementById('myModal');
+                let modal = document.getElementById('myModal');
                 
                 // モーダルを非表示にする
                 modal.style.display = "none";
             }
 
             function showPopup(imgId) {
-                var popup = document.getElementById('popup-' + imgId);
+                let popup = document.getElementById('popup-' + imgId);
                 popup.style.display = 'block';
             }
 
             function hidePopup(imgId) {
-                var popup = document.getElementById('popup-' + imgId);
+                let popup = document.getElementById('popup-' + imgId);
                 popup.style.display = 'none';
+            }
+
+            function toggleSublist() {
+                let sublist = document.getElementById('sublist');
+                sublist.style.display = sublist.style.display === 'none' ? 'block' : 'none';
             }
         </script>
     </body>
@@ -394,10 +412,9 @@ require_once 'admincheck.php';
         <span class="close" onclick="closeModal()">&times;</span>
         <img class="modal-content" id="img01">
     </div>
-    <?php $year = date('Y'); ?>
     <footer class="footer">
         <div class="container text-center">
-        <p class="text-muted">©︎<?php echo $year;?><a href="https://www.nipponrick.co.jp/" target="_blank"> 日本リック株式会社</a>  developped by Tomohiro Ikegami</p>
+        <p class="text-muted">©︎ 2023<a href="https://www.nipponrick.co.jp/" target="_blank"> 日本リック株式会社</a>  developped by Tomohiro Ikegami</p>
         </div>
     </footer>
 </html>

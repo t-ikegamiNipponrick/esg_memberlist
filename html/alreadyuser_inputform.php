@@ -106,6 +106,7 @@ $sessionId = $_SESSION['user_id'];
 
             .heading-margin {
                 margin-top: 32px;
+                padding-top: 10%;
             }
 
             .text {
@@ -125,6 +126,13 @@ $sessionId = $_SESSION['user_id'];
 
             body {
                 margin-bottom: 60px;
+            }
+
+            .navbar {
+                position: fixed; 
+                top: 0; 
+                width: 100%; 
+                z-index: 100; 
             }
 
             .footer {
@@ -253,14 +261,14 @@ $sessionId = $_SESSION['user_id'];
                 </section>
                 <button type="submit" class="btn btn-primary">登録する</button>
                 <script>
-                    var dispatchCount = <?=$count ?> +1; // 派遣先の追加回数を保持する変数
-                    var skillCount = <?=$count1 ?> +1; // スキルの追加回数を保持する変数
+                    let dispatchCount = <?=$count ?> +1; // 派遣先の追加回数を保持する変数
+                    let skillCount = <?=$count1 ?> +1; // スキルの追加回数を保持する変数
 
                     function addDispatchRow() {
-                        var dispatchSection = document.getElementById("dispatchSection");
+                        let dispatchSection = document.getElementById("dispatchSection");
 
                         // 新しい行を作成
-                        var newRow = document.createElement("tr");
+                        let newRow = document.createElement("tr");
 
                         // 新しい行のHTMLコードを設定
                         newRow.innerHTML = `
@@ -288,10 +296,10 @@ $sessionId = $_SESSION['user_id'];
                     }
 
                     function addSkillRow() {
-                        var skillSection = document.getElementById("skillSection");
+                        let skillSection = document.getElementById("skillSection");
 
                         // 新しい行を作成
-                        var newRow = document.createElement("tr");
+                        let newRow = document.createElement("tr");
 
                         // 新しい行のHTMLコードを設定
                         newRow.innerHTML = `
@@ -314,7 +322,7 @@ $sessionId = $_SESSION['user_id'];
                     }
 
                     function removeDispatchRow() {
-                        var dispatchSection = document.getElementById("dispatchSection");
+                        let dispatchSection = document.getElementById("dispatchSection");
                         
                         // 最後の行を削除
                         dispatchSection.removeChild(dispatchSection.lastChild);
@@ -323,7 +331,7 @@ $sessionId = $_SESSION['user_id'];
                     }
 
                     function removeSkillRow() {
-                        var dispatchSection = document.getElementById("skillSection");
+                        let dispatchSection = document.getElementById("skillSection");
                         
                         // 最後の行を削除
                         dispatchSection.removeChild(skillSection.lastChild);
@@ -332,9 +340,9 @@ $sessionId = $_SESSION['user_id'];
                     }
 
                     function restrictInput(event) {
-                        var input = event.target;
-                        var value = input.value;
-                        var restrictedValue = value.replace(/[^\x01-\x7E]/g, ''); // 全角文字を削除
+                        let input = event.target;
+                        let value = input.value;
+                        let restrictedValue = value.replace(/[^\x01-\x7E]/g, ''); // 全角文字を削除
 
                         if (value !== restrictedValue) {
                             input.value = restrictedValue;
@@ -346,7 +354,7 @@ $sessionId = $_SESSION['user_id'];
     </body>
     <footer class="footer">
         <div class="container text-center">
-        <p class="text-muted">©︎<?php echo $year;?><a href="https://www.nipponrick.co.jp/" target="_blank"> 日本リック株式会社</a>  developped by Tomohiro Ikegami</p>
+        <p class="text-muted">©︎ 2023<a href="https://www.nipponrick.co.jp/" target="_blank"> 日本リック株式会社</a>  developped by Tomohiro Ikegami</p>
         </div>
     </footer>
 </html>

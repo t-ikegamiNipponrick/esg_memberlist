@@ -258,25 +258,24 @@ require_once 'admincheck.php';
             </nav>
             <div>&nbsp;</div>
         </body>
-    <?php $year = date('Y'); ?>
     <footer class="footer">
         <div class="container text-center">
-        <p class="text-muted">©︎<?php echo $year;?><a href="https://www.nipponrick.co.jp/" target="_blank"> 日本リック株式会社</a>  developped by Tomohiro Ikegami</p>
+        <p class="text-muted">©︎ 2023<a href="https://www.nipponrick.co.jp/" target="_blank"> 日本リック株式会社</a>  developped by Tomohiro Ikegami</p>
         </div>
     </footer>
     <script>
         function showPopup(imgId) {
-            var popup = document.getElementById('popup-' + imgId);
+            let popup = document.getElementById('popup-' + imgId);
             popup.style.display = 'block';
         }
 
         function hidePopup(imgId) {
-            var popup = document.getElementById('popup-' + imgId);
+            let popup = document.getElementById('popup-' + imgId);
             popup.style.display = 'none';
         }
 
         function toggleSublist() {
-            var sublist = document.getElementById('sublist');
+            let sublist = document.getElementById('sublist');
             sublist.style.display = sublist.style.display === 'none' ? 'block' : 'none';
         }
     </script>
