@@ -237,10 +237,13 @@ require_once 'admincheck.php';
                         print '<li class="nav-item active" onclick="toggleSublist()">';
                         print '<a class="nav-link" href="#">管理者メニュー<span class="sr-only">(current)</span></a>';
                         print '<ul id="sublist" class="popup" style="display: none;">';
-                        print '<li><a href="member_inputform.php">新規メンバーの追加</ad></li>';
+                        print '<li><a href="member_inputform.php">新規メンバーの追加</a></li>';
                         print '<li><a href="account_list.php">アカウント一覧</a></li>';
                         print '</ul>';
                         print '</li>';
+                    }else{
+                        print '<li class="nav-item active">';
+                        print '<a class="nav-link" href="resetpassword_form.php?id=' . $_SESSION['user_id'] . '">パスワードのリセット</a>';
                     } ?>
                     <li class="nav-item active">
                         <a class="nav-link" href="memberinfo.php?id=<? print($_SESSION['user_id']); ?>">プロフィール<span class="sr-only">(current)</span></a>
@@ -356,17 +359,10 @@ require_once 'admincheck.php';
             </section>
             <?php if($sessionId == $id || $sessionId == 11400){
             print '<input type="button" class="btn btn-primary" name="update" onclick="updateLink()" value="更新">&emsp;';
-            print '<input type="button" class="btn btn-primary" name="delete" id="alert" onclick="confirmDelete()" value="削除">';
             } ?>
         </div>
         </form>
         <script>
-            function confirmDelete() {
-                if (confirm("本当に削除しますか？")) {
-                    location.href = 'delete.php';
-                }
-            }
-
             function updateLink() {
                 location.href = 'member_updateform.php?id=<?= $id?>';
             }

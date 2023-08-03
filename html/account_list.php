@@ -5,7 +5,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// require_once 'url_validation.php';
+require_once 'url_validation.php';
 
 $sessionId = $_SESSION['user_id'];
 require_once 'dbindex.php';
@@ -204,6 +204,7 @@ require_once 'admincheck.php';
                                 <a href="?sort_by=checking_admin&sort_order=<?php echo $reverseSortOrder; ?>&per_page=<?php echo $perPage?>">▼</a>
                             </th>
                             <th scope="col">パスワード</th>
+                            <th scope="col">アカウント</th>
                         </tr>
                         <?php foreach($result as $r) { 
                                 $user_id = htmlspecialchars($r['user_id'], ENT_QUOTES, 'UTF-8');
@@ -221,6 +222,7 @@ require_once 'admincheck.php';
                                 print '一般';
                             }; ?></td>
                             <td><a href="resetpassword_form.php?id=<?php print $r['$user_id']; ?>">リセット</a></td>
+                            <td><?php print '<a href="account_delete.php?id=' . $r['user_id'] . '" onClick="confirmDelete()">削除</a>' ?></td>
                         </tr>
                         <?php } ?>
                     </table>                
@@ -257,6 +259,12 @@ require_once 'admincheck.php';
         function toggleSublist() {
             let sublist = document.getElementById('sublist');
             sublist.style.display = sublist.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function confirmDelete() {
+            if (confirm("本当に削除しますか？")) {
+                location.href = 'delete.php';
+            }
         }
     </script>
 </html>

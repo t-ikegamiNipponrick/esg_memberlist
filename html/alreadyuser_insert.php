@@ -30,7 +30,6 @@ function sanitaizeArray($array){
  $date_finished = sanitaizeArray($_POST['tasks_sofarFin']);
  $skill_name = sanitaizeArray($_POST['skill_name']);
  $skill_date = sanitaizeArray($_POST['skill_date']);
-     // print($id. $name. $from. $entry. $dispatched. $tasks. $S_dispatched. $S_tasks. $date_started. $date_finished. $skill_name. $skill_date);
 
  $lengthpostD = count($S_tasks);
  $lengthpostS = count($skill_name);

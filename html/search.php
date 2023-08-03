@@ -150,9 +150,16 @@ try{
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav4">
                 <ul class="navbar-nav">
                     <?php if($resultadmin['checking_admin'] == 0) {
-                        print '<li class="nav-item active">';
-                        print '<a class="nav-link" href="member_inputform.php">社員情報の追加<span class="sr-only">(current)</span></a>';
+                        print '<li class="nav-item active" onclick="toggleSublist()">';
+                        print '<a class="nav-link" href="#">管理者メニュー<span class="sr-only">(current)</span></a>';
+                        print '<ul id="sublist" class="popup" style="display: none;">';
+                        print '<li><a href="member_inputform.php">新規メンバーの追加</a></li>';
+                        print '<li><a href="account_list.php">アカウント一覧</a></li>';
+                        print '</ul>';
                         print '</li>';
+                    }else{
+                        print '<li class="nav-item active">';
+                        print '<a class="nav-link" href="resetpassword_form.php?id=' . $_SESSION['user_id'] . '">パスワードのリセット</a>';
                     } ?>
                     <li class="nav-item active">
                         <a class="nav-link" href="memberinfo.php?id=<? print($_SESSION['user_id']); ?>">プロフィール<span class="sr-only">(current)</span></a>
