@@ -141,7 +141,6 @@
 
     if($validateQ > 0) {
         if($_SERVER['REQUEST_METHOD']==='POST') {
-            //var_dump($_FILES);
             $name = $_FILES['photo']['name'];
             $type = $_FILES['photo']['type'];
             $size = $_FILES['photo']['size'];
@@ -181,7 +180,6 @@
         }
     } else {
         if($_SERVER['REQUEST_METHOD']==='POST') {
-            var_dump($_FILES);
             $name = $_FILES['photo']['name'];
             $type = $_FILES['photo']['type'];
             $size = $_FILES['photo']['size'];
@@ -229,12 +227,6 @@
             }catch(PDOException $e) {
                 $pdo->rollback();
                 throw $e;
-            }
-
-            if(move_uploaded_file($_FILES['photo']['tmp_name'], $target)) {
-                print 'OK';
-            }else {
-                print 'down';
             }
 
         }

@@ -7,7 +7,7 @@ services:
       - ./php/php.ini:/usr/local/etc/php/php.ini
       - ./html:/var/www/html
     ports:
-      - 8080:80
+      - 9001:80
     container_name: php7.2
 
   mysql:
@@ -34,7 +34,7 @@ services:
     links:
       - mysql
     ports:
-      - 4040:80
+      - 9011:80
     volumes:
       - ./phpmyadmin/sessions:/sessions
     container_name: phpmyadmin

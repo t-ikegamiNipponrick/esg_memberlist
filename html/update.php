@@ -129,109 +129,92 @@
     $stmtQuery = $pdo->prepare($sqlQuery);
     $stmtQuery->execute([$thisid]);
     $validateQ = $stmtQuery->fetchColumn();
-    // var_dump($validateQ);
+    
+    $name = $_FILES['photo']['name'];
+    $type = $_FILES['photo']['type'];
+    $size = $_FILES['photo']['size'];
 
-    if($validateQ > 0) {
-        if($_SERVER['REQUEST_METHOD']==='POST') {
-            //var_dump($_FILES);
-            $name = $_FILES['photo']['name'];
-            $type = $_FILES['photo']['type'];
-            $size = $_FILES['photo']['size'];
-            $content = file_get_contents($_FILES['photo']['tmp_name']);
-            $error = $_FILES['photo']['error'];
+    if(!empty($_FILES['photo']['tmp_name'])) {
+        $content = file_get_contents($_FILES['photo']['tmp_name']);
+    }
+
+    $error = $_FILES['photo']['error'];
+    
+    $target=UPLOADPASS.$name;
+
+    if(!empty($content)) {
+        if($validateQ > 0) {
+            if($_SERVER['REQUEST_METHOD']==='POST') {
+
+                try {
+                    $pdo->beginTransaction(); 
+                    $picscontentsql = 'UPDATE ESG_member_picscontents SET key_id = :id, file_name = :name, file_type = :type, file_content = :content, file_size = :size WHERE key_id =' .$thisid;
+                    $picscontentstmt = $pdo->prepare($picscontentsql);
+
+                    $picscontentstmt->bindValue(':id', $thisid,    PDO::PARAM_INT);
+                    $picscontentstmt->bindValue(':name', $name,   PDO::PARAM_STR);
+                    $picscontentstmt->bindValue(':type', $type,    PDO::PARAM_STR);
+                    $picscontentstmt->bindValue(':content', $content,    PDO::PARAM_STR);
+                    $picscontentstmt->bindValue(':size', $size,   PDO::PARAM_INT);
+
+                    $picscontentstmt->execute();
+
+                    if($picscontentstmt) {    
+                        $pdo->commit();
+                    }
+                    
+                    $resultB = $picscontentstmt->fetchall();
+
+                }catch(PDOException $e) {
+                    $pdo->rollback();
+                    throw $e;
+                }
+
+            }
+        } else {
+            if($_SERVER['REQUEST_METHOD']==='POST') {
+                try {
+                    $pdo->beginTransaction(); 
+                    $picsidsql = 'INSERT INTO ESG_member_picsid VALUES (:employee_id, :key_id)';
+                    $picsidstmt = $pdo->prepare($picsidsql);
             
-            $target=UPLOADPASS.$name;
-
-            try {
-                $pdo->beginTransaction(); 
-                $picscontentsql = 'UPDATE ESG_member_picscontents SET key_id = :id, file_name = :name, file_type = :type, file_content = :content, file_size = :size WHERE key_id =' .$thisid;
-                $picscontentstmt = $pdo->prepare($picscontentsql);
-
-                $picscontentstmt->bindValue(':id', $thisid,    PDO::PARAM_INT);
-                $picscontentstmt->bindValue(':name', $name,   PDO::PARAM_STR);
-                $picscontentstmt->bindValue(':type', $type,    PDO::PARAM_STR);
-                $picscontentstmt->bindValue(':content', $content,    PDO::PARAM_STR);
-                $picscontentstmt->bindValue(':size', $size,   PDO::PARAM_INT);
-
-                $picscontentstmt->execute();
-
-                if($picscontentstmt) {    
-                    $pdo->commit();
-                }
-                
-                $resultB = $picscontentstmt->fetchall();
-                // print($result);
-
-            }catch(PDOException $e) {
-                $pdo->rollback();
-                throw $e;
-            }
-
-            if(move_uploaded_file($_FILES['photo']['tmp_name'], $target)) {
-                // print 'OK';
-            }else {
-                // print 'down';
-            }
-
-        }
-    } else {
-        if($_SERVER['REQUEST_METHOD']==='POST') {
-            //var_dump($_FILES);
-            $name = $_FILES['photo']['name'];
-            $type = $_FILES['photo']['type'];
-            $size = $_FILES['photo']['size'];
-            $content = file_get_contents($_FILES['photo']['tmp_name']);
-            $error = $_FILES['photo']['error'];
+                    $picsidstmt->bindValue(':employee_id', $thisid,    PDO::PARAM_INT);
+                    $picsidstmt->bindValue(':key_id', $thisid,   PDO::PARAM_INT);
             
-            $target=UPLOADPASS.$name;
-
-            try {
-                $pdo->beginTransaction(); 
-                $picsidsql = 'INSERT INTO ESG_member_picsid VALUES (:employee_id, :key_id)';
-                $picsidstmt = $pdo->prepare($picsidsql);
-        
-                $picsidstmt->bindValue(':employee_id', $thisid,    PDO::PARAM_INT);
-                $picsidstmt->bindValue(':key_id', $thisid,   PDO::PARAM_INT);
-        
-                $picsidstmt->execute();
-        
-                if($picsidstmt) {    
-                    $pdo->commit();
-                }
-        
-            }catch(PDOException $e) {
-                $pdo->rollback();
-                throw $e;
-            }
-
-            try {
-                $pdo->beginTransaction(); 
-                $picscontentsql = 'INSERT INTO ESG_member_picscontents (key_id, file_name, file_type, file_content, file_size) VALUES (:id, :name, :type, :content, :size)';
-                $picscontentstmt = $pdo->prepare($picscontentsql);
-
-                $picscontentstmt->bindValue(':id', $thisid,    PDO::PARAM_INT);
-                $picscontentstmt->bindValue(':name', $name,   PDO::PARAM_STR);
-                $picscontentstmt->bindValue(':type', $type,    PDO::PARAM_STR);
-                $picscontentstmt->bindValue(':content', $content,    PDO::PARAM_STR);
-                $picscontentstmt->bindValue(':size', $size,   PDO::PARAM_INT);
-
-                $picscontentstmt->execute();
-
-                if($picscontentstmt) {    
-                    $pdo->commit();
+                    $picsidstmt->execute();
+            
+                    if($picsidstmt) {    
+                        $pdo->commit();
+                    }
+            
+                }catch(PDOException $e) {
+                    $pdo->rollback();
+                    throw $e;
                 }
 
-            }catch(PDOException $e) {
-                $pdo->rollback();
-                throw $e;
-            }
+                try {
+                    $pdo->beginTransaction(); 
+                    $picscontentsql = 'INSERT INTO ESG_member_picscontents (key_id, file_name, file_type, file_content, file_size) VALUES (:id, :name, :type, :content, :size)';
+                    $picscontentstmt = $pdo->prepare($picscontentsql);
 
-            if(move_uploaded_file($_FILES['photo']['tmp_name'], $target)) {
-                // print 'OK';
-            }else {
-                // print 'down';
-            }
+                    $picscontentstmt->bindValue(':id', $thisid,    PDO::PARAM_INT);
+                    $picscontentstmt->bindValue(':name', $name,   PDO::PARAM_STR);
+                    $picscontentstmt->bindValue(':type', $type,    PDO::PARAM_STR);
+                    $picscontentstmt->bindValue(':content', $content,    PDO::PARAM_STR);
+                    $picscontentstmt->bindValue(':size', $size,   PDO::PARAM_INT);
 
+                    $picscontentstmt->execute();
+
+                    if($picscontentstmt) {    
+                        $pdo->commit();
+                    }
+
+                }catch(PDOException $e) {
+                    $pdo->rollback();
+                    throw $e;
+                }
+
+            }
         }
     }
 
