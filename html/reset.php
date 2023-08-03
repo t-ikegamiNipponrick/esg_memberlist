@@ -18,6 +18,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+if(!preg_match('/^[a-zA-Z0-9]+$/', $password)) {
+    $_SESSION['errorMessage'] = 'パスワードは半角英数字のみで入力してください。';
+    header('location: resetpassword_form.php');
+    exit();
+} 
+
+if(strlen($password) < 8) {
+    $_SESSION['errorMessage'] = "パスワードが短すぎます。半角英数字8文字以上で入力してください。";
+    header('location: resetpassword_form.php');
+    exit();
+}
+
 require_once 'dbindex.php';
 /*
 $sql = 'SELECT * FROM `ESG_password_resets` WHERE `token` = :token';
@@ -29,7 +41,7 @@ $passwordResetuser = $stmt->fetch(PDO::FETCH_OBJ);
 if (!$passwordResetuser) exit('無効なURLです');
 */
 $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-var_dump($hashedPassword);
+// var_dump($hashedPassword);
 
 try {
     $pdo->beginTransaction();

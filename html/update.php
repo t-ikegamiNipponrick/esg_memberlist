@@ -104,7 +104,7 @@
     for($i = 0; $i < $length; $i++) {
         try {
             $pdo->beginTransaction(); 
-            $skillssql ='UPDATE ESG_memberS_skills SET key_id = :id, skill_name = :sname, skill_date = :sdate WHERE employee_id = :thisid';
+            $skillssql ='UPDATE ESG_member_skills SET key_id = :id, skill_name = :sname, skill_date = :sdate WHERE employee_id = :thisid';
             $skillsstmt = $pdo->prepare($skillssql);
             $skillsstmt->bindValue(':thisid', $thisid,   PDO::PARAM_INT);
             $skillsstmt->bindValue(':id', $id,   PDO::PARAM_INT);
