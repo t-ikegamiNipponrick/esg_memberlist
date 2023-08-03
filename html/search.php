@@ -5,7 +5,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// require_once 'url_validation.php';
+require_once 'url_validation.php';
 
 $word = trim(htmlspecialchars($_GET['query'],ENT_QUOTES));
 $word = str_replace("　","",$word);

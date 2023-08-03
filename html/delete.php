@@ -16,6 +16,26 @@
 
     try {
         $pdo->beginTransaction(); 
+        $sql = 'DELETE FROM ESG_login WHERE user_id = :id';
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $thisid, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        if($stmt) {    
+            $pdo->commit();
+        }
+
+        $result = $stmt->fetchall();
+        // print($result);
+
+    }catch(PDOException $e) {
+        $pdo->rollback();
+        throw $e;
+    }
+
+    try {
+        $pdo->beginTransaction(); 
         $sql = 'DELETE FROM ESG_member_index WHERE employee_id = :id';
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':id', $thisid, PDO::PARAM_INT);

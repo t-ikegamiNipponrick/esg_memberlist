@@ -61,12 +61,6 @@ $picscountstmtQuery = $pdo->prepare($picscountsqlQuery);
 $picscountstmtQuery->execute([$thisid]);
 $validateQ = $picscountstmtQuery->fetchColumn();
 // echo $validateQ;
-
-if($validateQ = 0) {
-    $formaction = 'img_upload_test.php';
-} else {
-    $formaction = 'img_update.php';
-}
 ?>
 
 <!DOCTYPE html>
