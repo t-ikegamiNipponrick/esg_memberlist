@@ -306,7 +306,7 @@ require_once 'admincheck.php';
                         <td><?php print($rA['DateEntry']); ?></td>
                     </tr>
                     <tr>
-                        <th scope="col">現在の派遣先</th>
+                        <th scope="col">現在の就業先</th>
                         <td><?php print($rA['dispatched']); ?></td>
                     </tr>  
                     <tr>
@@ -316,11 +316,11 @@ require_once 'admincheck.php';
                     <?php } ?>
                 </table>                
             </section>
-            <h3 class="heading-1v3 heading-margin text-center">これまでの派遣先</h3>
+            <h3 class="heading-1v3 heading-margin text-center">これまでの就業先</h3>
             <section class="row">
                 <table class="table">
                     <tr>
-                        <th scope="col">派遣先</th>
+                        <th scope="col">就業先</th>
                         <th scope="col">業務内容</th>
                         <th scope="col">期間</th>
                     </tr>
@@ -338,7 +338,7 @@ require_once 'admincheck.php';
                     <?php } ?>
                 </table>            
             </section>
-            <?php print'<div style=text-align:center;><a href="memberinfo_detail.php?id='. $rB['key_id'] .'">派遣先の詳細はこちら</a></div>'; ?>
+            <?php print'<div style=text-align:center;><a href="memberinfo_detail.php?id='. $rB['key_id'] .'">就業先の詳細はこちら</a></div>'; ?>
             <h3 class="heading-1v3 heading-margin text-center">スキル</h3>
             <section class="row">
                 <table class="table">

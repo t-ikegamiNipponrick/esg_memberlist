@@ -33,7 +33,6 @@ function sanitaizeArray($array){
 
  $lengthpostD = count($S_tasks);
  $lengthpostS = count($skill_name);
- // print($lengthpostS);
 
  require_once 'dbindex.php';
 
@@ -70,10 +69,8 @@ try{
 }
 
 $columncountA = count($dispatchedresult);
-// print($columncountA);
 
 $columncountB = count($skillsresult);
-// print($columncountB);
 
 for($i = $columncountA; $i < $columncountA + $lengthpostD; $i++) {
     if(!empty($S_dispatched[$i]) && !empty($S_tasks[$i])) {
@@ -100,8 +97,6 @@ for($i = $columncountA; $i < $columncountA + $lengthpostD; $i++) {
         }
     }
 }
-
-print($lengthpostS . $columncountB);
 
 for($i = $columncountB; $i < $columncountB + $lengthpostS; $i++) {
     if(!empty($skill_name[$i]) && !empty($skill_date[$i])) {

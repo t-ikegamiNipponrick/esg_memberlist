@@ -220,7 +220,7 @@ $sessionId = $_SESSION['user_id'];
                             </td>
                         </tr>
                         <tr>
-                            <th scope="col">現在の派遣先</th>
+                            <th scope="col">現在の就業先</th>
                             <td>
                                 <input type="text" name="dispatched" required>
                             </td>
@@ -233,9 +233,9 @@ $sessionId = $_SESSION['user_id'];
                         </tr> 
                         <tbody id="dispatchSection">
                         <tr>
-                            <th scope="col">これまでの派遣先1</th> 
+                            <th scope="col">これまでの就業先1</th> 
                             <td>
-                                <div>派遣先</div>
+                                <div>就業先</div>
                                 <input type="text" name="dispatched_sofar[0]" required>       
                                 <div>業務内容</div>
                                 <input type="text" name="tasks_sofar[0]" required>
@@ -249,7 +249,7 @@ $sessionId = $_SESSION['user_id'];
                                 <textarea name="tasks_detail[0]" class="detailtxt"></textarea>
                                 <p>
                                     <div>&nbsp;</div>
-                                <input type="button" value="派遣先を追加" onclick="addDispatchRow()">
+                                <input type="button" value="就業先を追加" onclick="addDispatchRow()">
                                 </p>
                             </td>
                         </tr>
@@ -281,7 +281,7 @@ $sessionId = $_SESSION['user_id'];
                 <div>&nbsp;</div>
                 <button type="submit" class="btn btn-primary">登録する</button>
                 <script>
-                    let dispatchCount = 1; // 派遣先の追加回数を保持する変数
+                    let dispatchCount = 1; // 就業先の追加回数を保持する変数
                     let skillCount = 1; // スキルの追加回数を保持する変数
 
                     function addDispatchRow() {
@@ -292,9 +292,9 @@ $sessionId = $_SESSION['user_id'];
 
                         // 新しい行のHTMLコードを設定
                         newRow.innerHTML = `
-                            <th scope="col">これまでの派遣先${dispatchCount + 1}</th>
+                            <th scope="col">これまでの就業先${dispatchCount + 1}</th>
                             <td>
-                                <div>派遣先</div>
+                                <div>就業先</div>
                                 <input type="text" name="dispatched_sofar[${dispatchCount}]" required>       
                                 <div>業務内容</div>
                                 <input type="text" name="tasks_sofar[${dispatchCount}]" required>
@@ -314,7 +314,7 @@ $sessionId = $_SESSION['user_id'];
                         // テーブルに行を追加
                         dispatchSection.appendChild(newRow);
 
-                        dispatchCount++; // 派遣先の追加回数を増やす
+                        dispatchCount++; // 就業先の追加回数を増やす
                         button.style.display = 'none';
                     }
 
@@ -350,7 +350,7 @@ $sessionId = $_SESSION['user_id'];
                         // 最後の行を削除
                         dispatchSection.removeChild(dispatchSection.lastChild);
                         
-                        dispatchCount--; // 派遣先の追加回数を減らす
+                        dispatchCount--; // 就業先の追加回数を減らす
                     }
 
                     function removeSkillRow() {
@@ -359,7 +359,7 @@ $sessionId = $_SESSION['user_id'];
                         // 最後の行を削除
                         dispatchSection.removeChild(skillSection.lastChild);
                         
-                        skillCount--; // 派遣先の追加回数を減らす
+                        skillCount--; // 就業先の追加回数を減らす
                     }
 
                     // 実装予定バリデーション

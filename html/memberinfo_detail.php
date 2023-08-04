@@ -337,14 +337,14 @@ require_once 'admincheck.php';
     <br>
     <body class="wrap">
         <div class="content">
-            <h1 class="heading-lv3 heading-margin text-center">派遣先詳細情報</h3>
+            <h1 class="heading-lv3 heading-margin text-center">就業先詳細情報</h3>
             <section class="row">
                 <table class="table">
                     <tr>
-                        <th scope="col">派遣先</th>
+                        <th scope="col">就業先</th>
                         <th scope="col">業務内容</th>
                         <th scope="col">期間</th>
-                        <th>詳細</th>
+                        <th scope="col">詳細</th>
                     </tr>
                     <?php foreach($dispatchedresult as $r) {
                         $dispatchedSofar = htmlspecialchars($r['dispatched_sofar'], ENT_QUOTES, 'UTF-8');

@@ -1,34 +1,121 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.wrap {
+  padding: 1px 0 64px;
+  background-color: #54B1E5;
+}
+
+.content {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 10px;
+  background-color: #fff;
+}
+
+.heading-lv1 {
+  font-size: 32px;
+  font-style: italic;
+}
+
+.heading-lv2 {
+  font-size: 24px;
+}
+
+.heading-lv3 {
+  font-size: 20px;
+}
+
+.heading-margin {
+  margin-top: 32px;
+}
+
+.text {
+  margin: 16px 0 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.profile-image {
+  margin: 16px 0 0;
+  text-align: center;
+}
+
+.profile-image img {
+  width: 150px;
+  height: auto;
+  border-radius: 50%;
+}
+
+a {
+  color: #3F82A8;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.headerimage {
+  width:40px;
+  height:40px;
+  border-radius:50%;
+}
+
+
 html {
-	height: 100%;
-	margin: 0 auto;
-	padding: 0;
-	display: table;
+position: relative;
+min-height: 100%;
 }
+
 body {
-	min-height: 100%;
-	margin: 0 auto;
-	padding: 0;
-	display: table-cell;
-	vertical-align: middle;
+  margin-bottom: 60px;
 }
 
-.form-signin {
-  max-width: 330px;
-  padding: 1rem;
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #312d2a;
 }
 
-.form-signin .form-floating:focus-within {
-  z-index: 2;
+.container {
+  width: auto;
+  max-width: 1000px;
+  padding: 0 15px;
 }
 
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
+.container .text-muted {
+  margin: 20px 0;
 }
 
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+.popup {
+  position: absolute;
+  background-color: #f9f9f9;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: none;
+  top: 100%;
+  left: 85%;
+  transform: translateX(-50%);
+  max-width: 200px;
+  white-space: nowrap;
+}
+
+.popup ul {
+  padding: 0;
+  margin: 0;
+}
+
+.popup li {
+  list-style-type: none;
 }

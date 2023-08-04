@@ -278,7 +278,7 @@ $validateQ = $picscountstmtQuery->fetchColumn();
                             </td>
                         </tr>
                         <tr>
-                            <th scope="col">現在の派遣先</th>
+                            <th scope="col">現在の就業先</th>
                             <td>
                                 <input type="text" name="dispatched" value="<?= $rI['dispatched']; ?>" required>
                             </td>
@@ -299,9 +299,9 @@ $validateQ = $picscountstmtQuery->fetchColumn();
                                 $tasksSofarFin = htmlspecialchars($rD['tasks_sofarFin'], ENT_QUOTES, 'UTF-8');
                                 ?>
                         <tr>
-                            <th scope="col">これまでの派遣先<?=$i+1?></th> 
+                            <th scope="col">これまでの就業先<?=$i+1?></th> 
                             <td>
-                                <div>派遣先</div>   
+                                <div>就業先</div>   
                                 <input type="text" name=<?="dispatched_sofar[$i]" ?> value="<?= $rD['dispatched_sofar']; ?>" required>   
                                 <div>&nbsp;</div>    
                                 <div>業務内容</div>
