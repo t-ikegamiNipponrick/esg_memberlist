@@ -56,7 +56,7 @@ require_once 'admincheck.php';
 
             .content {
                 width: 100%;
-                max-width: 600px;
+                max-width: 800px;
                 margin: 0 auto;
                 padding: 10px;
                 background-color: #fff;
@@ -110,7 +110,7 @@ require_once 'admincheck.php';
 
             .headerimage {
                 width:40px;
-                height:40p;
+                height:40px;
                 border-radius:50%;
             }
 
@@ -164,6 +164,130 @@ require_once 'admincheck.php';
             .popup li {
                 list-style-type: none;
             }
+
+            @media screen and (max-width:480px) {
+                .content {
+                    width: 100%;
+                    margin: 0 auto;
+                    padding: 10px;
+                    background-color: #fff;
+                }
+
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+
+                .wrap {
+                    padding: 1px 0 64px;
+                    background-color: #54B1E5;
+                }
+
+                .heading-lv1 {
+                    font-size: 32px;
+                    font-style: italic;
+                }
+
+                .heading-lv2 {
+                    font-size: 24px;
+                }
+
+                .heading-lv3 {
+                    font-size: 20px;
+                }
+
+                .heading-margin {
+                    margin-top: 32px;
+                }
+
+                .text {
+                    margin: 16px 0 0;
+                    font-size: 16px;
+                    line-height: 1.5;
+                }
+
+                .text-center {
+                    text-align: center;
+                }
+
+                .profile-image {
+                    margin: 16px 0 0;
+                    text-align: center;
+                }
+
+                .profile-image img {
+                    width: 150px;
+                    height: auto;
+                    border-radius: 50%;
+                }
+
+                a {
+                    color: #3F82A8;
+                }
+
+                a:hover {
+                    text-decoration: none;
+                }
+
+                .headerimage {
+                    width:40px;
+                    height:40px;
+                    border-radius:50%;
+                }
+
+
+                html {
+                position: relative;
+                min-height: 100%;
+                }
+
+                body {
+                    margin-bottom: 60px;
+                }
+
+                .footer {
+                    position: absolute;
+                    bottom: 0;
+                    width: 100%;
+                    height: 60px;
+                    background-color: #312d2a;
+                }
+
+                .container {
+                    width: auto;
+                    max-width: 1000px;
+                    padding: 0 15px;
+                }
+
+                .container .text-muted {
+                    margin: 20px 0;
+                }
+                
+                .popup {
+                    position: absolute;
+                    background-color: #f9f9f9;
+                    padding: 5px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    display: none;
+                    top: 100%;
+                    left: 85%;
+                    transform: translateX(-50%);
+                    max-width: 200px;
+                    white-space: nowrap;
+                }
+
+                .popup ul {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .popup li {
+                    list-style-type: none;
+                }
+
+            }
         </style>
     </head>
     <header>
@@ -212,7 +336,6 @@ require_once 'admincheck.php';
     </header>
     <br>
     <body class="wrap">
-        <form>
         <div class="content">
             <h1 class="heading-lv3 heading-margin text-center">派遣先詳細情報</h3>
             <section class="row">
@@ -240,7 +363,6 @@ require_once 'admincheck.php';
                 </table>            
             </section>
         </div>
-        </form>
     </body>
     <script>
         function showPopup(imgId) {

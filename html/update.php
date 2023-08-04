@@ -31,14 +31,11 @@
     $skill_name = sanitaizeArray($_POST['skill_name']);
     $skill_date = sanitaizeArray($_POST['skill_date']);
 
-    // print($id. $name. $from. $entry. $dispatched. $tasks. $S_dispatched. $S_tasks. $date_started. $date_finished. $skill_name. $skill_date);
-
     require_once 'dbindex.php';
 
     try {
         $pdo->beginTransaction(); 
         $indexsql = 'UPDATE ESG_member_index SET employee_id = :id, member_name = :name, member_from = :from, DateEntry = :entry, dispatched = :dispatched, tasks = :tasks WHERE employee_id = :thisid';
-        // print($sqlA);
         $indexstmt = $pdo->prepare($indexsql);
         $indexstmt->bindValue(':thisid', $thisid,   PDO::PARAM_INT);
         $indexstmt->bindValue(':id', $id,   PDO::PARAM_INT);
