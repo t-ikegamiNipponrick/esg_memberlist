@@ -19,9 +19,11 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=test
-      - MYSQL_USER=test
-      - MYSQL_PASSWORD=test
+      - MYSQL_USER=rickadmin
+      - MYSQL_PASSWORD=rickesg1984cjdhs73
       - "TZ=Asia/Tokyo"
+    ports:
+      - 9012:3306
     container_name: mysql5.7
 
   phpmyadmin:
@@ -29,8 +31,8 @@ services:
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOST=mysql
-      - PMA_USER=test
-      - PMA_PASSWORD=test
+      - PMA_USER=rickadmin 
+      - PMA_PASSWORD=rickesg1984cjdhs73
     links:
       - mysql
     ports:
