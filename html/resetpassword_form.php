@@ -1,7 +1,7 @@
 <?php
 session_start();
 $id = $_GET['id'];
-
+// 以下のコードはパスワードリセットのメール認証の実装時に使用
 /*
 require_once 'dbindex.php';
 $passwordResetToken = filter_input(INPUT_GET, 'token');

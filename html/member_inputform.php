@@ -99,8 +99,9 @@ $sessionId = $_SESSION['user_id'];
             .detailtxt {
                 display: inline-block;
                 width: 100%;
-                padding: 1em 0.5em;
-                line-height: 3;
+                padding: 10px;
+                line-height: 1.2em;
+                height: calc(1.2em * 6);
                 border: 1px splid #999;
                 box-sizing: border-box;
             }

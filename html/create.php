@@ -36,11 +36,7 @@
         $errorMessage = '未入力の項目があります。';
     }
 
-    // print($id. $name. $from. $entry. $dispatched. $tasks. $S_dispatched[1]. $S_tasks[1]. $date_started[1]. $date_finished[1]. $skill_name[1]. $skill_date[1]);
-
     $length = count($S_dispatched);
-    // print($length);
-
     require_once 'dbindex.php';
 
     try {
@@ -62,7 +58,6 @@
         }
         
         $indexresult = $indexstmt->fetchall();
-        // print($result);
 
     }catch(PDOException $e) {
         throw $e;
@@ -169,12 +164,6 @@
             }catch(PDOException $e) {
                 $pdo->rollback();
                 throw $e;
-            }
-
-            if(move_uploaded_file($_FILES['photo']['tmp_name'], $target)) {
-                print 'OK';
-            }else {
-                print 'down';
             }
 
         }

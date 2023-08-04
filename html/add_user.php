@@ -16,7 +16,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $indexnumstmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $indexnumstmt->execute();
     $indexnumcount = $indexnumstmt->fetchColumn();
-    // print($indexnumcount);
 
     if($indexnumcount > 0) {
         $_SESSION['errorMessage'] = "この社員番号は既に登録されています。";

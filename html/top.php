@@ -25,14 +25,6 @@ if (isset($_GET['per_page']) && in_array($_GET['per_page'], $perPageOptions)) {
     $perPage = $_GET['per_page'];
 }
 $offset = ($page - 1) * $perPage;
-/*
-// $sessionId = htmlspecialchars($sessionId, ENT_QUOTES, 'UTF-8');
-$sortBy = htmlspecialchars($sortBy, ENT_QUOTES, 'UTF-8');
-$sortOrder = htmlspecialchars($sortOrder, ENT_QUOTES, 'UTF-8');
-$page = htmlspecialchars($page, ENT_QUOTES, 'UTF-8');
-$perPage = htmlspecialchars($perPage, ENT_QUOTES, 'UTF-8');
-$offset = htmlspecialchars($offset, ENT_QUOTES, 'UTF-8');
-*/
 $indexsql = 'SELECT * FROM ESG_member_index';
 
 if(!empty($sortBy) && !empty($sortOrder)) {

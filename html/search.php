@@ -36,7 +36,6 @@ $countstmt->bindValue(':word','%' . WORD . '%', PDO::PARAM_STR);
 $countstmt->execute();
 $totalCount = $countstmt->fetch(PDO::FETCH_ASSOC)['count'];
 $totalPages = ceil($totalCount / $perPage);
-// print($totalPages);
 
 require_once 'admincheck.php';
 
@@ -47,7 +46,6 @@ try{
             $sql .= ' ORDER BY ' . $sortBy . ' ' . $sortOrder;
         }
     $sql .= ' LIMIT ' . $offset . ', ' . $perPage;
-    // print($sql);
     $stmt = $pdo->prepare($sql);
 
     $stmt->bindValue(':word','%' . WORD . '%', PDO::PARAM_STR);
@@ -276,10 +274,9 @@ try{
             popup.style.display = 'none';
         }
     </script>
-    <?php $year = date('Y'); ?>
     <footer class="footer">
         <div class="container text-center">
-        <p class="text-muted">©︎<?php echo $year;?><a href="https://www.nipponrick.co.jp/" target="_blank"> 日本リック株式会社</a>  developped by Tomohiro Ikegami</p>
+        <p class="text-muted">©︎ 2023<a href="https://www.nipponrick.co.jp/" target="_blank"> 日本リック株式会社</a>  developped by Tomohiro Ikegami</p>
         </div>
     </footer>
 </html>

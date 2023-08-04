@@ -14,8 +14,6 @@ try {
         $pdo->commit();
     }
 
-    $result = $stmt->fetchall();
-
 }catch(PDOException $e) {
     $pdo->rollback();
     throw $e;
@@ -33,9 +31,6 @@ try {
         $pdo->commit();
     }
 
-    $result = $stmt->fetchall();
-    // print($result);
-
 }catch(PDOException $e) {
     $pdo->rollback();
     throw $e;
@@ -52,9 +47,6 @@ try {
     if($stmt) {    
         $pdo->commit();
     }
-
-    $result = $stmt->fetchall();
-    // print($result);
     
 }catch(PDOException $e) {
     $pdo->rollback();
@@ -72,9 +64,6 @@ try {
     if($stmt) {    
         $pdo->commit();
     }
-
-    $result = $stmt->fetchall();
-    // print($result);
     
 }catch(PDOException $e) {
     $pdo->rollback();
@@ -92,9 +81,6 @@ try {
     if($stmt) {    
         $pdo->commit();
     }
-
-    $result = $stmt->fetchall();
-    // print($result);
     
 }catch(PDOException $e) {
     $pdo->rollback();
@@ -112,9 +98,6 @@ try {
     if($stmt) {    
         $pdo->commit();
     }
-
-    $result = $stmt->fetchall();
-    // print($result);
     
 }catch(PDOException $e) {
     $pdo->rollback();
@@ -132,9 +115,6 @@ try {
     if($stmt) {    
         $pdo->commit();
     }
-
-    $result = $stmt->fetchall();
-    // print($result);
     
 }catch(PDOException $e) {
     $pdo->rollback();
