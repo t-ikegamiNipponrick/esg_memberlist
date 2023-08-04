@@ -286,6 +286,7 @@ $sessionId = $_SESSION['user_id'];
                                 <div>&nbsp;</div>
                                 <div>詳細</div>
                                 <textarea name="tasks_detail[${dispatchCount}]" class="detailtxt"></textarea>
+                                <div>&nbsp;</div>
                                 <button class="btn btn-primary" onclick="removeDispatchRow()">フォーム削除</button>
                             </td>
                         `;
