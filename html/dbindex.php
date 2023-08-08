@@ -8,8 +8,8 @@ function connect_db(){
   $dsn = "mysql:host=$host; dbname=$db; charset=$charset";
 
   //ユーザー名、パスワード
-  $user = 'test';
-  $pass = 'test';
+  $user = 'rickadmin';
+  $pass = 'rickesg1984cjdhs73';
 
   //オプション
   $options = [
