@@ -358,7 +358,7 @@ require_once 'admincheck.php';
                 </table>                
             </section>
             <?php if($sessionId == $id || $sessionId == 11400){
-            print '<input type="button" class="btn btn-primary" name="update" onclick="updateLink()" value="更新">&emsp;';
+            print '<input type="button" class="btn btn-primary" name="update" onclick="updateLink()" value="修正">&emsp;';
             } ?>
         </div>
         </form>
