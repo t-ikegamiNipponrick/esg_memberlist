@@ -21,6 +21,7 @@
     $name = htmlspecialchars($_POST['member_name'], ENT_QUOTES, 'UTF-8');
     $from = htmlspecialchars($_POST['member_from'], ENT_QUOTES, 'UTF-8');
     $entry = htmlspecialchars($_POST['DateEntry'], ENT_QUOTES, 'UTF-8');
+    $hobby = htmlspecialchars($_POST['hobby_info'], ENT_QUOTES, 'UTF-8');
     $dispatched = htmlspecialchars($_POST['dispatched'], ENT_QUOTES, 'UTF-8');
     $tasks = htmlspecialchars($_POST['tasks'], ENT_QUOTES, 'UTF-8');
     $S_dispatched = sanitaizeArray($_POST['dispatched_sofar']);
@@ -35,13 +36,14 @@
 
     try {
         $pdo->beginTransaction(); 
-        $indexsql = 'UPDATE ESG_member_index SET employee_id = :id, member_name = :name, member_from = :from, DateEntry = :entry, dispatched = :dispatched, tasks = :tasks WHERE employee_id = :thisid';
+        $indexsql = 'UPDATE ESG_member_index SET employee_id = :id, member_name = :name, member_from = :from, DateEntry = :entry, hobby_info = :hobby, dispatched = :dispatched, tasks = :tasks WHERE employee_id = :thisid';
         $indexstmt = $pdo->prepare($indexsql);
         $indexstmt->bindValue(':thisid', $thisid,   PDO::PARAM_INT);
         $indexstmt->bindValue(':id', $id,   PDO::PARAM_INT);
         $indexstmt->bindValue(':name', $name,   PDO::PARAM_STR);
         $indexstmt->bindValue(':from', $from,    PDO::PARAM_STR);
         $indexstmt->bindValue(':entry', $entry,    PDO::PARAM_STR);
+        $indexstmt->bindValue(':hobby', $hobby, PDO::PARAM_STR);
         $indexstmt->bindValue(':dispatched', $dispatched,   PDO::PARAM_STR);
         $indexstmt->bindValue(':tasks', $tasks,    PDO::PARAM_STR);
 

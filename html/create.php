@@ -20,6 +20,7 @@
     $name = htmlspecialchars($_POST['member_name'], ENT_QUOTES, 'UTF-8');
     $from = htmlspecialchars($_POST['member_from'], ENT_QUOTES, 'UTF-8');
     $entry = htmlspecialchars($_POST['DateEntry'], ENT_QUOTES, 'UTF-8');
+    $hobby = htmlspecialchars($_POST['hobby_info'], ENT_QUOTES, 'UTF-8');
     $dispatched = htmlspecialchars($_POST['dispatched'], ENT_QUOTES, 'UTF-8');
     $tasks = htmlspecialchars($_POST['tasks'], ENT_QUOTES, 'UTF-8');
     $S_dispatched = sanitaizeArray($_POST['dispatched_sofar']);
@@ -40,7 +41,7 @@
     require_once 'dbindex.php';
 
     try {
-        $indexsql = 'INSERT into ESG_member_index values (:id, :name, :from, :entry, :dispatched, :tasks)';
+        $indexsql = 'INSERT into ESG_member_index values (:id, :name, :from, :entry, :hobby, :dispatched, :tasks)';
         $indexstmt = $pdo->prepare($indexsql);
         $pdo->beginTransaction(); 
 
@@ -48,6 +49,7 @@
         $indexstmt->bindValue(':name', $name,   PDO::PARAM_STR);
         $indexstmt->bindValue(':from', $from,    PDO::PARAM_STR);
         $indexstmt->bindValue(':entry', $entry,    PDO::PARAM_STR);
+        $indexstmt->bindValue(':hobby', $hobby, PDO::PARAM_STR);
         $indexstmt->bindValue(':dispatched', $dispatched,   PDO::PARAM_STR);
         $indexstmt->bindValue(':tasks', $tasks,    PDO::PARAM_STR);
 
@@ -126,6 +128,7 @@
         }
     }
 
+    // 写真の追加、編集
     define('UPLOADPASS', './img/');
 
     require_once 'dbindex.php';

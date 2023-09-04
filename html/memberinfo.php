@@ -284,6 +284,7 @@ require_once 'admincheck.php';
                 $memberName = htmlspecialchars($rA['member_name'], ENT_QUOTES, 'UTF-8');
                 $memberFrom = htmlspecialchars($rA['member_from'], ENT_QUOTES, 'UTF-8');
                 $dateEntry = htmlspecialchars($rA['DateEntry'], ENT_QUOTES, 'UTF-8');
+                $hobby_info = htmlspecialchars($rA['hobbiy_info'], ENT_QUOTES, 'UTF-8');
                 $Dispatched = htmlspecialchars($rA['dispatched'], ENT_QUOTES, 'UTF-8');
                 $tasks = htmlspecialchars($rA['tasks'], ENT_QUOTES, 'UTF-8');
             ?>
@@ -304,6 +305,9 @@ require_once 'admincheck.php';
                         <th scope="col">入社年月</th>
                         <td><?php print($rA['DateEntry']); ?></td>
                     </tr>
+                    <tr>
+                        <th scope="col">趣味</th>
+                        <td><?php print($rA['hobby_info']); ?></td>
                     <tr>
                         <th scope="col">現在の就業先</th>
                         <td><?php print($rA['dispatched']); ?></td>

@@ -220,6 +220,12 @@ $sessionId = $_SESSION['user_id'];
                             </td>
                         </tr>
                         <tr>
+                            <th scope="col">趣味</th>
+                            <td>
+                                <input type="text" name="hobby_info">
+                            </td>
+                        </tr>
+                        <tr>
                             <th scope="col">現在の就業先</th>
                             <td>
                                 <input type="text" name="dispatched" required>

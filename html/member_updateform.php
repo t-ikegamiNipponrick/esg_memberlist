@@ -278,6 +278,12 @@ $validateQ = $picscountstmtQuery->fetchColumn();
                             </td>
                         </tr>
                         <tr>
+                            <th scope="col">趣味</th>
+                            <td>
+                                <input type="text" name="hobby_info" value="<?= $rI['hobby_info']; ?>" >
+                            </td>
+                        </tr>
+                        <tr>
                             <th scope="col">現在の就業先</th>
                             <td>
                                 <input type="text" name="dispatched" value="<?= $rI['dispatched']; ?>" required>
