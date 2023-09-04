@@ -121,9 +121,8 @@ require_once 'admincheck.php';
             }
 
             .profile-image img {
-                width: 150px;
+                width: 200px;
                 height: auto;
-                border-radius: 50%;
             }
 
             a {
