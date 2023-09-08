@@ -8,7 +8,7 @@
 
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    header('Location: sign_in.php'); // ログインページにリダイレクト
+    header('Location: entire_validation.php'); // ログインページにリダイレクト
     exit();
 }
 
@@ -66,7 +66,6 @@ $validateQ = $picscountstmtQuery->fetchColumn();
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -295,6 +294,12 @@ $validateQ = $picscountstmtQuery->fetchColumn();
                                 <input type="text" name="tasks" value="<?= $rI['tasks']; ?>" required>
                             </td>
                         </tr> 
+                        <tr>
+                            <th scope="col">自己紹介</th>
+                            <td>
+                                <textarea name="member_pr" class="detailtxt"><?=$rD['member_pr'] ?></textarea>
+                            </td>
+                        </tr>
                         <?php } ?>
                         
                         <?php $i=0;

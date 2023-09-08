@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (!isset($_SESSION['entity_id'])) {
+    header('Location: error_page.php'); // 認証ページにリダイレクト
+    exit();
+}
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_POST['user_id'];

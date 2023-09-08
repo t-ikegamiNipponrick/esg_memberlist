@@ -76,11 +76,11 @@ session_destroy();
     <h1>エラーが発生しました</h1>
     <div>&nbsp;</div>
     <p>不正なURLまたは無効なデータが送信されました。自動でログアウトされます。</p>
-    <p><a href="sign_in.php">サインイン</a></p>
+    <p><a href="entire_validation.php">サインイン</a></p>
 </body>
 <footer class="footer">
         <div class="container text-center">
-        <p class="text-muted">©︎<?php echo $year;?><a href="https://www.nipponrick.co.jp/" onclick="target_blank"> 日本リック株式会社</a>  developped by Tomohiro Ikegami</p>
+        <p class="text-muted">©︎ 2023<a href="https://www.nipponrick.co.jp/" onclick="target_blank"> 日本リック株式会社</a>  developped by Tomohiro Ikegami</p>
         </div>
     </footer>
 

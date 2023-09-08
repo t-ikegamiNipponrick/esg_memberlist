@@ -4,7 +4,7 @@ define('UPLOADPASS', './img/');
 
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    header('Location: sign_in.php'); // ログインページにリダイレクト
+    header('Location: entire_validation.php'); // ログインページにリダイレクト
     exit();
 }
 
@@ -48,7 +48,6 @@ require_once 'admincheck.php';
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -158,6 +157,10 @@ require_once 'admincheck.php';
 
             .container .text-muted {
                 margin: 20px 0;
+            }
+
+            .tableheader {
+                white-space: nowrap;
             }
 
             .modal {
@@ -287,34 +290,39 @@ require_once 'admincheck.php';
                 $hobby_info = htmlspecialchars($rA['hobbiy_info'], ENT_QUOTES, 'UTF-8');
                 $Dispatched = htmlspecialchars($rA['dispatched'], ENT_QUOTES, 'UTF-8');
                 $tasks = htmlspecialchars($rA['tasks'], ENT_QUOTES, 'UTF-8');
+                $member_pr = htmlspecialchars($rA['member_pr'], ENT_QUOTES, 'UTF-8')
             ?>
                 <table class="table">
                     <tr>
-                        <th scope="col">社員番号</th>
+                        <th scope="col" class="tableheader">社員番号</th>
                         <td><?php print($rA['employee_id']); ?></td>
                     </tr>
                     <tr>
-                        <th scope="col">氏名</th>
+                        <th scope="col" class="tableheader">氏名</th>
                         <td><?php print($rA['member_name']); ?></td>
                     </tr>
                     <tr>
-                        <th scope="col">出身地</th>
+                        <th scope="col" class="tableheader">出身地</th>
                         <td><?php print($rA['member_from']); ?></td>
                     </tr>
                     <tr>
-                        <th scope="col">入社年月</th>
+                        <th scope="col" class="tableheader">入社年月</th>
                         <td><?php print($rA['DateEntry']); ?></td>
                     </tr>
                     <tr>
-                        <th scope="col">趣味</th>
+                        <th scope="col" class="tableheader">趣味</th>
                         <td><?php print($rA['hobby_info']); ?></td>
                     <tr>
-                        <th scope="col">現在の就業先</th>
+                        <th scope="col" class="tableheader">就業先</th>
                         <td><?php print($rA['dispatched']); ?></td>
                     </tr>  
                     <tr>
-                        <th scope="col">現在の業務内容</th>
+                        <th scope="col" class="tableheader">業務内容</th>
                         <td><?php print($rA['tasks']); ?></td>
+                    </tr>
+                    <tr>
+                        <th scope="col" class="tableheader">自己紹介</th>
+                        <td><?php print($rA['member_pr']) ;?></td>
                     </tr>
                     <?php } ?>
                 </table>                
@@ -323,9 +331,9 @@ require_once 'admincheck.php';
             <section class="row">
                 <table class="table">
                     <tr>
-                        <th scope="col">就業先</th>
-                        <th scope="col">業務内容</th>
-                        <th scope="col">期間</th>
+                        <th scope="col" class="tableheader">就業先</th>
+                        <th scope="col" class="tableheader">業務内容</th>
+                        <th scope="col" class="tableheader">期間</th>
                     </tr>
                     <?php foreach($dispatchedresult as $rB) {
                         $dispatchedSofar = htmlspecialchars($rB['dispatched_sofar'], ENT_QUOTES, 'UTF-8');
@@ -346,8 +354,8 @@ require_once 'admincheck.php';
             <section class="row">
                 <table class="table">
                     <tr>
-                        <th scope="col">スキル</th>
-                        <th scope="col">年数</th>
+                        <th scope="col" class="tableheader">スキル</th>
+                        <th scope="col" class="tableheader">年数</th>
                     </tr>
                     <?php foreach($skillsresult as $rC) {
                         $skillName = htmlspecialchars($rC['skill_name'], ENT_QUOTES, 'UTF-8');

@@ -24,6 +24,7 @@
     $hobby = htmlspecialchars($_POST['hobby_info'], ENT_QUOTES, 'UTF-8');
     $dispatched = htmlspecialchars($_POST['dispatched'], ENT_QUOTES, 'UTF-8');
     $tasks = htmlspecialchars($_POST['tasks'], ENT_QUOTES, 'UTF-8');
+    $member_pr = htmlspecialchars($_POST['member_pr'], ENT_QUOTES, 'UTF-8');
     $S_dispatched = sanitaizeArray($_POST['dispatched_sofar']);
     $S_tasks = sanitaizeArray($_POST['tasks_sofar']);
     $tasks_detail = sanitaizeArray($_POST['tasks_detail']);
@@ -36,7 +37,7 @@
 
     try {
         $pdo->beginTransaction(); 
-        $indexsql = 'UPDATE ESG_member_index SET employee_id = :id, member_name = :name, member_from = :from, DateEntry = :entry, hobby_info = :hobby, dispatched = :dispatched, tasks = :tasks WHERE employee_id = :thisid';
+        $indexsql = 'UPDATE ESG_member_index SET employee_id = :id, member_name = :name, member_from = :from, DateEntry = :entry, hobby_info = :hobby, dispatched = :dispatched, tasks = :tasks, member_pr = :member_pr WHERE employee_id = :thisid';
         $indexstmt = $pdo->prepare($indexsql);
         $indexstmt->bindValue(':thisid', $thisid,   PDO::PARAM_INT);
         $indexstmt->bindValue(':id', $id,   PDO::PARAM_INT);
@@ -46,6 +47,7 @@
         $indexstmt->bindValue(':hobby', $hobby, PDO::PARAM_STR);
         $indexstmt->bindValue(':dispatched', $dispatched,   PDO::PARAM_STR);
         $indexstmt->bindValue(':tasks', $tasks,    PDO::PARAM_STR);
+        $indexstmt->bindValue(':member_pr', $member_pr, PDO::PARAM_STR);
 
         $indexstmt->execute();
 
@@ -120,6 +122,7 @@
             throw $e;
         }
     }
+    
     // 画像のアップデート
     define('UPLOADPASS', './img/');
 

@@ -77,10 +77,12 @@ try{
             html {
                 position: relative;
                 min-height: 100%;
+                overflow-x: hidden;
             }
 
             body {
                 margin-bottom: 60px;
+                overflow-x: hidden;
             }
 
             .headerimage {

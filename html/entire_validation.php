@@ -5,7 +5,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     if(validateLogin($login_id, $password)) {
+      session_start();
+      $_SESSION['entity_id'] = $login_id;
       header('Location: sign_in.php');
+      exit();
     } else {
         $errorMessage = 'ユーザー名またはパスワードが正しくありません';
     }
